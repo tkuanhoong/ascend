@@ -2,9 +2,10 @@ import NextAuth from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 
 import { db } from "@/lib/db";
-import authConfig from "./auth.config";
+import authConfig from "@/auth.config";
 import type { Adapter } from 'next-auth/adapters';
 import { UserRole } from "@prisma/client";
+import { getUserById } from "@/data/user";
 
 const adapter = PrismaAdapter(db) as Adapter;
 
@@ -19,6 +20,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         signIn: "/auth/login",
     },
     callbacks: {
+        async signIn({ user }) {
+            const existingUser = await getUserById(user.id!);
+            if (!existingUser || !existingUser.email || !existingUser.password) return false;
+
+            // Prevent sign in without email verification
+            if (!existingUser.emailVerified) return false;
+
+            return true; // Allow sign in if email is verified
+        },
         // This callback is called whenever a JSON Web Token is created (i.e. at sign-in)
         // Add the JWT token to the session
         async jwt({ token, user }) {

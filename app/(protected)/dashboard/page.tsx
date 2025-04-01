@@ -8,9 +8,9 @@ export default function DashboardPage() {
     <div>
       <h1>Dashboard </h1>
       <p>Welcome {session?.user?.name}</p>
-      {/* <code>
+      <code>
         <pre>{JSON.stringify(session, null, 2)}</pre>
-      </code> */}
+      </code>
     </div>
   );
 }
