@@ -67,7 +67,7 @@ const NavBar = () => {
 
   return (
     <header className="w-full sticky top-0 z-50 shadow dark:bg-slate-900 bg-white">
-      <div className="container px-4 flex h-16 items-center justify-between mx-auto">
+      <div className="px-8 flex h-16 items-center justify-between mx-auto">
         <div className="mr-4 flex items-center md:mr-6">
           <Link href="/" className="flex items-center space-x-2">
             <span className="text-xl font-bold">Ascend</span>
