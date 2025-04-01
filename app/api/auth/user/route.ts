@@ -6,7 +6,7 @@ export async function GET() {
         const user = await currentUser();
 
         if (!user) {
-            return new NextResponse("Unauthorised", { status: 401 });
+            return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
         }
 
         return NextResponse.json(user, { status: 200 });
@@ -14,7 +14,7 @@ export async function GET() {
 
     } catch (error) {
         console.log("[USER]", error);
-        return new NextResponse("Internal Error", { status: 500 });
+        return NextResponse.json({ error: "Internal Error" }, { status: 500 });
     }
 
 

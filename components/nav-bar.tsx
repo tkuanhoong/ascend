@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Menu } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -11,13 +11,28 @@ import {
   SheetTrigger,
   SheetContent,
   SheetTitle,
+  SheetClose,
 } from "@/components/ui/sheet";
+import apiClient from "@/lib/axios";
 
 const NavBar = () => {
   const session = useSession();
-  const router = useRouter();
   const user = session.data?.user;
   const pathname = usePathname();
+  const router = useRouter();
+
+  const signOut = async () => {
+    try {
+      const res = await apiClient.get("/api/auth/csrf");
+      const { csrfToken } = res.data;
+      await apiClient.post("/api/auth/signout?callbackUrl=/api/auth/session", {
+        csrfToken,
+      });
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const menuItems = [
     {
@@ -35,7 +50,7 @@ const NavBar = () => {
     {
       label: "Logout",
       href: "#",
-      onClick: signOut,
+      onClick: () => signOut(),
     },
   ];
 
@@ -51,7 +66,7 @@ const NavBar = () => {
   ];
 
   return (
-    <header className="w-full sticky top-0 z-50 shadow">
+    <header className="w-full sticky top-0 z-50 shadow dark:bg-slate-900 bg-white">
       <div className="container px-4 flex h-16 items-center justify-between mx-auto">
         <div className="mr-4 flex items-center md:mr-6">
           <Link href="/" className="flex items-center space-x-2">
@@ -110,28 +125,25 @@ const NavBar = () => {
               <SheetTitle>Menu</SheetTitle>
               <div className="grid gap-6 py-6">
                 <div className="grid gap-3">
+                  <SheetClose asChild>
+                    <Link
+                      href="/"
+                      className={cn(
+                        "flex items-center py-2 text-base font-medium transition-colors hover:text-primary",
+                        pathname === "/"
+                          ? "text-slate-950 font-bold"
+                          : "text-slate-600"
+                      )}
+                    >
+                      Home
+                    </Link>
+                  </SheetClose>
                   {user ? (
                     menuItems.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => item.onClick && item.onClick()}
-                        className={cn(
-                          "flex items-center py-2 text-base font-medium transition-colors hover:text-primary",
-                          pathname === item.href
-                            ? "text-slate-950 font-bold"
-                            : "text-slate-600"
-                        )}
-                      >
-                        {item.label}
-                      </Link>
-                    ))
-                  ) : (
-                    <>
-                      {guestNavigationItems.map((item) => (
+                      <SheetClose asChild key={item.href}>
                         <Link
-                          key={item.href}
                           href={item.href}
+                          onClick={item.onClick}
                           className={cn(
                             "flex items-center py-2 text-base font-medium transition-colors hover:text-primary",
                             pathname === item.href
@@ -141,6 +153,25 @@ const NavBar = () => {
                         >
                           {item.label}
                         </Link>
+                      </SheetClose>
+                    ))
+                  ) : (
+                    <>
+                      {guestNavigationItems.map((item) => (
+                        <SheetClose key={item.href}>
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={cn(
+                              "flex items-center py-2 text-base font-medium transition-colors hover:text-primary",
+                              pathname === item.href
+                                ? "text-slate-950 font-bold"
+                                : "text-slate-600"
+                            )}
+                          >
+                            {item.label}
+                          </Link>
+                        </SheetClose>
                       ))}
                     </>
                   )}

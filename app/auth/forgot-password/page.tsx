@@ -1,10 +1,8 @@
-"use client";
-
-import { LoginForm } from "@/components/auth/login-form";
+import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
 import { GalleryVerticalEnd } from "lucide-react";
 import Link from "next/link";
 
-const LoginPage = () => {
+const ForgotPasswordPage = () => {
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
       <div className="flex w-full max-w-sm flex-col gap-6">
@@ -17,10 +15,10 @@ const LoginPage = () => {
           </div>
           Ascend
         </Link>
-        <LoginForm />
+        <ForgotPasswordForm />
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default ForgotPasswordPage;
