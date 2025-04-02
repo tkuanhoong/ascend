@@ -19,7 +19,7 @@ export async function POST(request: Request) {
         const existingUser = await getUserByEmail(email);
 
         if (!existingUser || !existingUser.email) {
-            return NextResponse.json({ error: 'User not found!' }, { status: 404 })
+            return NextResponse.json({ error: 'Email not found!' }, { status: 404 })
         }
 
         const { email: emailSendingTo, token } = await generatePasswordResetToken(existingUser.email);
