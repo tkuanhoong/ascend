@@ -1,7 +1,19 @@
+import { AppSidebar } from "@/components/dashboard/app-sidebar";
+import DashboardHeader from "@/components/dashboard/dashboard-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+
 export default function CreatorDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <section>{children}</section>;
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <DashboardHeader />
+        {children}
+      </SidebarInset>
+    </SidebarProvider>
+  );
 }
