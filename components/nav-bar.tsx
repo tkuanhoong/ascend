@@ -37,7 +37,7 @@ const NavBar = () => {
   const menuItems = [
     {
       label: "Dashboard",
-      href: "/dashboard",
+      href: "/creator/dashboard",
     },
     {
       label: "Purchased courses",
@@ -82,7 +82,7 @@ const NavBar = () => {
                 item.label === "Dashboard" ? (
                   <Button
                     key={item.href}
-                    onClick={() => router.push("/dashboard")}
+                    onClick={() => router.push("/creator/analytics")}
                   >
                     Dashboard
                   </Button>
