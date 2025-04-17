@@ -1,6 +1,6 @@
 import NextAuth from "next-auth"
 import authConfig from "@/auth.config"
-import { apiAuthPrefix, authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes } from "@/routes";
+import { apiAuthPrefix, authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes, uploadThingApi } from "@/routes";
 
 // Wrapped middleware option
 const { auth } = NextAuth(authConfig)
@@ -13,8 +13,8 @@ export default auth(async function middleware(req) {
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-    // exclude auth api route
-    if (isApiAuthRoute) {
+    // exclude auth api route & file upload api route
+    if (isApiAuthRoute || uploadThingApi) {
         return;
     }
 

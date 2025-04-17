@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         hostname: 'img.freepik.com',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'fx7hz5pswz.ufs.sh',
+      },
     ],
   },
 };

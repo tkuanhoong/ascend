@@ -1,23 +1,30 @@
 import axios from "axios";
-import { toast } from "sonner";
 
 const apiClient = axios.create({
     baseURL: process.env.APP_URL
 })
 
-// handle unexpected error globally
-apiClient.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        toast.error(
-            error.response?.data?.error || "An unexpected error occurred"
-            , {
-                position: 'top-center'
-            }
-        );
-
-        return Promise.reject(error);
-    }
-);
-
 export default apiClient;
+
+// export class ApiClient {
+//     private static instance: ApiClient;
+//     private apiClient = axios.create({
+//         baseURL: process.env.APP_URL
+//     });
+
+//     public static getInstance(): ApiClient {
+//         if (!ApiClient.instance) {
+//             ApiClient.instance = new ApiClient();
+//         }
+//         return ApiClient.instance;
+//     }
+
+//     async deleteCourseById(courseId: string): Promise<void> {
+//         try {
+//             await this.apiClient.delete(`/api/courses/${courseId}`);
+//         } catch (error) {
+//             console.error(`Failed to delete course with ID ${courseId}:`, error);
+//             throw error;
+//         }
+//     }
+// }

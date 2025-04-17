@@ -5,9 +5,10 @@ import { ProfileTabContent } from "./_components/profile-tab-content";
 import { ProfileAccountForm } from "./_components/profile-account-form";
 import { useEffect, useState } from "react";
 import { ChangePasswordForm } from "./_components/change-password-form";
-import { User } from "@prisma/client";
+import { User } from "@/prisma/app/generated/prisma/client";
 import { ProfileAccountFormSkeleton } from "./_components/profile-form-skeleton";
 import apiClient from "@/lib/axios";
+import { unexpectedErrorToast } from "@/lib/toast";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<User>();
@@ -20,6 +21,7 @@ export default function ProfilePage() {
       })
       .catch((error) => {
         console.error(error);
+        unexpectedErrorToast();
       });
   };
 
