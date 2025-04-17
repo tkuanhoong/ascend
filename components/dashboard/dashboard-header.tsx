@@ -3,7 +3,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { useCurrentRole } from "@/hooks/use-current-role";
 import { BreadcrumbItem } from "../ui/breadcrumb";
-import { UserRole } from "@prisma/client";
+import { UserRole } from "@/prisma/app/generated/prisma/client";
 
 export default function DashboardHeader() {
   const role = useCurrentRole();

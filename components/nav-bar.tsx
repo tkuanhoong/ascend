@@ -37,7 +37,7 @@ const NavBar = () => {
   const menuItems = [
     {
       label: "Dashboard",
-      href: "/creator/dashboard",
+      href: "/creator/analytics",
     },
     {
       label: "Purchased courses",

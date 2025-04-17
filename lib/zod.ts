@@ -70,3 +70,9 @@ export const ProfileSchema = z.object({
         message: "Name is required",
     }),
 });
+
+export const CreateCourseSchema = z.object({
+    title: z.string().min(1, {
+        message: "Course title is required",
+    }),
+});

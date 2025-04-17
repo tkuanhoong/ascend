@@ -26,15 +26,20 @@ import { DataTablePagination } from "./data-table-pagination";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
+import Link from "next/link";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  filterColumn?: string;
+  createButtonHref?: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  filterColumn,
+  createButtonHref,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -49,6 +54,9 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onStateChange: (updater)=>{
+      console.log("Table state changed:", updater);
+    },
     state: {
       sorting,
       columnFilters,
@@ -56,20 +64,29 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div> 
+    <div>
       <div className="flex items-center py-4 gap-2">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <Button className="ml-auto">
-          <PlusCircle />
-          Create
-        </Button>
+        {filterColumn && (
+          <Input
+            placeholder={`Filter ${filterColumn}...`}
+            value={
+              (table.getColumn(filterColumn)?.getFilterValue() as string) ?? ""
+            }
+            onChange={(event) =>
+              table.getColumn(filterColumn)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        )}
+
+        {createButtonHref && (
+          <Link href={createButtonHref} className="ml-auto">
+            <Button>
+              <PlusCircle />
+              Create
+            </Button>
+          </Link>
+        )}
       </div>
       <div className="rounded-md border">
         <Table>

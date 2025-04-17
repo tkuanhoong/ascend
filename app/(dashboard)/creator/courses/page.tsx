@@ -1,100 +1,40 @@
 import { DataTable } from "@/components/data-table/custom-data-table";
 import { columns } from "./_components/columns";
+import { db } from "@/lib/db";
+import { currentUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { Category, Course } from "@/prisma/app/generated/prisma/client";
 
-type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
+export type CourseWithCategory = Course & { category: Category | null };
 
-async function getData(): Promise<Payment[]> {
+async function getData(): Promise<CourseWithCategory[]> {
+  const user = await currentUser();
+  if (!user) {
+    redirect("/");
+  }
+  const { id: userId } = user;
   // Fetch data from API here.
-  return [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "a@example.com",
+  const courses = db.course.findMany({
+    where: {
+      userId,
     },
-    {
-      id: "728ed51f",
-      amount: 100,
-      status: "pending",
-      email: "b@example.com",
+    orderBy: {
+      createdAt: "desc",
     },
-    {
-      id: "728ed54f",
-      amount: 100,
-      status: "pending",
-      email: "c@example.com",
+    include: {
+      category: true,
     },
-    {
-      id: "728ed54f",
-      amount: 100,
-      status: "pending",
-      email: "d@example.com",
-    },
-    {
-      id: "728ed54f",
-      amount: 100,
-      status: "pending",
-      email: "e@example.com",
-    },
-    {
-      id: "728ed54f",
-      amount: 100,
-      status: "pending",
-      email: "f@example.com",
-    },
-    {
-      id: "728ed54f",
-      amount: 100,
-      status: "pending",
-      email: "g@example.com",
-    },
-    {
-      id: "728ed54f",
-      amount: 100,
-      status: "pending",
-      email: "h@example.com",
-    },
-    {
-      id: "728ed54f",
-      amount: 100,
-      status: "pending",
-      email: "i@example.com",
-    },
-    {
-      id: "728ed54f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed54f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed54f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed54f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    // ...
-  ];
+  });
+  return courses;
 }
 
 export default async function CoursesPage() {
   const data = await getData();
+
+  const options = {
+    filterColumn: "title",
+    createButtonHref: "/creator/courses/create",
+  };
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
@@ -102,7 +42,7 @@ export default async function CoursesPage() {
         <div>
           <h1 className="text-2xl font-semibold">Manage Courses</h1>
         </div>
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={data} {...options} />
       </div>
     </div>
   );
