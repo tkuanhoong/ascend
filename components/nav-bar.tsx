@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { Menu } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +19,6 @@ const NavBar = () => {
   const session = useSession();
   const user = session.data?.user;
   const pathname = usePathname();
-  const router = useRouter();
 
   const signOut = async () => {
     try {
@@ -80,11 +79,8 @@ const NavBar = () => {
             <>
               {menuItems.map((item) =>
                 item.label === "Dashboard" ? (
-                  <Button
-                    key={item.href}
-                    onClick={() => router.push("/creator/analytics")}
-                  >
-                    Dashboard
+                  <Button key={item.href} asChild>
+                    <Link href={item.href}>{item.label}</Link>
                   </Button>
                 ) : (
                   <Link

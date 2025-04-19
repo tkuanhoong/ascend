@@ -9,6 +9,7 @@ import {
   DescriptionForm,
   ImageForm,
   TitleForm,
+  SectionForm,
 } from "./_components";
 import { Suspense } from "react";
 import Loading from "./loading";
@@ -109,6 +110,7 @@ export default async function EditCoursePage({
                 <IconBadge icon={TableOfContents} />
                 <h2 className="text-xl">Course sections</h2>
               </div>
+              <SectionForm initialData={course} courseId={course.id} />
             </div>
           </div>
         </div>

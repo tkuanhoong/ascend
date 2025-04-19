@@ -10,17 +10,18 @@ export default auth(async function middleware(req) {
     const isLoggedIn = !!req.auth;
 
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+    const isUploadThingApi = nextUrl.pathname.startsWith(uploadThingApi);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
     // exclude auth api route & file upload api route
-    if (isApiAuthRoute || uploadThingApi) {
+    if (isApiAuthRoute || isUploadThingApi) {
         return;
     }
 
-    // if the route is related to auth pages, and if user is already logged in, redirect to default login redirect
+    // if the route is related to auth pages, and if user is NOT logged in, redirect to default login redirect
     if (isAuthRoute) {
-        if (isLoggedIn) {
+        if (!isLoggedIn) {
             return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
         }
         return;

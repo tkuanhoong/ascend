@@ -65,7 +65,12 @@ export const CourseActions = ({
       >
         {isPublished ? "Unpublish" : "Publish"}
       </Button>
-      <ConfirmModal onConfirm={onDelete}>
+      <ConfirmModal
+        onConfirm={onDelete}
+        title="Confirm to delete this course?"
+        desc="This action cannot be undone. This will permanently delete the
+            course and remove your data from our servers."
+      >
         <Button size="sm" disabled={isLoading}>
           <Trash className="h-4 w-4" />
         </Button>
