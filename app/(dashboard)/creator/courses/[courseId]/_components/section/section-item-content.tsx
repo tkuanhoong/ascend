@@ -5,23 +5,32 @@ import { Button } from "@/components/ui/button";
 import { Section } from "@/prisma/app/generated/prisma/client";
 import { GripVertical, Pencil, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
-import { ShowingConfirmModalContext } from "./section-form";
+import useIsModalOpen from "@/hooks/use-is-modal-open";
+import { successToast, unexpectedErrorToast } from "@/lib/toast";
+import apiClient from "@/lib/axios";
 
 export const SectionItemContent = ({ data }: { data: Section | undefined }) => {
   const router = useRouter();
-  const { setIsShowingConfirmModal } = useContext(ShowingConfirmModalContext);
-  const onEdit = () => {
-    router.push(`/creator/courses/${courseId}/sections/${id}`);
-  };
-
-  const onDelete = () => {};
-
+  const { setIsModalOpen } = useIsModalOpen();
   if (!data) {
     return null;
   }
 
+  const onEdit = () => {
+    router.push(`/creator/courses/${courseId}/sections/${id}`);
+  };
   const { id, title, courseId } = data;
+
+  const onDelete = async () => {
+    try {
+      await apiClient.delete(`/api/courses/${courseId}/sections/${id}`);
+      successToast({ message: "Section deleted" });
+      router.refresh();
+    } catch (error) {
+      unexpectedErrorToast();
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -45,7 +54,7 @@ export const SectionItemContent = ({ data }: { data: Section | undefined }) => {
           desc="This action cannot be undone. This will permanently delete the
             section and remove your data from our servers."
           onOpenChange={(open) => {
-            setIsShowingConfirmModal(open);
+            setIsModalOpen(open);
           }}
         >
           <Button

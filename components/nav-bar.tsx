@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Menu } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -13,25 +13,25 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet";
-import apiClient from "@/lib/axios";
+// import apiClient from "@/lib/axios";
 
 const NavBar = () => {
   const session = useSession();
   const user = session.data?.user;
   const pathname = usePathname();
 
-  const signOut = async () => {
-    try {
-      const res = await apiClient.get("/api/auth/csrf");
-      const { csrfToken } = res.data;
-      await apiClient.post("/api/auth/signout?callbackUrl=/api/auth/session", {
-        csrfToken,
-      });
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const signOut = async () => {
+  //   try {
+  //     const res = await apiClient.get("/api/auth/csrf");
+  //     const { csrfToken } = res.data;
+  //     await apiClient.post("/api/auth/signout?callbackUrl=/api/auth/session", {
+  //       csrfToken,
+  //     });
+  //     window.location.reload();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const menuItems = [
     {

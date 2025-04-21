@@ -17,12 +17,12 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SectionItem } from "./section-item";
 import { SortableListAreaProps } from "./types";
 import { SortableSectionItem } from "./sortable-section-item";
 import { SectionSkeleton } from "./section-skeleton";
-import { ShowingConfirmModalContext } from "./section-form";
+import useIsModalOpen from "@/hooks/use-is-modal-open";
 
 export const SectionList = ({
   onReorder,
@@ -31,7 +31,7 @@ export const SectionList = ({
   const [isMounted, setIsMounted] = useState(false);
   const [activeId, setActiveId] = useState<string | undefined>(undefined);
   const [sections, setSections] = useState<Section[]>([]);
-  const { isShowingConfirmModal } = useContext(ShowingConfirmModalContext);
+  const { isModalOpen } = useIsModalOpen();
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -65,7 +65,7 @@ export const SectionList = ({
         <SortableContext
           items={sections}
           strategy={verticalListSortingStrategy}
-          disabled={isShowingConfirmModal}
+          disabled={isModalOpen}
         >
           {sections.map((section) => (
             <SortableSectionItem key={section.id} data={section} />

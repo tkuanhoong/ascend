@@ -89,15 +89,52 @@ model Category {
 }
 
 model Section {
-  id       String        @id @default(cuid())
-  title    String
-  level    SectionLevel?
-  position Int
+  id            String        @id @default(cuid())
+  title         String
+  position      Int
+  level         SectionLevel?
+  estimatedTime Int?
+  isFree        Boolean       @default(false)
+  isPublished   Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
+  chapters Chapter[]
+
   @@index([courseId])
+}
+
+model Chapter {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  position    Int
+  isFree      Boolean  @default(false)
+  isPublished Boolean  @default(false)
+  videoUrl    String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  sectionId String
+  section   Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  video Video?
+
+  @@index([sectionId])
+}
+
+model Video {
+  id         String  @id @default(cuid())
+  assetId    String
+  playbackId String?
+
+  chapterId String  @unique
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@index([chapterId])
 }
 
 model Purchase {

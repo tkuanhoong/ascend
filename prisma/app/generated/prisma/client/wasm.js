@@ -166,9 +166,34 @@ exports.Prisma.CategoryScalarFieldEnum = {
 exports.Prisma.SectionScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  level: 'level',
   position: 'position',
+  level: 'level',
+  estimatedTime: 'estimatedTime',
+  isFree: 'isFree',
+  isPublished: 'isPublished',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   courseId: 'courseId'
+};
+
+exports.Prisma.ChapterScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  position: 'position',
+  isFree: 'isFree',
+  isPublished: 'isPublished',
+  videoUrl: 'videoUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  sectionId: 'sectionId'
+};
+
+exports.Prisma.VideoScalarFieldEnum = {
+  id: 'id',
+  assetId: 'assetId',
+  playbackId: 'playbackId',
+  chapterId: 'chapterId'
 };
 
 exports.Prisma.PurchaseScalarFieldEnum = {
@@ -231,6 +256,21 @@ exports.Prisma.SectionOrderByRelevanceFieldEnum = {
   courseId: 'courseId'
 };
 
+exports.Prisma.ChapterOrderByRelevanceFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  videoUrl: 'videoUrl',
+  sectionId: 'sectionId'
+};
+
+exports.Prisma.VideoOrderByRelevanceFieldEnum = {
+  id: 'id',
+  assetId: 'assetId',
+  playbackId: 'playbackId',
+  chapterId: 'chapterId'
+};
+
 exports.Prisma.PurchaseOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -262,6 +302,8 @@ exports.Prisma.ModelName = {
   Course: 'Course',
   Category: 'Category',
   Section: 'Section',
+  Chapter: 'Chapter',
+  Video: 'Video',
   Purchase: 'Purchase'
 };
 

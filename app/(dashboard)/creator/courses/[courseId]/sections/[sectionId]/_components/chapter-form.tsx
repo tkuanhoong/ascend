@@ -20,23 +20,27 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
-import { Course, Section } from "@/prisma/app/generated/prisma/client";
-import { SectionList } from "./section-list";
-import { ModalContextProvider } from "@/components/modal-context-provider";
+import { Chapter, Section } from "@/prisma/app/generated/prisma/client";
+import { CreateChapterSchema } from "@/lib/zod";
+// import { SectionList } from "./section-list";
+// import { ModalContextProvider } from "@/components/modal-context-provider";
 
-const formSchema = z.object({
-  title: z.string().min(1, { message: "Section title is required" }),
-});
+const formSchema = CreateChapterSchema;
 
-interface SectionFormProps {
-  initialData: Course & { sections: Section[] };
+interface ChapterFormProps {
+  initialData: Section & { chapters: Chapter[] };
   courseId: string;
+  sectionId: string;
 }
 
-export const SectionForm = ({ initialData, courseId }: SectionFormProps) => {
+export const ChapterForm = ({
+  initialData,
+  courseId,
+  sectionId,
+}: ChapterFormProps) => {
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, startTransition] = useTransition();
-  const isSectionEmpty = !initialData.sections.length;
+  const isChapterEmpty = !initialData.chapters.length;
   const router = useRouter();
 
   const toggleCreating = () => setIsCreating((current) => !current);
@@ -51,8 +55,11 @@ export const SectionForm = ({ initialData, courseId }: SectionFormProps) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await apiClient.post(`/api/courses/${courseId}/sections`, values);
-      successToast({ message: "Section created" });
+      await apiClient.post(
+        `/api/courses/${courseId}/sections/${sectionId}/chapters`,
+        values
+      );
+      successToast({ message: "Chapter created" });
       router.refresh();
       toggleCreating();
     } catch (error) {
@@ -61,20 +68,20 @@ export const SectionForm = ({ initialData, courseId }: SectionFormProps) => {
     }
   };
 
-  const onReorder = (updateData: { id: string; position: number }[]) => {
-    startTransition(async () => {
-      try {
-        await apiClient.put(`/api/courses/${courseId}/sections/reorder`, {
-          list: updateData,
-        });
-        successToast({ message: "Sections reordered" });
-        router.refresh();
-      } catch (error) {
-        unexpectedErrorToast();
-        console.log(error);
-      }
-    });
-  };
+  //   const onReorder = (updateData: { id: string; position: number }[]) => {
+  //     startTransition(async () => {
+  //       try {
+  //         await apiClient.put(`/api/courses/${courseId}/sections/reorder`, {
+  //           list: updateData,
+  //         });
+  //         successToast({ message: "Sections reordered" });
+  //         router.refresh();
+  //       } catch (error) {
+  //         unexpectedErrorToast();
+  //         console.log(error);
+  //       }
+  //     });
+  //   };
 
   return (
     <div className="relative mt-6 border bg-slate-100 rounded-md p-4">
@@ -84,14 +91,14 @@ export const SectionForm = ({ initialData, courseId }: SectionFormProps) => {
         </div>
       )}
       <div className="font-medium flex items-center justify-between">
-        {isCreating ? "Section title" : "Course Sections"}
+        {isCreating ? "Chapter title" : "Section Chapters"}
         <Button onClick={toggleCreating} variant="ghost">
           {isCreating ? (
             <>Cancel</>
           ) : (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />
-              Add section
+              Add chapter
             </>
           )}
         </Button>
@@ -107,7 +114,7 @@ export const SectionForm = ({ initialData, courseId }: SectionFormProps) => {
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
-                      placeholder="e.g. 'Topic 1: Introduction'"
+                      placeholder="e.g. 'Chapter 1: Your Amazing Chapter Title'"
                       {...field}
                     />
                   </FormControl>
@@ -126,26 +133,26 @@ export const SectionForm = ({ initialData, courseId }: SectionFormProps) => {
         <div
           className={cn(
             "text-sm mt-2",
-            isSectionEmpty && "text-slate-500 italic"
+            isChapterEmpty && "text-slate-500 italic"
           )}
         >
-          {isSectionEmpty && "No sections"}
-          <ModalContextProvider>
+          {isChapterEmpty && "No chapters"}
+          {/* <ModalContextProvider>
             <SectionList
               onReorder={onReorder}
               items={initialData.sections || []}
             />
-          </ModalContextProvider>
+          </ModalContextProvider> */}
         </div>
       )}
-      {!isCreating && !isSectionEmpty && (
+      {!isCreating && !isChapterEmpty && (
         <p className="text-xs text-muted-foreground mt-4">
-          Drag and drop to reorder the sections
+          Drag and drop to reorder the chapters
         </p>
       )}
-      {!isCreating && isSectionEmpty && (
+      {!isCreating && isChapterEmpty && (
         <p className="text-xs text-muted-foreground mt-4">
-          Seems like you have no sections. Let&apos;s create one!
+          Seems like you have no chapters. Let&apos;s create one!
         </p>
       )}
     </div>

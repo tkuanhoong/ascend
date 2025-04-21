@@ -11,10 +11,9 @@ import {
   TitleForm,
   SectionForm,
 } from "./_components";
-import { Suspense } from "react";
-import Loading from "./loading";
 import { CourseActions } from "./_components/course-actions";
 import { CourseStatus } from "@/prisma/app/generated/prisma/client";
+import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
 
 export default async function EditCoursePage({
   params,
@@ -56,7 +55,7 @@ export default async function EditCoursePage({
     course.imageUrl,
     course.price,
     course.categoryId,
-    // course.sections.some((section) => section.isPublished),
+    course.sections.some((section) => section.isPublished),
   ];
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
@@ -66,55 +65,54 @@ export default async function EditCoursePage({
   const isComplete = requiredFields.every(Boolean);
 
   return (
-    <Suspense fallback={<Loading />}>
-      <div className="p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col gap-y-2">
-            <h1 className="text-2xl font-medium">Course setup</h1>
-            <span className="text-sm text-slate-600">
-              Complete all fields {completionText}
-            </span>
+    <div className="p-6">
+      <CustomBreadcrumb currentPageLabel="Course" />
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-y-2">
+          <h1 className="text-2xl font-medium">Course setup</h1>
+          <span className="text-sm text-slate-600">
+            Complete all fields {completionText}
+          </span>
+        </div>
+        <CourseActions
+          disabled={!isComplete}
+          courseId={courseId}
+          isPublished={course.status === CourseStatus.PUBLISHED}
+        />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+        <div>
+          <div className="flex items-center gap-x-2">
+            <IconBadge icon={Bolt} />
+            <h2 className="text-xl">Edit course content</h2>
           </div>
-          <CourseActions
-            disabled={!isComplete}
-            courseId={courseId}
-            isPublished={course.status === CourseStatus.PUBLISHED}
+          <TitleForm initialData={course} courseId={course.id} />
+          <DescriptionForm initialData={course} courseId={course.id} />
+          <ImageForm initialData={course} courseId={course.id} />
+          <CategoryForm
+            initialData={course}
+            courseId={course.id}
+            options={categories.map((category) => ({
+              label: category.name,
+              value: category.id,
+            }))}
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+        <div className="space-y-6">
+          <div className="flex items-center gap-x-2">
+            <IconBadge icon={DollarSign} />
+            <h2 className="text-xl">Monetise your course</h2>
+          </div>
+          <PriceForm initialData={course} courseId={course.id} />
           <div>
             <div className="flex items-center gap-x-2">
-              <IconBadge icon={Bolt} />
-              <h2 className="text-xl">Edit course content</h2>
+              <IconBadge icon={TableOfContents} />
+              <h2 className="text-xl">Reorganise Sections</h2>
             </div>
-            <TitleForm initialData={course} courseId={course.id} />
-            <DescriptionForm initialData={course} courseId={course.id} />
-            <ImageForm initialData={course} courseId={course.id} />
-            <CategoryForm
-              initialData={course}
-              courseId={course.id}
-              options={categories.map((category) => ({
-                label: category.name,
-                value: category.id,
-              }))}
-            />
-          </div>
-          <div className="space-y-6">
-            <div className="flex items-center gap-x-2">
-              <IconBadge icon={DollarSign} />
-              <h2 className="text-xl">Monetise your course</h2>
-            </div>
-            <PriceForm initialData={course} courseId={course.id} />
-            <div>
-              <div className="flex items-center gap-x-2">
-                <IconBadge icon={TableOfContents} />
-                <h2 className="text-xl">Course sections</h2>
-              </div>
-              <SectionForm initialData={course} courseId={course.id} />
-            </div>
+            <SectionForm initialData={course} courseId={course.id} />
           </div>
         </div>
       </div>
-    </Suspense>
+    </div>
   );
 }

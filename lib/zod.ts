@@ -76,3 +76,15 @@ export const CreateCourseSchema = z.object({
         message: "Course title is required",
     }),
 });
+
+export const CreateSectionSchema = z.object({
+    title: z.string().min(1, {
+        message: "Section title is required",
+    }),
+});
+
+export const CreateChapterSchema = z.object({
+    title: z.string().min(1, {
+        message: "Chapter title is required",
+    }),
+});

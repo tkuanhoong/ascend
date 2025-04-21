@@ -21,7 +21,7 @@ export default auth(async function middleware(req) {
 
     // if the route is related to auth pages, and if user is NOT logged in, redirect to default login redirect
     if (isAuthRoute) {
-        if (!isLoggedIn) {
+        if (isLoggedIn) {
             return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
         }
         return;

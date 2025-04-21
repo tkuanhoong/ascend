@@ -1,3 +1,4 @@
+
 export const publicRoutes = [
     '/',
 ]
@@ -15,4 +16,4 @@ export const apiAuthPrefix = "/api/auth";
 
 export const uploadThingApi = "/api/uploadthing"
 
-export const DEFAULT_LOGIN_REDIRECT = '/';
+export const DEFAULT_LOGIN_REDIRECT = "/";
