@@ -32,9 +32,16 @@ export const FileDropZone = ({
           const { ufsUrl, name } = res[0];
           onChange({ url: ufsUrl, name });
         }
+        onUploadChange(false);
       }}
-      onUploadError={(error: Error) => {
-        errorToast({ message: `${error?.message}` });
+      onUploadError={(error) => {
+        if (error.message.includes("FileSizeMismatch")) {
+          errorToast({ message: "File exceeds maxmimum file size" });
+        } else {
+          errorToast({ message: `${error?.message}` });
+        }
+
+        onUploadChange(false);
       }}
       onBeforeUploadBegin={(files: File[]) => {
         onUploadChange(true);

@@ -137,7 +137,6 @@ export const ChapterAttachmentForm = ({
                 onSubmit({ url, name });
               }
               setFileName("");
-              setIsUploading(false);
             }}
             fileNameToRename={fileName}
             onFileNameChange={setFileName}
@@ -145,6 +144,7 @@ export const ChapterAttachmentForm = ({
           />
           <div className="text-xs text-muted-foreground mt-4">
             Allowed files: text, image, video, audio, pdf, word, excel, slides
+            (max file size: 128MB)
           </div>
         </div>
       )}
