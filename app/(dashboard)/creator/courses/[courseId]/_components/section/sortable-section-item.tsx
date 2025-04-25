@@ -4,7 +4,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { SectionItem } from "./section-item";
 import { Section } from "@/prisma/app/generated/prisma/client";
-import { SortableItemProps } from "./types";
+import { SortableItemProps } from "@/components/dnd-kit/types";
 
 export function SortableSectionItem({ data }: SortableItemProps<Section>) {
   const {

@@ -204,6 +204,15 @@ exports.Prisma.PurchaseScalarFieldEnum = {
   courseId: 'courseId'
 };
 
+exports.Prisma.AttachmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  chapterId: 'chapterId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -276,6 +285,13 @@ exports.Prisma.PurchaseOrderByRelevanceFieldEnum = {
   userId: 'userId',
   courseId: 'courseId'
 };
+
+exports.Prisma.AttachmentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  chapterId: 'chapterId'
+};
 exports.UserRole = exports.$Enums.UserRole = {
   USER: 'USER',
   ADMIN: 'ADMIN'
@@ -304,7 +320,8 @@ exports.Prisma.ModelName = {
   Section: 'Section',
   Chapter: 'Chapter',
   Video: 'Video',
-  Purchase: 'Purchase'
+  Purchase: 'Purchase',
+  Attachment: 'Attachment'
 };
 
 /**

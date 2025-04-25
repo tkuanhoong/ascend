@@ -14,6 +14,7 @@ import {
 import { CourseActions } from "./_components/course-actions";
 import { CourseStatus } from "@/prisma/app/generated/prisma/client";
 import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
+import { getCourseWithSections } from "@/data/course/get-course-with-sections";
 
 export default async function EditCoursePage({
   params,
@@ -26,18 +27,7 @@ export default async function EditCoursePage({
   }
 
   const { courseId } = await params;
-  const course = await db.course.findUnique({
-    where: {
-      id: courseId,
-    },
-    include: {
-      sections: {
-        orderBy: {
-          position: "asc",
-        },
-      },
-    },
-  });
+  const course = await getCourseWithSections(courseId);
 
   const categories = await db.category.findMany({
     orderBy: {

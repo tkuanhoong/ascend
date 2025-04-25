@@ -121,7 +121,8 @@ model Chapter {
   sectionId String
   section   Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
 
-  video Video?
+  video       Video?
+  attachments Attachment[]
 
   @@index([sectionId])
 }
@@ -148,4 +149,18 @@ model Purchase {
 
   @@unique([userId, courseId])
   @@index([courseId])
+}
+
+model Attachment {
+  id   String @id @default(cuid())
+  name String
+  url  String @db.Text
+
+  chapterId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chapterId])
 }

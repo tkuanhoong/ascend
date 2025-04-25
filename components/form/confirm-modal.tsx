@@ -11,10 +11,11 @@ import {
 } from "@/components/ui/alert-dialog";
 
 interface ConfirmModalProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   title: string;
   desc: string;
   onConfirm: () => void;
+  open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
 export const ConfirmModal = ({
@@ -22,10 +23,11 @@ export const ConfirmModal = ({
   title,
   desc,
   onConfirm,
+  open,
   onOpenChange,
 }: ConfirmModalProps) => {
   return (
-    <AlertDialog onOpenChange={onOpenChange}>
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

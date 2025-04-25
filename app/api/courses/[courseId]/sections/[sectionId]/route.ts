@@ -95,7 +95,7 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
 
         return NextResponse.json({ success: "Section updated", updatedSection });
     } catch (error) {
-        console.log("[COURSE_ID]", error);
+        console.log("[SECTION_ID]", error);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }

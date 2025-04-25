@@ -1,6 +1,5 @@
 "use client";
 
-import { Section } from "@/prisma/app/generated/prisma/client";
 import {
   closestCenter,
   DndContext,
@@ -19,10 +18,10 @@ import {
 } from "@dnd-kit/sortable";
 import { useEffect, useState } from "react";
 import { SectionItem } from "./section-item";
-import { SortableListAreaProps } from "./types";
 import { SortableSectionItem } from "./sortable-section-item";
-import { SectionSkeleton } from "./section-skeleton";
 import useIsModalOpen from "@/hooks/use-is-modal-open";
+import { Section } from "@/prisma/app/generated/prisma/client";
+import type { SortableListAreaProps } from "@/components/dnd-kit/types";
 
 export const SectionList = ({
   onReorder,
@@ -51,7 +50,7 @@ export const SectionList = ({
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) return <SectionSkeleton />;
+  if (!isMounted) return null;
 
   return (
     <div className="bg-slate-100 rounded-md space-y-3">

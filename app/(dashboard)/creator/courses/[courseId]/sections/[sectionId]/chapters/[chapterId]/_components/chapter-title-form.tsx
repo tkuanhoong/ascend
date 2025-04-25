@@ -1,0 +1,107 @@
+"use client";
+
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
+import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { successToast, unexpectedErrorToast } from "@/lib/toast";
+import apiClient from "@/lib/axios";
+
+const formSchema = z.object({
+  title: z.string().min(1, {
+    message: "Title is required",
+  }),
+});
+
+interface ChapterTitleFormProps {
+  initialData: {
+    title: string;
+  };
+}
+
+export const ChapterTitleForm = ({ initialData }: ChapterTitleFormProps) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const { courseId, sectionId, chapterId } = useParams();
+
+  const toggleEdit = () => setIsEditing((current) => !current);
+  const apiRoute = `/api/courses/${courseId}/sections/${sectionId}/chapters/${chapterId}`;
+  const router = useRouter();
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData,
+  });
+
+  const { isSubmitting } = form.formState;
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await apiClient.patch(apiRoute, values);
+      successToast({ message: "Chapter updated" });
+      toggleEdit();
+      router.refresh();
+    } catch (error) {
+      unexpectedErrorToast();
+      console.log(error);
+    }
+  };
+
+  return (
+    <div className="mt-6 border bg-slate-100 rounded-md p-4">
+      <div className="font-medium flex items-center justify-between">
+        Chapter Title
+        <Button onClick={toggleEdit} variant="ghost">
+          {isEditing ? (
+            <>Cancel</>
+          ) : (
+            <>
+              <Pencil className="h-4 w-4 mr-2" />
+              Edit
+            </>
+          )}
+        </Button>
+      </div>
+      {!isEditing && <p className="text-sm mt-2">{initialData.title}</p>}
+      {isEditing && (
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      disabled={isSubmitting}
+                      placeholder="e.g. 'Advanced web development'"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex items-center mt-2">
+              <Button disabled={isSubmitting} type="submit">
+                Save
+              </Button>
+            </div>
+          </form>
+        </Form>
+      )}
+    </div>
+  );
+};

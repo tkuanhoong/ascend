@@ -37,13 +37,11 @@ export default async function CoursesPage() {
   };
 
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-      <div className="container mx-auto py-2">
-        <div>
-          <h1 className="text-2xl font-semibold">Manage Courses</h1>
-        </div>
-        <DataTable columns={columns} data={data} {...options} />
+    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 py-2">
+      <div>
+        <h1 className="text-2xl font-semibold">Manage Courses</h1>
       </div>
+      <DataTable columns={columns} data={data} {...options} />
     </div>
   );
 }
