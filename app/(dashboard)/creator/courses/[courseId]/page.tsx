@@ -12,7 +12,6 @@ import {
   SectionForm,
 } from "./_components";
 import { CourseActions } from "./_components/course-actions";
-import { CourseStatus } from "@/prisma/app/generated/prisma/client";
 import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
 import { getCourseWithSections } from "@/data/course/get-course-with-sections";
 
@@ -67,7 +66,7 @@ export default async function EditCoursePage({
         <CourseActions
           disabled={!isComplete}
           courseId={courseId}
-          isPublished={course.status === CourseStatus.PUBLISHED}
+          courseStatus={course.status}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">

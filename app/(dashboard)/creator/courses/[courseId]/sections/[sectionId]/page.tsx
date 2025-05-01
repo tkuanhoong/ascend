@@ -6,10 +6,9 @@ import {
   SectionTitleForm,
   SectionLevelForm,
   SectionTimeForm,
-  SectionAccessForm,
   ChapterForm,
 } from "./_components";
-import { Bolt, Eye, TableOfContents } from "lucide-react";
+import { Bolt, TableOfContents, Timer } from "lucide-react";
 import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
 import { IconBadge } from "@/components/icon-badge";
 import { SectionLevel } from "@/prisma/app/generated/prisma/client";
@@ -111,18 +110,13 @@ export default async function SectionPage({
             sectionId={sectionId}
             options={levels}
           />
-          <SectionTimeForm
-            initialData={section}
-            courseId={courseId}
-            sectionId={sectionId}
-          />
         </div>
         <div className="space-y-6">
           <div className="flex items-center gap-x-2">
-            <IconBadge icon={Eye} />
-            <h2 className="text-xl">Access Control</h2>
+            <IconBadge icon={Timer} />
+            <h2 className="text-xl">Estimated time to complete</h2>
           </div>
-          <SectionAccessForm
+          <SectionTimeForm
             initialData={section}
             courseId={courseId}
             sectionId={sectionId}

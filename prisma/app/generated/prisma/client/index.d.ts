@@ -89,6 +89,7 @@ export const CourseStatus: {
   DRAFT: 'DRAFT',
   PENDING: 'PENDING',
   PUBLISHED: 'PUBLISHED',
+  UNPUBLISHED: 'UNPUBLISHED',
   REJECTED: 'REJECTED',
   REVOKED: 'REVOKED'
 };
@@ -8629,6 +8630,7 @@ export namespace Prisma {
     id: string | null
     assetId: string | null
     playbackId: string | null
+    isReady: boolean | null
     chapterId: string | null
   }
 
@@ -8636,6 +8638,7 @@ export namespace Prisma {
     id: string | null
     assetId: string | null
     playbackId: string | null
+    isReady: boolean | null
     chapterId: string | null
   }
 
@@ -8643,6 +8646,7 @@ export namespace Prisma {
     id: number
     assetId: number
     playbackId: number
+    isReady: number
     chapterId: number
     _all: number
   }
@@ -8652,6 +8656,7 @@ export namespace Prisma {
     id?: true
     assetId?: true
     playbackId?: true
+    isReady?: true
     chapterId?: true
   }
 
@@ -8659,6 +8664,7 @@ export namespace Prisma {
     id?: true
     assetId?: true
     playbackId?: true
+    isReady?: true
     chapterId?: true
   }
 
@@ -8666,6 +8672,7 @@ export namespace Prisma {
     id?: true
     assetId?: true
     playbackId?: true
+    isReady?: true
     chapterId?: true
     _all?: true
   }
@@ -8746,6 +8753,7 @@ export namespace Prisma {
     id: string
     assetId: string
     playbackId: string | null
+    isReady: boolean
     chapterId: string
     _count: VideoCountAggregateOutputType | null
     _min: VideoMinAggregateOutputType | null
@@ -8770,6 +8778,7 @@ export namespace Prisma {
     id?: boolean
     assetId?: boolean
     playbackId?: boolean
+    isReady?: boolean
     chapterId?: boolean
     chapter?: boolean | ChapterDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["video"]>
@@ -8780,10 +8789,11 @@ export namespace Prisma {
     id?: boolean
     assetId?: boolean
     playbackId?: boolean
+    isReady?: boolean
     chapterId?: boolean
   }
 
-  export type VideoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "assetId" | "playbackId" | "chapterId", ExtArgs["result"]["video"]>
+  export type VideoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "assetId" | "playbackId" | "isReady" | "chapterId", ExtArgs["result"]["video"]>
   export type VideoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     chapter?: boolean | ChapterDefaultArgs<ExtArgs>
   }
@@ -8797,6 +8807,7 @@ export namespace Prisma {
       id: string
       assetId: string
       playbackId: string | null
+      isReady: boolean
       chapterId: string
     }, ExtArgs["result"]["video"]>
     composites: {}
@@ -9171,6 +9182,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Video", 'String'>
     readonly assetId: FieldRef<"Video", 'String'>
     readonly playbackId: FieldRef<"Video", 'String'>
+    readonly isReady: FieldRef<"Video", 'Boolean'>
     readonly chapterId: FieldRef<"Video", 'String'>
   }
     
@@ -11513,6 +11525,7 @@ export namespace Prisma {
     id: 'id',
     assetId: 'assetId',
     playbackId: 'playbackId',
+    isReady: 'isReady',
     chapterId: 'chapterId'
   };
 
@@ -12215,6 +12228,7 @@ export namespace Prisma {
     id?: StringFilter<"Video"> | string
     assetId?: StringFilter<"Video"> | string
     playbackId?: StringNullableFilter<"Video"> | string | null
+    isReady?: BoolFilter<"Video"> | boolean
     chapterId?: StringFilter<"Video"> | string
     chapter?: XOR<ChapterScalarRelationFilter, ChapterWhereInput>
   }
@@ -12223,6 +12237,7 @@ export namespace Prisma {
     id?: SortOrder
     assetId?: SortOrder
     playbackId?: SortOrderInput | SortOrder
+    isReady?: SortOrder
     chapterId?: SortOrder
     chapter?: ChapterOrderByWithRelationInput
     _relevance?: VideoOrderByRelevanceInput
@@ -12236,6 +12251,7 @@ export namespace Prisma {
     NOT?: VideoWhereInput | VideoWhereInput[]
     assetId?: StringFilter<"Video"> | string
     playbackId?: StringNullableFilter<"Video"> | string | null
+    isReady?: BoolFilter<"Video"> | boolean
     chapter?: XOR<ChapterScalarRelationFilter, ChapterWhereInput>
   }, "id" | "chapterId">
 
@@ -12243,6 +12259,7 @@ export namespace Prisma {
     id?: SortOrder
     assetId?: SortOrder
     playbackId?: SortOrderInput | SortOrder
+    isReady?: SortOrder
     chapterId?: SortOrder
     _count?: VideoCountOrderByAggregateInput
     _max?: VideoMaxOrderByAggregateInput
@@ -12256,6 +12273,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Video"> | string
     assetId?: StringWithAggregatesFilter<"Video"> | string
     playbackId?: StringNullableWithAggregatesFilter<"Video"> | string | null
+    isReady?: BoolWithAggregatesFilter<"Video"> | boolean
     chapterId?: StringWithAggregatesFilter<"Video"> | string
   }
 
@@ -12906,6 +12924,7 @@ export namespace Prisma {
     id?: string
     assetId: string
     playbackId?: string | null
+    isReady?: boolean
     chapter: ChapterCreateNestedOneWithoutVideoInput
   }
 
@@ -12913,6 +12932,7 @@ export namespace Prisma {
     id?: string
     assetId: string
     playbackId?: string | null
+    isReady?: boolean
     chapterId: string
   }
 
@@ -12920,6 +12940,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     assetId?: StringFieldUpdateOperationsInput | string
     playbackId?: NullableStringFieldUpdateOperationsInput | string | null
+    isReady?: BoolFieldUpdateOperationsInput | boolean
     chapter?: ChapterUpdateOneRequiredWithoutVideoNestedInput
   }
 
@@ -12927,6 +12948,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     assetId?: StringFieldUpdateOperationsInput | string
     playbackId?: NullableStringFieldUpdateOperationsInput | string | null
+    isReady?: BoolFieldUpdateOperationsInput | boolean
     chapterId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -12934,6 +12956,7 @@ export namespace Prisma {
     id?: string
     assetId: string
     playbackId?: string | null
+    isReady?: boolean
     chapterId: string
   }
 
@@ -12941,12 +12964,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     assetId?: StringFieldUpdateOperationsInput | string
     playbackId?: NullableStringFieldUpdateOperationsInput | string | null
+    isReady?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type VideoUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     assetId?: StringFieldUpdateOperationsInput | string
     playbackId?: NullableStringFieldUpdateOperationsInput | string | null
+    isReady?: BoolFieldUpdateOperationsInput | boolean
     chapterId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -13712,6 +13737,7 @@ export namespace Prisma {
     id?: SortOrder
     assetId?: SortOrder
     playbackId?: SortOrder
+    isReady?: SortOrder
     chapterId?: SortOrder
   }
 
@@ -13719,6 +13745,7 @@ export namespace Prisma {
     id?: SortOrder
     assetId?: SortOrder
     playbackId?: SortOrder
+    isReady?: SortOrder
     chapterId?: SortOrder
   }
 
@@ -13726,6 +13753,7 @@ export namespace Prisma {
     id?: SortOrder
     assetId?: SortOrder
     playbackId?: SortOrder
+    isReady?: SortOrder
     chapterId?: SortOrder
   }
 
@@ -14862,12 +14890,14 @@ export namespace Prisma {
     id?: string
     assetId: string
     playbackId?: string | null
+    isReady?: boolean
   }
 
   export type VideoUncheckedCreateWithoutChapterInput = {
     id?: string
     assetId: string
     playbackId?: string | null
+    isReady?: boolean
   }
 
   export type VideoCreateOrConnectWithoutChapterInput = {
@@ -14953,12 +14983,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     assetId?: StringFieldUpdateOperationsInput | string
     playbackId?: NullableStringFieldUpdateOperationsInput | string | null
+    isReady?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type VideoUncheckedUpdateWithoutChapterInput = {
     id?: StringFieldUpdateOperationsInput | string
     assetId?: StringFieldUpdateOperationsInput | string
     playbackId?: NullableStringFieldUpdateOperationsInput | string | null
+    isReady?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type AttachmentUpsertWithWhereUniqueWithoutChapterInput = {

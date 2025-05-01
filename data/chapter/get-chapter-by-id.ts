@@ -5,7 +5,7 @@ export const getChapterById = async (id: string) => {
         const chapter = await db.chapter.findUnique({
             where: {
                 id
-            }
+            },
         });
 
         return chapter;

@@ -24,6 +24,7 @@ enum CourseStatus {
   DRAFT
   PENDING
   PUBLISHED
+  UNPUBLISHED
   REJECTED
   REVOKED
 }
@@ -131,6 +132,7 @@ model Video {
   id         String  @id @default(cuid())
   assetId    String
   playbackId String?
+  isReady    Boolean @default(false)
 
   chapterId String  @unique
   chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)

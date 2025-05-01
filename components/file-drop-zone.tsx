@@ -9,8 +9,8 @@ interface FileDropZoneProps {
   onChange: ({ url, name }: { url?: string; name?: string }) => void;
   endpoint: keyof typeof ourFileRouter;
   fileNameToRename?: string;
-  onFileNameChange: Dispatch<SetStateAction<string>>;
-  onUploadChange: Dispatch<SetStateAction<boolean>>;
+  onFileNameChange?: Dispatch<SetStateAction<string>>;
+  onUploadChange?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const FileDropZone = ({
@@ -32,19 +32,19 @@ export const FileDropZone = ({
           const { ufsUrl, name } = res[0];
           onChange({ url: ufsUrl, name });
         }
-        onUploadChange(false);
+        onUploadChange?.(false);
       }}
       onUploadError={(error) => {
         if (error.message.includes("FileSizeMismatch")) {
-          errorToast({ message: "File exceeds maxmimum file size" });
+          errorToast({ message: "File exceeds maximimum file size" });
         } else {
           errorToast({ message: `${error?.message}` });
         }
 
-        onUploadChange(false);
+        onUploadChange?.(false);
       }}
       onBeforeUploadBegin={(files: File[]) => {
-        onUploadChange(true);
+        onUploadChange?.(true);
 
         return files.map((f: File) => {
           let fileName = f.name;

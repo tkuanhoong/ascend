@@ -8,6 +8,8 @@ import { useParams, useRouter } from "next/navigation";
 import useIsModalOpen from "@/hooks/use-is-modal-open";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export const ChapterItemContent = ({ data }: { data: Chapter | undefined }) => {
   const router = useRouter();
@@ -17,7 +19,7 @@ export const ChapterItemContent = ({ data }: { data: Chapter | undefined }) => {
     return null;
   }
 
-  const { id, title, sectionId } = data;
+  const { id, title, sectionId, isPublished, isFree } = data;
   const onEdit = () => {
     router.push(
       `/creator/courses/${courseId}/sections/${sectionId}/chapters/${id}`
@@ -50,6 +52,16 @@ export const ChapterItemContent = ({ data }: { data: Chapter | undefined }) => {
         </div>
       </div>
       <div className="flex ml-auto">
+        <div className="flex gap-x-1">
+          <Badge
+            className={cn("bg-slate-500 my-2", isPublished && "bg-indigo-700")}
+          >
+            {isPublished ? "Published" : "Draft"}
+          </Badge>
+          <Badge className={cn("bg-slate-500 my-2", isFree && "bg-indigo-700")}>
+            {isFree ? "Free" : "Paid"}
+          </Badge>
+        </div>
         <Button variant="ghost" className="lg:p-4 p-2" onClick={onEdit}>
           <Pencil className="size-4" />
         </Button>

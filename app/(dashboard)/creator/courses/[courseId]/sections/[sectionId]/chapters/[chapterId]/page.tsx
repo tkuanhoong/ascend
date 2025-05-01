@@ -1,7 +1,7 @@
 import { currentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-import { Bolt, Eye, TableOfContents } from "lucide-react";
+import { Bolt, Eye, UploadIcon } from "lucide-react";
 import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
 import { IconBadge } from "@/components/icon-badge";
 import {
@@ -10,6 +10,7 @@ import {
   ChapterAttachmentForm,
   ChapterDescriptionForm,
   ChapterTitleForm,
+  ChapterVideoForm,
 } from "./_components";
 import { getChapterWithVideoAndAttachments } from "@/data/chapter/get-chapter-with-video-and-attachments";
 
@@ -57,7 +58,7 @@ export default async function SectionPage({
       />
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
-          <h1 className="text-2xl font-medium">Edit Section</h1>
+          <h1 className="text-2xl font-medium">Edit Chapter</h1>
           <span className="text-sm text-slate-600">
             Complete all fields {completionText}
           </span>
@@ -75,6 +76,7 @@ export default async function SectionPage({
           </div>
           <ChapterTitleForm initialData={chapter} />
           <ChapterDescriptionForm initialData={chapter} />
+          <ChapterAttachmentForm initialData={chapter} />
         </div>
         <div className="space-y-6">
           <div className="flex items-center gap-x-2">
@@ -84,10 +86,10 @@ export default async function SectionPage({
           <ChapterAccessForm initialData={chapter} />
           <div>
             <div className="flex items-center gap-x-2">
-              <IconBadge icon={TableOfContents} />
-              <h2 className="text-xl">Reorganise Chapters</h2>
+              <IconBadge icon={UploadIcon} />
+              <h2 className="text-xl">Upload your video</h2>
             </div>
-            <ChapterAttachmentForm initialData={chapter} />
+            <ChapterVideoForm initialData={chapter} />
           </div>
         </div>
       </div>

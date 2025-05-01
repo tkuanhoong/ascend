@@ -7,17 +7,18 @@ import { useRouter } from "next/navigation";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { ConfirmModal } from "@/components/form/confirm-modal";
+import { CourseStatus } from "@/prisma/app/generated/prisma/client";
 
 interface CourseActionsProps {
   disabled: boolean;
   courseId: string;
-  isPublished: boolean;
+  courseStatus: CourseStatus;
 }
 
 export const CourseActions = ({
   disabled,
   courseId,
-  isPublished,
+  courseStatus,
 }: CourseActionsProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -25,12 +26,16 @@ export const CourseActions = ({
   const onClick = async () => {
     try {
       setIsLoading(true);
-      if (isPublished) {
-        await apiClient.patch(`/api/courses/${courseId}/unpublish`);
-        successToast({ message: "Course unpublished" });
-      } else {
-        await apiClient.patch(`/api/courses/${courseId}/publish`);
-        successToast({ message: "Course published" });
+      switch (courseStatus) {
+        case CourseStatus.DRAFT:
+          await apiClient.patch(`/api/courses/${courseId}/publish`);
+          successToast({ message: "Course published" });
+          break;
+        default:
+          await apiClient.patch(`/api/courses/${courseId}/unpublish`);
+          successToast({ message: "Course unpublished" });
+
+          break;
       }
       router.refresh();
     } catch (error) {
@@ -59,11 +64,17 @@ export const CourseActions = ({
     <div className="flex items-center gap-x-2">
       <Button
         onClick={onClick}
-        disabled={disabled || isLoading}
+        disabled={
+          disabled || isLoading || courseStatus === CourseStatus.PENDING
+        }
         variant="outline"
         size="sm"
       >
-        {isPublished ? "Unpublish" : "Publish"}
+        {courseStatus === CourseStatus.PENDING
+          ? "Pending Review"
+          : courseStatus === CourseStatus.PUBLISHED
+          ? "Unpublish"
+          : "Publish"}
       </Button>
       <ConfirmModal
         onConfirm={onDelete}

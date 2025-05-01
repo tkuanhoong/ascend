@@ -16,4 +16,6 @@ export const apiAuthPrefix = "/api/auth";
 
 export const uploadThingApi = "/api/uploadthing"
 
+export const webhooksPrefix = '/api/webhook'
+
 export const DEFAULT_LOGIN_REDIRECT = "/";

@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import useIsModalOpen from "@/hooks/use-is-modal-open";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export const SectionItemContent = ({ data }: { data: Section | undefined }) => {
   const router = useRouter();
@@ -19,7 +21,7 @@ export const SectionItemContent = ({ data }: { data: Section | undefined }) => {
   const onEdit = () => {
     router.push(`/creator/courses/${courseId}/sections/${id}`);
   };
-  const { id, title, courseId } = data;
+  const { id, title, courseId, isPublished } = data;
 
   const onDelete = async () => {
     try {
@@ -45,6 +47,14 @@ export const SectionItemContent = ({ data }: { data: Section | undefined }) => {
         </div>
       </div>
       <div className="flex ml-auto">
+        <div className="flex gap-x-1">
+          <Badge
+            className={cn("bg-slate-500 my-2", isPublished && "bg-indigo-700")}
+          >
+            {isPublished ? "Published" : "Draft"}
+          </Badge>
+        </div>
+
         <Button variant="ghost" className="lg:p-4 p-2" onClick={onEdit}>
           <Pencil className="size-4" />
         </Button>
@@ -57,13 +67,7 @@ export const SectionItemContent = ({ data }: { data: Section | undefined }) => {
             setIsModalOpen(open);
           }}
         >
-          <Button
-            variant="ghost"
-            className="lg:p-4 p-2"
-            onClick={() => {
-              console.log("clicked");
-            }}
-          >
+          <Button variant="ghost" className="lg:p-4 p-2">
             <X className="size-4" />
           </Button>
         </ConfirmModal>

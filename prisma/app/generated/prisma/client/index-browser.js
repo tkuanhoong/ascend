@@ -193,6 +193,7 @@ exports.Prisma.VideoScalarFieldEnum = {
   id: 'id',
   assetId: 'assetId',
   playbackId: 'playbackId',
+  isReady: 'isReady',
   chapterId: 'chapterId'
 };
 
@@ -301,6 +302,7 @@ exports.CourseStatus = exports.$Enums.CourseStatus = {
   DRAFT: 'DRAFT',
   PENDING: 'PENDING',
   PUBLISHED: 'PUBLISHED',
+  UNPUBLISHED: 'UNPUBLISHED',
   REJECTED: 'REJECTED',
   REVOKED: 'REVOKED'
 };
