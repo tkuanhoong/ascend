@@ -2,8 +2,8 @@
 
 import { cn } from "@/lib/utils";
 import { Menu } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,26 +13,25 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet";
-import apiClient from "@/lib/axios";
+// import apiClient from "@/lib/axios";
 
 const NavBar = () => {
   const session = useSession();
   const user = session.data?.user;
   const pathname = usePathname();
-  const router = useRouter();
 
-  const signOut = async () => {
-    try {
-      const res = await apiClient.get("/api/auth/csrf");
-      const { csrfToken } = res.data;
-      await apiClient.post("/api/auth/signout?callbackUrl=/api/auth/session", {
-        csrfToken,
-      });
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const signOut = async () => {
+  //   try {
+  //     const res = await apiClient.get("/api/auth/csrf");
+  //     const { csrfToken } = res.data;
+  //     await apiClient.post("/api/auth/signout?callbackUrl=/api/auth/session", {
+  //       csrfToken,
+  //     });
+  //     window.location.reload();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const menuItems = [
     {
@@ -80,11 +79,8 @@ const NavBar = () => {
             <>
               {menuItems.map((item) =>
                 item.label === "Dashboard" ? (
-                  <Button
-                    key={item.href}
-                    onClick={() => router.push("/creator/analytics")}
-                  >
-                    Dashboard
+                  <Button key={item.href} asChild>
+                    <Link href={item.href}>{item.label}</Link>
                   </Button>
                 ) : (
                   <Link

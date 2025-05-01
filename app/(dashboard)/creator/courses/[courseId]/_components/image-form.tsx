@@ -80,7 +80,7 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
         <div>
           <FileDropZone
             endpoint="courseImage"
-            onChange={(url) => {
+            onChange={({ url }) => {
               if (url) {
                 onSubmit({ imageUrl: url });
               }

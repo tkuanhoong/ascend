@@ -1,4 +1,5 @@
 import { deleteUTFiles } from "@/actions/uploadthing";
+import { getIsCourseOwner } from "@/data/course/course-owner";
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
@@ -30,6 +31,12 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
         }
         const userId = user.id;
+
+        const isCourseOwner = getIsCourseOwner({ courseId, userId });
+
+        if (!isCourseOwner) {
+            return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
+        }
 
         const existingCourse = await db.course.findUnique({
             where: {
@@ -72,6 +79,12 @@ export async function DELETE(req: Request, { params }: { params: { courseId: str
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
         }
         const userId = user.id;
+
+        const isCourseOwner = getIsCourseOwner({ courseId, userId });
+
+        if (!isCourseOwner) {
+            return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
+        }
 
         const existingCourse = await db.course.findUnique({
             where: {

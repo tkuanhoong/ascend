@@ -166,9 +166,35 @@ exports.Prisma.CategoryScalarFieldEnum = {
 exports.Prisma.SectionScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  level: 'level',
   position: 'position',
+  level: 'level',
+  estimatedTime: 'estimatedTime',
+  isFree: 'isFree',
+  isPublished: 'isPublished',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   courseId: 'courseId'
+};
+
+exports.Prisma.ChapterScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  position: 'position',
+  isFree: 'isFree',
+  isPublished: 'isPublished',
+  videoUrl: 'videoUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  sectionId: 'sectionId'
+};
+
+exports.Prisma.VideoScalarFieldEnum = {
+  id: 'id',
+  assetId: 'assetId',
+  playbackId: 'playbackId',
+  isReady: 'isReady',
+  chapterId: 'chapterId'
 };
 
 exports.Prisma.PurchaseScalarFieldEnum = {
@@ -177,6 +203,15 @@ exports.Prisma.PurchaseScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   courseId: 'courseId'
+};
+
+exports.Prisma.AttachmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  chapterId: 'chapterId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -231,10 +266,32 @@ exports.Prisma.SectionOrderByRelevanceFieldEnum = {
   courseId: 'courseId'
 };
 
+exports.Prisma.ChapterOrderByRelevanceFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  videoUrl: 'videoUrl',
+  sectionId: 'sectionId'
+};
+
+exports.Prisma.VideoOrderByRelevanceFieldEnum = {
+  id: 'id',
+  assetId: 'assetId',
+  playbackId: 'playbackId',
+  chapterId: 'chapterId'
+};
+
 exports.Prisma.PurchaseOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
   courseId: 'courseId'
+};
+
+exports.Prisma.AttachmentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  chapterId: 'chapterId'
 };
 exports.UserRole = exports.$Enums.UserRole = {
   USER: 'USER',
@@ -245,6 +302,7 @@ exports.CourseStatus = exports.$Enums.CourseStatus = {
   DRAFT: 'DRAFT',
   PENDING: 'PENDING',
   PUBLISHED: 'PUBLISHED',
+  UNPUBLISHED: 'UNPUBLISHED',
   REJECTED: 'REJECTED',
   REVOKED: 'REVOKED'
 };
@@ -262,7 +320,10 @@ exports.Prisma.ModelName = {
   Course: 'Course',
   Category: 'Category',
   Section: 'Section',
-  Purchase: 'Purchase'
+  Chapter: 'Chapter',
+  Video: 'Video',
+  Purchase: 'Purchase',
+  Attachment: 'Attachment'
 };
 
 /**

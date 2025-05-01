@@ -31,6 +31,28 @@ export const ourFileRouter = {
             // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
             return { uploadedBy: metadata.userId };
         }),
+    chapterAttachment: f({
+        text: { maxFileSize: "128MB", maxFileCount: 1, },
+        image: { maxFileSize: "128MB", maxFileCount: 1, },
+        video: { maxFileSize: "128MB", maxFileCount: 1, },
+        audio: { maxFileSize: "128MB", maxFileCount: 1, },
+        pdf: { maxFileSize: "128MB", maxFileCount: 1, },
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
+            maxFileSize: "128MB",
+            maxFileCount: 1,
+        },
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+            maxFileSize: "128MB", maxFileCount: 1,
+        },
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
+            maxFileSize: "128MB", maxFileCount: 1,
+        },
+    })
+        .middleware(checkAuth)
+        .onUploadComplete(() => { }),
+    chapterVideo: f({ video: { maxFileCount: 1, maxFileSize: "256GB" } })
+        .middleware(checkAuth)
+        .onUploadComplete(() => { }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;
