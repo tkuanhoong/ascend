@@ -1,6 +1,6 @@
 import NextAuth from "next-auth"
 import authConfig from "@/auth.config"
-import { apiAuthPrefix, authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes } from "@/routes";
+import { apiAuthPrefix, authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes, uploadThingApi, webhooksPrefix } from "@/routes";
 
 // Wrapped middleware option
 const { auth } = NextAuth(authConfig)
@@ -10,15 +10,17 @@ export default auth(async function middleware(req) {
     const isLoggedIn = !!req.auth;
 
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+    const isWebhookRoute = nextUrl.pathname.startsWith(webhooksPrefix)
+    const isUploadThingApi = nextUrl.pathname.startsWith(uploadThingApi);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-    // exclude auth api route
-    if (isApiAuthRoute) {
+    // exclude auth api route & file upload api route
+    if (isApiAuthRoute || isWebhookRoute || isUploadThingApi) {
         return;
     }
 
-    // if the route is related to auth pages, and if user is already logged in, redirect to default login redirect
+    // if the route is related to auth pages, and if user is NOT logged in, redirect to default login redirect
     if (isAuthRoute) {
         if (isLoggedIn) {
             return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))

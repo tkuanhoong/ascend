@@ -1,5 +1,7 @@
 import { db } from "@/lib/db";
 import { hashPassword } from "@/lib/hash";
+import { sendVerificationEmail } from "@/lib/resend";
+import { generateVerificationToken } from "@/lib/tokens";
 import { RegisterSchema } from "@/lib/zod";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,10 +12,10 @@ export async function POST(req: NextRequest) {
         const validatedFields = RegisterSchema.safeParse(values);
 
         if (!validatedFields.success) {
-            return new NextResponse("Invalid Input", { status: 400 });
+            return NextResponse.json({ error: "Invalid Input" }, { status: 400 });
         }
 
-        const { email, password, name } = values;
+        const { email, password, name, identityNo } = validatedFields.data;
 
         const existingUser = await db.user.findUnique({
             where: {
@@ -22,22 +24,28 @@ export async function POST(req: NextRequest) {
         });
 
         if (existingUser) {
-            return new NextResponse("Email already exists", { status: 400 });
+            return NextResponse.json({ error: "Email already exist" }, { status: 400 });
         }
 
         const hashedPassword = await hashPassword(password);
 
-        const user = await db.user.create({
+        await db.user.create({
             data: {
                 email,
                 name,
+                identificationNo: identityNo,
                 password: hashedPassword,
             },
         });
-        return NextResponse.json(user, { status: 201 });
+
+        // Send email verification with token
+        const { email: emailSendingTo, token } = await generateVerificationToken(email);
+        await sendVerificationEmail(emailSendingTo, token);
+
+        return NextResponse.json({ success: `Verification email sent to ${emailSendingTo}. Please check your email.` }, { status: 201 });
     } catch (error) {
         console.log("[REGISTER]", error);
-        return new NextResponse("Internal Error", { status: 500 });
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 
 }

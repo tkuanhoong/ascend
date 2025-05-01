@@ -1,3 +1,4 @@
+
 export const publicRoutes = [
     '/',
 ]
@@ -5,13 +6,16 @@ export const publicRoutes = [
 export const authRoutes = [
     "/auth/login",
     "/auth/register",
+    '/auth/new-verification',
+    "/auth/forgot-password",
+    "/auth/password-reset",
     // "/auth/error",
-    // "/auth/reset",
-    // "/auth/new-password"
 ]
 
 export const apiAuthPrefix = "/api/auth";
 
-export const DEFAULT_LOGIN_REDIRECT = '/';
+export const uploadThingApi = "/api/uploadthing"
 
-export const DEFAULT_LOGOUT_REDIRECT = '/';
+export const webhooksPrefix = '/api/webhook'
+
+export const DEFAULT_LOGIN_REDIRECT = "/";
