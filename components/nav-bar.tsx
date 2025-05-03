@@ -13,6 +13,8 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet";
+import SearchBar from "./search-bar";
+import UserMenu from "./user-menu";
 // import apiClient from "@/lib/axios";
 
 const NavBar = () => {
@@ -33,11 +35,7 @@ const NavBar = () => {
   //   }
   // };
 
-  const menuItems = [
-    {
-      label: "Dashboard",
-      href: "/creator/analytics",
-    },
+  const profileMenuItems = [
     {
       label: "Purchased courses",
       href: "/courses",
@@ -51,6 +49,18 @@ const NavBar = () => {
       href: "#",
       onClick: () => signOut(),
     },
+  ];
+
+  const mobileMenuItems = [
+    {
+      label: "Home",
+      href: "/",
+    },
+    {
+      label: "Dashboard",
+      href: "/creator/analytics",
+    },
+    ...profileMenuItems,
   ];
 
   const guestNavigationItems = [
@@ -73,25 +83,20 @@ const NavBar = () => {
           </Link>
         </div>
 
+        {pathname === "/" && (
+          <div className="hidden md:block">
+            <SearchBar />
+          </div>
+        )}
+
         {/* desktop navbar */}
         <nav className="hidden md:flex gap-6 flex-wrap items-center justify-end">
           {user ? (
             <>
-              {menuItems.map((item) =>
-                item.label === "Dashboard" ? (
-                  <Button key={item.href} asChild>
-                    <Link href={item.href}>{item.label}</Link>
-                  </Button>
-                ) : (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => item.onClick && item.onClick()}
-                  >
-                    {item.label}
-                  </Link>
-                )
-              )}
+              <Button asChild>
+                <Link href="/creator/analytics">Dashboard</Link>
+              </Button>
+              <UserMenu menuItems={profileMenuItems} />
             </>
           ) : (
             <>
@@ -121,25 +126,16 @@ const NavBar = () => {
               <SheetTitle>Menu</SheetTitle>
               <div className="grid gap-6 py-6">
                 <div className="grid gap-3">
-                  <SheetClose asChild>
-                    <Link
-                      href="/"
-                      className={cn(
-                        "flex items-center py-2 text-base font-medium transition-colors hover:text-primary",
-                        pathname === "/"
-                          ? "text-slate-950 font-bold"
-                          : "text-slate-600"
-                      )}
-                    >
-                      Home
-                    </Link>
-                  </SheetClose>
                   {user ? (
-                    menuItems.map((item) => (
+                    mobileMenuItems.map((item) => (
                       <SheetClose asChild key={item.href}>
                         <Link
+                          onClick={
+                            "onClick" in item && item.onClick
+                              ? () => item.onClick()
+                              : undefined
+                          }
                           href={item.href}
-                          onClick={item.onClick}
                           className={cn(
                             "flex items-center py-2 text-base font-medium transition-colors hover:text-primary",
                             pathname === item.href
@@ -154,7 +150,7 @@ const NavBar = () => {
                   ) : (
                     <>
                       {guestNavigationItems.map((item) => (
-                        <SheetClose key={item.href}>
+                        <SheetClose asChild key={item.href}>
                           <Link
                             key={item.href}
                             href={item.href}
