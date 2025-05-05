@@ -63,6 +63,11 @@ export type Purchase = $Result.DefaultSelection<Prisma.$PurchasePayload>
  * 
  */
 export type Attachment = $Result.DefaultSelection<Prisma.$AttachmentPayload>
+/**
+ * Model StripeCustomer
+ * 
+ */
+export type StripeCustomer = $Result.DefaultSelection<Prisma.$StripeCustomerPayload>
 
 /**
  * Enums
@@ -334,6 +339,16 @@ export class PrismaClient<
     * ```
     */
   get attachment(): Prisma.AttachmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.stripeCustomer`: Exposes CRUD operations for the **StripeCustomer** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StripeCustomers
+    * const stripeCustomers = await prisma.stripeCustomer.findMany()
+    * ```
+    */
+  get stripeCustomer(): Prisma.StripeCustomerDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -783,7 +798,8 @@ export namespace Prisma {
     Chapter: 'Chapter',
     Video: 'Video',
     Purchase: 'Purchase',
-    Attachment: 'Attachment'
+    Attachment: 'Attachment',
+    StripeCustomer: 'StripeCustomer'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -802,7 +818,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "verificationToken" | "passwordResetToken" | "course" | "category" | "section" | "chapter" | "video" | "purchase" | "attachment"
+      modelProps: "user" | "verificationToken" | "passwordResetToken" | "course" | "category" | "section" | "chapter" | "video" | "purchase" | "attachment" | "stripeCustomer"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1466,6 +1482,72 @@ export namespace Prisma {
           }
         }
       }
+      StripeCustomer: {
+        payload: Prisma.$StripeCustomerPayload<ExtArgs>
+        fields: Prisma.StripeCustomerFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StripeCustomerFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StripeCustomerPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StripeCustomerFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StripeCustomerPayload>
+          }
+          findFirst: {
+            args: Prisma.StripeCustomerFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StripeCustomerPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StripeCustomerFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StripeCustomerPayload>
+          }
+          findMany: {
+            args: Prisma.StripeCustomerFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StripeCustomerPayload>[]
+          }
+          create: {
+            args: Prisma.StripeCustomerCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StripeCustomerPayload>
+          }
+          createMany: {
+            args: Prisma.StripeCustomerCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.StripeCustomerDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StripeCustomerPayload>
+          }
+          update: {
+            args: Prisma.StripeCustomerUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StripeCustomerPayload>
+          }
+          deleteMany: {
+            args: Prisma.StripeCustomerDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StripeCustomerUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.StripeCustomerUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StripeCustomerPayload>
+          }
+          aggregate: {
+            args: Prisma.StripeCustomerAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStripeCustomer>
+          }
+          groupBy: {
+            args: Prisma.StripeCustomerGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StripeCustomerGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StripeCustomerCountArgs<ExtArgs>
+            result: $Utils.Optional<StripeCustomerCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1560,6 +1642,7 @@ export namespace Prisma {
     video?: VideoOmit
     purchase?: PurchaseOmit
     attachment?: AttachmentOmit
+    stripeCustomer?: StripeCustomerOmit
   }
 
   /* Types for Logging */
@@ -11415,6 +11498,888 @@ export namespace Prisma {
 
 
   /**
+   * Model StripeCustomer
+   */
+
+  export type AggregateStripeCustomer = {
+    _count: StripeCustomerCountAggregateOutputType | null
+    _min: StripeCustomerMinAggregateOutputType | null
+    _max: StripeCustomerMaxAggregateOutputType | null
+  }
+
+  export type StripeCustomerMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    stripeCustomerId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StripeCustomerMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    stripeCustomerId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StripeCustomerCountAggregateOutputType = {
+    id: number
+    userId: number
+    stripeCustomerId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type StripeCustomerMinAggregateInputType = {
+    id?: true
+    userId?: true
+    stripeCustomerId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StripeCustomerMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    stripeCustomerId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StripeCustomerCountAggregateInputType = {
+    id?: true
+    userId?: true
+    stripeCustomerId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type StripeCustomerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StripeCustomer to aggregate.
+     */
+    where?: StripeCustomerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StripeCustomers to fetch.
+     */
+    orderBy?: StripeCustomerOrderByWithRelationInput | StripeCustomerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StripeCustomerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StripeCustomers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StripeCustomers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StripeCustomers
+    **/
+    _count?: true | StripeCustomerCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StripeCustomerMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StripeCustomerMaxAggregateInputType
+  }
+
+  export type GetStripeCustomerAggregateType<T extends StripeCustomerAggregateArgs> = {
+        [P in keyof T & keyof AggregateStripeCustomer]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStripeCustomer[P]>
+      : GetScalarType<T[P], AggregateStripeCustomer[P]>
+  }
+
+
+
+
+  export type StripeCustomerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StripeCustomerWhereInput
+    orderBy?: StripeCustomerOrderByWithAggregationInput | StripeCustomerOrderByWithAggregationInput[]
+    by: StripeCustomerScalarFieldEnum[] | StripeCustomerScalarFieldEnum
+    having?: StripeCustomerScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StripeCustomerCountAggregateInputType | true
+    _min?: StripeCustomerMinAggregateInputType
+    _max?: StripeCustomerMaxAggregateInputType
+  }
+
+  export type StripeCustomerGroupByOutputType = {
+    id: string
+    userId: string
+    stripeCustomerId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: StripeCustomerCountAggregateOutputType | null
+    _min: StripeCustomerMinAggregateOutputType | null
+    _max: StripeCustomerMaxAggregateOutputType | null
+  }
+
+  type GetStripeCustomerGroupByPayload<T extends StripeCustomerGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StripeCustomerGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StripeCustomerGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StripeCustomerGroupByOutputType[P]>
+            : GetScalarType<T[P], StripeCustomerGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StripeCustomerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    stripeCustomerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["stripeCustomer"]>
+
+
+
+  export type StripeCustomerSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    stripeCustomerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type StripeCustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "stripeCustomerId" | "createdAt" | "updatedAt", ExtArgs["result"]["stripeCustomer"]>
+
+  export type $StripeCustomerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StripeCustomer"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      stripeCustomerId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["stripeCustomer"]>
+    composites: {}
+  }
+
+  type StripeCustomerGetPayload<S extends boolean | null | undefined | StripeCustomerDefaultArgs> = $Result.GetResult<Prisma.$StripeCustomerPayload, S>
+
+  type StripeCustomerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StripeCustomerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StripeCustomerCountAggregateInputType | true
+    }
+
+  export interface StripeCustomerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StripeCustomer'], meta: { name: 'StripeCustomer' } }
+    /**
+     * Find zero or one StripeCustomer that matches the filter.
+     * @param {StripeCustomerFindUniqueArgs} args - Arguments to find a StripeCustomer
+     * @example
+     * // Get one StripeCustomer
+     * const stripeCustomer = await prisma.stripeCustomer.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StripeCustomerFindUniqueArgs>(args: SelectSubset<T, StripeCustomerFindUniqueArgs<ExtArgs>>): Prisma__StripeCustomerClient<$Result.GetResult<Prisma.$StripeCustomerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StripeCustomer that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StripeCustomerFindUniqueOrThrowArgs} args - Arguments to find a StripeCustomer
+     * @example
+     * // Get one StripeCustomer
+     * const stripeCustomer = await prisma.stripeCustomer.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StripeCustomerFindUniqueOrThrowArgs>(args: SelectSubset<T, StripeCustomerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StripeCustomerClient<$Result.GetResult<Prisma.$StripeCustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StripeCustomer that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeCustomerFindFirstArgs} args - Arguments to find a StripeCustomer
+     * @example
+     * // Get one StripeCustomer
+     * const stripeCustomer = await prisma.stripeCustomer.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StripeCustomerFindFirstArgs>(args?: SelectSubset<T, StripeCustomerFindFirstArgs<ExtArgs>>): Prisma__StripeCustomerClient<$Result.GetResult<Prisma.$StripeCustomerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StripeCustomer that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeCustomerFindFirstOrThrowArgs} args - Arguments to find a StripeCustomer
+     * @example
+     * // Get one StripeCustomer
+     * const stripeCustomer = await prisma.stripeCustomer.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StripeCustomerFindFirstOrThrowArgs>(args?: SelectSubset<T, StripeCustomerFindFirstOrThrowArgs<ExtArgs>>): Prisma__StripeCustomerClient<$Result.GetResult<Prisma.$StripeCustomerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StripeCustomers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeCustomerFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StripeCustomers
+     * const stripeCustomers = await prisma.stripeCustomer.findMany()
+     * 
+     * // Get first 10 StripeCustomers
+     * const stripeCustomers = await prisma.stripeCustomer.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const stripeCustomerWithIdOnly = await prisma.stripeCustomer.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StripeCustomerFindManyArgs>(args?: SelectSubset<T, StripeCustomerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StripeCustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StripeCustomer.
+     * @param {StripeCustomerCreateArgs} args - Arguments to create a StripeCustomer.
+     * @example
+     * // Create one StripeCustomer
+     * const StripeCustomer = await prisma.stripeCustomer.create({
+     *   data: {
+     *     // ... data to create a StripeCustomer
+     *   }
+     * })
+     * 
+     */
+    create<T extends StripeCustomerCreateArgs>(args: SelectSubset<T, StripeCustomerCreateArgs<ExtArgs>>): Prisma__StripeCustomerClient<$Result.GetResult<Prisma.$StripeCustomerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StripeCustomers.
+     * @param {StripeCustomerCreateManyArgs} args - Arguments to create many StripeCustomers.
+     * @example
+     * // Create many StripeCustomers
+     * const stripeCustomer = await prisma.stripeCustomer.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StripeCustomerCreateManyArgs>(args?: SelectSubset<T, StripeCustomerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a StripeCustomer.
+     * @param {StripeCustomerDeleteArgs} args - Arguments to delete one StripeCustomer.
+     * @example
+     * // Delete one StripeCustomer
+     * const StripeCustomer = await prisma.stripeCustomer.delete({
+     *   where: {
+     *     // ... filter to delete one StripeCustomer
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StripeCustomerDeleteArgs>(args: SelectSubset<T, StripeCustomerDeleteArgs<ExtArgs>>): Prisma__StripeCustomerClient<$Result.GetResult<Prisma.$StripeCustomerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StripeCustomer.
+     * @param {StripeCustomerUpdateArgs} args - Arguments to update one StripeCustomer.
+     * @example
+     * // Update one StripeCustomer
+     * const stripeCustomer = await prisma.stripeCustomer.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StripeCustomerUpdateArgs>(args: SelectSubset<T, StripeCustomerUpdateArgs<ExtArgs>>): Prisma__StripeCustomerClient<$Result.GetResult<Prisma.$StripeCustomerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StripeCustomers.
+     * @param {StripeCustomerDeleteManyArgs} args - Arguments to filter StripeCustomers to delete.
+     * @example
+     * // Delete a few StripeCustomers
+     * const { count } = await prisma.stripeCustomer.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StripeCustomerDeleteManyArgs>(args?: SelectSubset<T, StripeCustomerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StripeCustomers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeCustomerUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StripeCustomers
+     * const stripeCustomer = await prisma.stripeCustomer.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StripeCustomerUpdateManyArgs>(args: SelectSubset<T, StripeCustomerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one StripeCustomer.
+     * @param {StripeCustomerUpsertArgs} args - Arguments to update or create a StripeCustomer.
+     * @example
+     * // Update or create a StripeCustomer
+     * const stripeCustomer = await prisma.stripeCustomer.upsert({
+     *   create: {
+     *     // ... data to create a StripeCustomer
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StripeCustomer we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StripeCustomerUpsertArgs>(args: SelectSubset<T, StripeCustomerUpsertArgs<ExtArgs>>): Prisma__StripeCustomerClient<$Result.GetResult<Prisma.$StripeCustomerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StripeCustomers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeCustomerCountArgs} args - Arguments to filter StripeCustomers to count.
+     * @example
+     * // Count the number of StripeCustomers
+     * const count = await prisma.stripeCustomer.count({
+     *   where: {
+     *     // ... the filter for the StripeCustomers we want to count
+     *   }
+     * })
+    **/
+    count<T extends StripeCustomerCountArgs>(
+      args?: Subset<T, StripeCustomerCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StripeCustomerCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StripeCustomer.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeCustomerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StripeCustomerAggregateArgs>(args: Subset<T, StripeCustomerAggregateArgs>): Prisma.PrismaPromise<GetStripeCustomerAggregateType<T>>
+
+    /**
+     * Group by StripeCustomer.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StripeCustomerGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StripeCustomerGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StripeCustomerGroupByArgs['orderBy'] }
+        : { orderBy?: StripeCustomerGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StripeCustomerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStripeCustomerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StripeCustomer model
+   */
+  readonly fields: StripeCustomerFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StripeCustomer.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StripeCustomerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StripeCustomer model
+   */
+  interface StripeCustomerFieldRefs {
+    readonly id: FieldRef<"StripeCustomer", 'String'>
+    readonly userId: FieldRef<"StripeCustomer", 'String'>
+    readonly stripeCustomerId: FieldRef<"StripeCustomer", 'String'>
+    readonly createdAt: FieldRef<"StripeCustomer", 'DateTime'>
+    readonly updatedAt: FieldRef<"StripeCustomer", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StripeCustomer findUnique
+   */
+  export type StripeCustomerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StripeCustomer
+     */
+    select?: StripeCustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StripeCustomer
+     */
+    omit?: StripeCustomerOmit<ExtArgs> | null
+    /**
+     * Filter, which StripeCustomer to fetch.
+     */
+    where: StripeCustomerWhereUniqueInput
+  }
+
+  /**
+   * StripeCustomer findUniqueOrThrow
+   */
+  export type StripeCustomerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StripeCustomer
+     */
+    select?: StripeCustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StripeCustomer
+     */
+    omit?: StripeCustomerOmit<ExtArgs> | null
+    /**
+     * Filter, which StripeCustomer to fetch.
+     */
+    where: StripeCustomerWhereUniqueInput
+  }
+
+  /**
+   * StripeCustomer findFirst
+   */
+  export type StripeCustomerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StripeCustomer
+     */
+    select?: StripeCustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StripeCustomer
+     */
+    omit?: StripeCustomerOmit<ExtArgs> | null
+    /**
+     * Filter, which StripeCustomer to fetch.
+     */
+    where?: StripeCustomerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StripeCustomers to fetch.
+     */
+    orderBy?: StripeCustomerOrderByWithRelationInput | StripeCustomerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StripeCustomers.
+     */
+    cursor?: StripeCustomerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StripeCustomers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StripeCustomers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StripeCustomers.
+     */
+    distinct?: StripeCustomerScalarFieldEnum | StripeCustomerScalarFieldEnum[]
+  }
+
+  /**
+   * StripeCustomer findFirstOrThrow
+   */
+  export type StripeCustomerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StripeCustomer
+     */
+    select?: StripeCustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StripeCustomer
+     */
+    omit?: StripeCustomerOmit<ExtArgs> | null
+    /**
+     * Filter, which StripeCustomer to fetch.
+     */
+    where?: StripeCustomerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StripeCustomers to fetch.
+     */
+    orderBy?: StripeCustomerOrderByWithRelationInput | StripeCustomerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StripeCustomers.
+     */
+    cursor?: StripeCustomerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StripeCustomers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StripeCustomers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StripeCustomers.
+     */
+    distinct?: StripeCustomerScalarFieldEnum | StripeCustomerScalarFieldEnum[]
+  }
+
+  /**
+   * StripeCustomer findMany
+   */
+  export type StripeCustomerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StripeCustomer
+     */
+    select?: StripeCustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StripeCustomer
+     */
+    omit?: StripeCustomerOmit<ExtArgs> | null
+    /**
+     * Filter, which StripeCustomers to fetch.
+     */
+    where?: StripeCustomerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StripeCustomers to fetch.
+     */
+    orderBy?: StripeCustomerOrderByWithRelationInput | StripeCustomerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StripeCustomers.
+     */
+    cursor?: StripeCustomerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StripeCustomers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StripeCustomers.
+     */
+    skip?: number
+    distinct?: StripeCustomerScalarFieldEnum | StripeCustomerScalarFieldEnum[]
+  }
+
+  /**
+   * StripeCustomer create
+   */
+  export type StripeCustomerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StripeCustomer
+     */
+    select?: StripeCustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StripeCustomer
+     */
+    omit?: StripeCustomerOmit<ExtArgs> | null
+    /**
+     * The data needed to create a StripeCustomer.
+     */
+    data: XOR<StripeCustomerCreateInput, StripeCustomerUncheckedCreateInput>
+  }
+
+  /**
+   * StripeCustomer createMany
+   */
+  export type StripeCustomerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StripeCustomers.
+     */
+    data: StripeCustomerCreateManyInput | StripeCustomerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StripeCustomer update
+   */
+  export type StripeCustomerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StripeCustomer
+     */
+    select?: StripeCustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StripeCustomer
+     */
+    omit?: StripeCustomerOmit<ExtArgs> | null
+    /**
+     * The data needed to update a StripeCustomer.
+     */
+    data: XOR<StripeCustomerUpdateInput, StripeCustomerUncheckedUpdateInput>
+    /**
+     * Choose, which StripeCustomer to update.
+     */
+    where: StripeCustomerWhereUniqueInput
+  }
+
+  /**
+   * StripeCustomer updateMany
+   */
+  export type StripeCustomerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StripeCustomers.
+     */
+    data: XOR<StripeCustomerUpdateManyMutationInput, StripeCustomerUncheckedUpdateManyInput>
+    /**
+     * Filter which StripeCustomers to update
+     */
+    where?: StripeCustomerWhereInput
+    /**
+     * Limit how many StripeCustomers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StripeCustomer upsert
+   */
+  export type StripeCustomerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StripeCustomer
+     */
+    select?: StripeCustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StripeCustomer
+     */
+    omit?: StripeCustomerOmit<ExtArgs> | null
+    /**
+     * The filter to search for the StripeCustomer to update in case it exists.
+     */
+    where: StripeCustomerWhereUniqueInput
+    /**
+     * In case the StripeCustomer found by the `where` argument doesn't exist, create a new StripeCustomer with this data.
+     */
+    create: XOR<StripeCustomerCreateInput, StripeCustomerUncheckedCreateInput>
+    /**
+     * In case the StripeCustomer was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StripeCustomerUpdateInput, StripeCustomerUncheckedUpdateInput>
+  }
+
+  /**
+   * StripeCustomer delete
+   */
+  export type StripeCustomerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StripeCustomer
+     */
+    select?: StripeCustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StripeCustomer
+     */
+    omit?: StripeCustomerOmit<ExtArgs> | null
+    /**
+     * Filter which StripeCustomer to delete.
+     */
+    where: StripeCustomerWhereUniqueInput
+  }
+
+  /**
+   * StripeCustomer deleteMany
+   */
+  export type StripeCustomerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StripeCustomers to delete
+     */
+    where?: StripeCustomerWhereInput
+    /**
+     * Limit how many StripeCustomers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StripeCustomer without action
+   */
+  export type StripeCustomerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StripeCustomer
+     */
+    select?: StripeCustomerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StripeCustomer
+     */
+    omit?: StripeCustomerOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -11555,6 +12520,17 @@ export namespace Prisma {
   export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum]
 
 
+  export const StripeCustomerScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    stripeCustomerId: 'stripeCustomerId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type StripeCustomerScalarFieldEnum = (typeof StripeCustomerScalarFieldEnum)[keyof typeof StripeCustomerScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -11669,6 +12645,15 @@ export namespace Prisma {
   };
 
   export type AttachmentOrderByRelevanceFieldEnum = (typeof AttachmentOrderByRelevanceFieldEnum)[keyof typeof AttachmentOrderByRelevanceFieldEnum]
+
+
+  export const StripeCustomerOrderByRelevanceFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    stripeCustomerId: 'stripeCustomerId'
+  };
+
+  export type StripeCustomerOrderByRelevanceFieldEnum = (typeof StripeCustomerOrderByRelevanceFieldEnum)[keyof typeof StripeCustomerOrderByRelevanceFieldEnum]
 
 
   /**
@@ -12395,6 +13380,59 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Attachment"> | Date | string
   }
 
+  export type StripeCustomerWhereInput = {
+    AND?: StripeCustomerWhereInput | StripeCustomerWhereInput[]
+    OR?: StripeCustomerWhereInput[]
+    NOT?: StripeCustomerWhereInput | StripeCustomerWhereInput[]
+    id?: StringFilter<"StripeCustomer"> | string
+    userId?: StringFilter<"StripeCustomer"> | string
+    stripeCustomerId?: StringFilter<"StripeCustomer"> | string
+    createdAt?: DateTimeFilter<"StripeCustomer"> | Date | string
+    updatedAt?: DateTimeFilter<"StripeCustomer"> | Date | string
+  }
+
+  export type StripeCustomerOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    stripeCustomerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _relevance?: StripeCustomerOrderByRelevanceInput
+  }
+
+  export type StripeCustomerWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    stripeCustomerId?: string
+    AND?: StripeCustomerWhereInput | StripeCustomerWhereInput[]
+    OR?: StripeCustomerWhereInput[]
+    NOT?: StripeCustomerWhereInput | StripeCustomerWhereInput[]
+    createdAt?: DateTimeFilter<"StripeCustomer"> | Date | string
+    updatedAt?: DateTimeFilter<"StripeCustomer"> | Date | string
+  }, "id" | "userId" | "stripeCustomerId">
+
+  export type StripeCustomerOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    stripeCustomerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: StripeCustomerCountOrderByAggregateInput
+    _max?: StripeCustomerMaxOrderByAggregateInput
+    _min?: StripeCustomerMinOrderByAggregateInput
+  }
+
+  export type StripeCustomerScalarWhereWithAggregatesInput = {
+    AND?: StripeCustomerScalarWhereWithAggregatesInput | StripeCustomerScalarWhereWithAggregatesInput[]
+    OR?: StripeCustomerScalarWhereWithAggregatesInput[]
+    NOT?: StripeCustomerScalarWhereWithAggregatesInput | StripeCustomerScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StripeCustomer"> | string
+    userId?: StringWithAggregatesFilter<"StripeCustomer"> | string
+    stripeCustomerId?: StringWithAggregatesFilter<"StripeCustomer"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"StripeCustomer"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"StripeCustomer"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name?: string | null
@@ -13088,6 +14126,62 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     chapterId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StripeCustomerCreateInput = {
+    id?: string
+    userId: string
+    stripeCustomerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StripeCustomerUncheckedCreateInput = {
+    id?: string
+    userId: string
+    stripeCustomerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StripeCustomerUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StripeCustomerUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StripeCustomerCreateManyInput = {
+    id?: string
+    userId: string
+    stripeCustomerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StripeCustomerUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StripeCustomerUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    stripeCustomerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13821,6 +14915,36 @@ export namespace Prisma {
     name?: SortOrder
     url?: SortOrder
     chapterId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StripeCustomerOrderByRelevanceInput = {
+    fields: StripeCustomerOrderByRelevanceFieldEnum | StripeCustomerOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type StripeCustomerCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    stripeCustomerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StripeCustomerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    stripeCustomerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StripeCustomerMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    stripeCustomerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
