@@ -38,7 +38,7 @@ const NavBar = () => {
   const profileMenuItems = [
     {
       label: "Purchased courses",
-      href: "/courses",
+      href: "/purchased-courses",
     },
     {
       label: "Profile",

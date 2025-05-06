@@ -8,6 +8,7 @@ import PurchaseCourseButton from "./_components/purchase-course-button";
 import { db } from "@/lib/db";
 import { currentUser } from "@/lib/auth";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 export default async function CourseDetailsPage({
   params,
@@ -17,6 +18,20 @@ export default async function CourseDetailsPage({
   const user = await currentUser();
   const { courseId } = await params;
   const course = await getCourseById(courseId);
+
+  const firstChapter = await db.chapter.findFirst({
+    where: {
+      section: {
+        courseId,
+      },
+    },
+    select: {
+      id: true,
+      title: true,
+      
+    },
+  });
+
   if (!course || !user || !course.price) {
     redirect("/");
   }
@@ -71,7 +86,13 @@ export default async function CourseDetailsPage({
                 Congratulations! You have purchased this course!
               </h2>
               <p className="text-gray-600">Access your course now.</p>
-              <Button>View course chapters</Button>
+              <Button asChild>
+                <Link
+                  href={`/courses/${courseId}/chapters/${firstChapter?.id}`}
+                >
+                  View course chapters
+                </Link>
+              </Button>
             </>
           ) : (
             <>
