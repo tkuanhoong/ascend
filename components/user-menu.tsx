@@ -38,7 +38,7 @@ const UserMenu = ({ menuItems }: UserMenuProps) => {
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
           <User className="h-1 w-1" />

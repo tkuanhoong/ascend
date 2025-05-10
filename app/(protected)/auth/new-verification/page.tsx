@@ -4,7 +4,7 @@ import { FormErrorMessage } from "@/components/form/form-error-message";
 import { FormSuccessMessage } from "@/components/form/form-success-message";
 import { Button } from "@/components/ui/button";
 import apiClient from "@/lib/axios";
-import { GalleryVerticalEnd, Home } from "lucide-react";
+import { GalleryVerticalEnd, Home, LogIn } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -67,6 +67,12 @@ const NewVerificationPage = () => {
               <Link href="/">
                 <Home />
                 Back to Home
+              </Link>
+            </Button>
+            <Button className="w-full md:max-w-sm" asChild>
+              <Link href="/auth/login">
+                <LogIn />
+                Back to Login
               </Link>
             </Button>
           </div>
