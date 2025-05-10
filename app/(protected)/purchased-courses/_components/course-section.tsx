@@ -1,11 +1,25 @@
 "use client";
 
 import { CourseCard } from "@/components/course/course-card";
-import { Course } from "@/prisma/app/generated/prisma/client";
+import {
+  Category,
+  Course,
+  Section,
+} from "@/prisma/app/generated/prisma/client";
 import React from "react";
 
+type SectionWithChapters = Section & {
+  chapters: { id: string }[];
+};
+
+type CourseWithProgressWithCategory = Course & {
+  category: Category;
+  sections: SectionWithChapters[];
+  progress: number | null;
+};
+
 interface CourseSectionProps {
-  courses: Course[];
+  courses: CourseWithProgressWithCategory[];
   progressLabel: string;
 }
 
@@ -25,7 +39,11 @@ export const CourseSection = ({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {courses.map((course) => (
-          <CourseCard key={course.title} course={course} />
+          <CourseCard
+            key={course.id}
+            course={course}
+            progress={course.progress}
+          />
         ))}
       </div>
     </div>

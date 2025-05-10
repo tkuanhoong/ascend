@@ -1,6 +1,5 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
-import { getCourseById } from "@/data/course/get-course-by-id";
 import { formattedToMYR } from "@/lib/currency";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -17,24 +16,50 @@ export default async function CourseDetailsPage({
 }) {
   const user = await currentUser();
   const { courseId } = await params;
-  const course = await getCourseById(courseId);
 
-  const firstChapter = await db.chapter.findFirst({
+  const course = await db.course.findUnique({
     where: {
-      section: {
-        courseId,
-      },
+      id: courseId,
     },
-    select: {
-      id: true,
-      title: true,
-      
+    include: {
+      sections: {
+        where: {
+          isPublished: true,
+        },
+        orderBy: {
+          position: "asc",
+        },
+        select: {
+          chapters: {
+            select: {
+              id: true,
+              title: true,
+              isFree: true,
+            },
+            where: {
+              isPublished: true,
+            },
+            orderBy: {
+              position: "asc",
+            },
+          },
+        },
+      },
     },
   });
 
   if (!course || !user || !course.price) {
     redirect("/");
   }
+
+  const firstSection = course.sections[0];
+
+  const firstChapter = firstSection?.chapters[0];
+
+  const hasFreeChapter = course.sections
+    .flatMap((section) => section.chapters)
+    .some((chapter) => chapter.isFree);
+
   const purchase = await db.purchase.findUnique({
     where: {
       userId_courseId: {
@@ -43,6 +68,10 @@ export default async function CourseDetailsPage({
       },
     },
   });
+
+  if (purchase) {
+    redirect(`/courses/${course.id}/chapters/${firstChapter.id}`);
+  }
 
   return (
     <div className="container mx-auto p-6">
@@ -80,32 +109,18 @@ export default async function CourseDetailsPage({
 
         {/* Purchase Card (Right column) */}
         <div className="flex flex-col bg-white rounded-lg shadow p-6 space-y-4">
-          {purchase ? (
-            <>
-              <h2 className="text-xl font-semibold">
-                Congratulations! You have purchased this course!
-              </h2>
-              <p className="text-gray-600">Access your course now.</p>
-              <Button asChild>
-                <Link
-                  href={`/courses/${courseId}/chapters/${firstChapter?.id}`}
-                >
-                  View course chapters
-                </Link>
-              </Button>
-            </>
-          ) : (
-            <>
-              <h2 className="text-xl font-semibold">Purchase this course?</h2>
-              <p className="text-gray-600">
-                You will get access to all of the chapters.
-              </p>
+          <h2 className="text-xl font-semibold">Purchase this course?</h2>
+          <p className="text-gray-600">
+            You will get access to all of the chapters.
+          </p>
 
-              <PurchaseCourseButton courseId={course.id} price={course.price} />
-              <Button variant="outline" className="font-medium">
+          <PurchaseCourseButton courseId={course.id} price={course.price} />
+          {hasFreeChapter && (
+            <Button variant="outline" className="font-medium" asChild>
+              <Link href={`/courses/${course.id}/chapters/${firstChapter.id}`}>
                 Preview free chapters
-              </Button>
-            </>
+              </Link>
+            </Button>
           )}
         </div>
       </div>

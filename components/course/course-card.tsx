@@ -2,18 +2,21 @@ import { Card, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Link from "next/link";
-import { Course } from "@/prisma/app/generated/prisma/client";
 import { formattedToMYR } from "@/lib/currency";
+import { CourseProgress } from "./course-progress,";
+import { Badge } from "@/components/ui/badge";
+import { CourseWithProgressWithCategory } from "@/data/course/get-home-courses";
 
 interface CourseCardProps {
-  course: Course;
+  course: CourseWithProgressWithCategory;
+  progress: number | null;
 }
 
-export const CourseCard = ({ course }: CourseCardProps) => {
+export const CourseCard = ({ course, progress }: CourseCardProps) => {
   const courseDetailsLink = `/courses/${course.id}`;
   return (
     <Link href={courseDetailsLink}>
-      <Card>
+      <Card className="h-full">
         <CardHeader className="p-0">
           <AspectRatio ratio={16 / 9}>
             <Image
@@ -25,14 +28,25 @@ export const CourseCard = ({ course }: CourseCardProps) => {
           </AspectRatio>
         </CardHeader>
         <div className="flex items-center py-4 px-2">
-          <div className="flex-1 flex-col">
+          <div className="flex flex-1">
             <p className="text-sm font-semibold line-clamp-1 overflow-ellipsis">
               {course.title}
             </p>
           </div>
-          <div>
-            <p className="text-sm">{formattedToMYR(course.price ?? 0)}</p>
-          </div>
+          <Badge>{course.category?.name}</Badge>
+        </div>
+        <div className="px-2 pb-2 space-y-2">
+          {progress !== null ? (
+            <CourseProgress
+              variant={progress === 100 ? "success" : "default"}
+              size="sm"
+              value={progress}
+            />
+          ) : (
+            <p className="text-md md:text-sm font-medium text-slate-700 ml-auto">
+              {formattedToMYR(course.price ?? 0)}
+            </p>
+          )}
         </div>
       </Card>
     </Link>

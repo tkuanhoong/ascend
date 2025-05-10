@@ -68,6 +68,11 @@ export type Attachment = $Result.DefaultSelection<Prisma.$AttachmentPayload>
  * 
  */
 export type StripeCustomer = $Result.DefaultSelection<Prisma.$StripeCustomerPayload>
+/**
+ * Model UserProgress
+ * 
+ */
+export type UserProgress = $Result.DefaultSelection<Prisma.$UserProgressPayload>
 
 /**
  * Enums
@@ -349,6 +354,16 @@ export class PrismaClient<
     * ```
     */
   get stripeCustomer(): Prisma.StripeCustomerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userProgress`: Exposes CRUD operations for the **UserProgress** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserProgresses
+    * const userProgresses = await prisma.userProgress.findMany()
+    * ```
+    */
+  get userProgress(): Prisma.UserProgressDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -799,7 +814,8 @@ export namespace Prisma {
     Video: 'Video',
     Purchase: 'Purchase',
     Attachment: 'Attachment',
-    StripeCustomer: 'StripeCustomer'
+    StripeCustomer: 'StripeCustomer',
+    UserProgress: 'UserProgress'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -818,7 +834,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "verificationToken" | "passwordResetToken" | "course" | "category" | "section" | "chapter" | "video" | "purchase" | "attachment" | "stripeCustomer"
+      modelProps: "user" | "verificationToken" | "passwordResetToken" | "course" | "category" | "section" | "chapter" | "video" | "purchase" | "attachment" | "stripeCustomer" | "userProgress"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1548,6 +1564,72 @@ export namespace Prisma {
           }
         }
       }
+      UserProgress: {
+        payload: Prisma.$UserProgressPayload<ExtArgs>
+        fields: Prisma.UserProgressFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserProgressFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProgressPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserProgressFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProgressPayload>
+          }
+          findFirst: {
+            args: Prisma.UserProgressFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProgressPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserProgressFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProgressPayload>
+          }
+          findMany: {
+            args: Prisma.UserProgressFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProgressPayload>[]
+          }
+          create: {
+            args: Prisma.UserProgressCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProgressPayload>
+          }
+          createMany: {
+            args: Prisma.UserProgressCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.UserProgressDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProgressPayload>
+          }
+          update: {
+            args: Prisma.UserProgressUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProgressPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserProgressDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserProgressUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.UserProgressUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserProgressPayload>
+          }
+          aggregate: {
+            args: Prisma.UserProgressAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserProgress>
+          }
+          groupBy: {
+            args: Prisma.UserProgressGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserProgressGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserProgressCountArgs<ExtArgs>
+            result: $Utils.Optional<UserProgressCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1643,6 +1725,7 @@ export namespace Prisma {
     purchase?: PurchaseOmit
     attachment?: AttachmentOmit
     stripeCustomer?: StripeCustomerOmit
+    userProgress?: UserProgressOmit
   }
 
   /* Types for Logging */
@@ -1840,10 +1923,12 @@ export namespace Prisma {
 
   export type ChapterCountOutputType = {
     attachments: number
+    userProgress: number
   }
 
   export type ChapterCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attachments?: boolean | ChapterCountOutputTypeCountAttachmentsArgs
+    userProgress?: boolean | ChapterCountOutputTypeCountUserProgressArgs
   }
 
   // Custom InputTypes
@@ -1862,6 +1947,13 @@ export namespace Prisma {
    */
   export type ChapterCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttachmentWhereInput
+  }
+
+  /**
+   * ChapterCountOutputType without action
+   */
+  export type ChapterCountOutputTypeCountUserProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserProgressWhereInput
   }
 
 
@@ -7869,6 +7961,7 @@ export namespace Prisma {
     section?: boolean | SectionDefaultArgs<ExtArgs>
     video?: boolean | Chapter$videoArgs<ExtArgs>
     attachments?: boolean | Chapter$attachmentsArgs<ExtArgs>
+    userProgress?: boolean | Chapter$userProgressArgs<ExtArgs>
     _count?: boolean | ChapterCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chapter"]>
 
@@ -7892,6 +7985,7 @@ export namespace Prisma {
     section?: boolean | SectionDefaultArgs<ExtArgs>
     video?: boolean | Chapter$videoArgs<ExtArgs>
     attachments?: boolean | Chapter$attachmentsArgs<ExtArgs>
+    userProgress?: boolean | Chapter$userProgressArgs<ExtArgs>
     _count?: boolean | ChapterCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -7901,6 +7995,7 @@ export namespace Prisma {
       section: Prisma.$SectionPayload<ExtArgs>
       video: Prisma.$VideoPayload<ExtArgs> | null
       attachments: Prisma.$AttachmentPayload<ExtArgs>[]
+      userProgress: Prisma.$UserProgressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8256,6 +8351,7 @@ export namespace Prisma {
     section<T extends SectionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SectionDefaultArgs<ExtArgs>>): Prisma__SectionClient<$Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     video<T extends Chapter$videoArgs<ExtArgs> = {}>(args?: Subset<T, Chapter$videoArgs<ExtArgs>>): Prisma__VideoClient<$Result.GetResult<Prisma.$VideoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     attachments<T extends Chapter$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Chapter$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userProgress<T extends Chapter$userProgressArgs<ExtArgs> = {}>(args?: Subset<T, Chapter$userProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8678,6 +8774,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Chapter.userProgress
+   */
+  export type Chapter$userProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProgress
+     */
+    select?: UserProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProgress
+     */
+    omit?: UserProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProgressInclude<ExtArgs> | null
+    where?: UserProgressWhereInput
+    orderBy?: UserProgressOrderByWithRelationInput | UserProgressOrderByWithRelationInput[]
+    cursor?: UserProgressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserProgressScalarFieldEnum | UserProgressScalarFieldEnum[]
   }
 
   /**
@@ -12380,6 +12500,946 @@ export namespace Prisma {
 
 
   /**
+   * Model UserProgress
+   */
+
+  export type AggregateUserProgress = {
+    _count: UserProgressCountAggregateOutputType | null
+    _min: UserProgressMinAggregateOutputType | null
+    _max: UserProgressMaxAggregateOutputType | null
+  }
+
+  export type UserProgressMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    chapterId: string | null
+    isCompleted: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserProgressMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    chapterId: string | null
+    isCompleted: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserProgressCountAggregateOutputType = {
+    id: number
+    userId: number
+    chapterId: number
+    isCompleted: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserProgressMinAggregateInputType = {
+    id?: true
+    userId?: true
+    chapterId?: true
+    isCompleted?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserProgressMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    chapterId?: true
+    isCompleted?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserProgressCountAggregateInputType = {
+    id?: true
+    userId?: true
+    chapterId?: true
+    isCompleted?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserProgressAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserProgress to aggregate.
+     */
+    where?: UserProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserProgresses to fetch.
+     */
+    orderBy?: UserProgressOrderByWithRelationInput | UserProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserProgresses
+    **/
+    _count?: true | UserProgressCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserProgressMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserProgressMaxAggregateInputType
+  }
+
+  export type GetUserProgressAggregateType<T extends UserProgressAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserProgress]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserProgress[P]>
+      : GetScalarType<T[P], AggregateUserProgress[P]>
+  }
+
+
+
+
+  export type UserProgressGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserProgressWhereInput
+    orderBy?: UserProgressOrderByWithAggregationInput | UserProgressOrderByWithAggregationInput[]
+    by: UserProgressScalarFieldEnum[] | UserProgressScalarFieldEnum
+    having?: UserProgressScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserProgressCountAggregateInputType | true
+    _min?: UserProgressMinAggregateInputType
+    _max?: UserProgressMaxAggregateInputType
+  }
+
+  export type UserProgressGroupByOutputType = {
+    id: string
+    userId: string
+    chapterId: string
+    isCompleted: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: UserProgressCountAggregateOutputType | null
+    _min: UserProgressMinAggregateOutputType | null
+    _max: UserProgressMaxAggregateOutputType | null
+  }
+
+  type GetUserProgressGroupByPayload<T extends UserProgressGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserProgressGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserProgressGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserProgressGroupByOutputType[P]>
+            : GetScalarType<T[P], UserProgressGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserProgressSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    chapterId?: boolean
+    isCompleted?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    chapter?: boolean | ChapterDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userProgress"]>
+
+
+
+  export type UserProgressSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    chapterId?: boolean
+    isCompleted?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "chapterId" | "isCompleted" | "createdAt" | "updatedAt", ExtArgs["result"]["userProgress"]>
+  export type UserProgressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    chapter?: boolean | ChapterDefaultArgs<ExtArgs>
+  }
+
+  export type $UserProgressPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserProgress"
+    objects: {
+      chapter: Prisma.$ChapterPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      chapterId: string
+      isCompleted: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["userProgress"]>
+    composites: {}
+  }
+
+  type UserProgressGetPayload<S extends boolean | null | undefined | UserProgressDefaultArgs> = $Result.GetResult<Prisma.$UserProgressPayload, S>
+
+  type UserProgressCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserProgressFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserProgressCountAggregateInputType | true
+    }
+
+  export interface UserProgressDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserProgress'], meta: { name: 'UserProgress' } }
+    /**
+     * Find zero or one UserProgress that matches the filter.
+     * @param {UserProgressFindUniqueArgs} args - Arguments to find a UserProgress
+     * @example
+     * // Get one UserProgress
+     * const userProgress = await prisma.userProgress.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserProgressFindUniqueArgs>(args: SelectSubset<T, UserProgressFindUniqueArgs<ExtArgs>>): Prisma__UserProgressClient<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserProgress that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserProgressFindUniqueOrThrowArgs} args - Arguments to find a UserProgress
+     * @example
+     * // Get one UserProgress
+     * const userProgress = await prisma.userProgress.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserProgressFindUniqueOrThrowArgs>(args: SelectSubset<T, UserProgressFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserProgressClient<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserProgress that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProgressFindFirstArgs} args - Arguments to find a UserProgress
+     * @example
+     * // Get one UserProgress
+     * const userProgress = await prisma.userProgress.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserProgressFindFirstArgs>(args?: SelectSubset<T, UserProgressFindFirstArgs<ExtArgs>>): Prisma__UserProgressClient<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserProgress that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProgressFindFirstOrThrowArgs} args - Arguments to find a UserProgress
+     * @example
+     * // Get one UserProgress
+     * const userProgress = await prisma.userProgress.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserProgressFindFirstOrThrowArgs>(args?: SelectSubset<T, UserProgressFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserProgressClient<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserProgresses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProgressFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserProgresses
+     * const userProgresses = await prisma.userProgress.findMany()
+     * 
+     * // Get first 10 UserProgresses
+     * const userProgresses = await prisma.userProgress.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userProgressWithIdOnly = await prisma.userProgress.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserProgressFindManyArgs>(args?: SelectSubset<T, UserProgressFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserProgress.
+     * @param {UserProgressCreateArgs} args - Arguments to create a UserProgress.
+     * @example
+     * // Create one UserProgress
+     * const UserProgress = await prisma.userProgress.create({
+     *   data: {
+     *     // ... data to create a UserProgress
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserProgressCreateArgs>(args: SelectSubset<T, UserProgressCreateArgs<ExtArgs>>): Prisma__UserProgressClient<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserProgresses.
+     * @param {UserProgressCreateManyArgs} args - Arguments to create many UserProgresses.
+     * @example
+     * // Create many UserProgresses
+     * const userProgress = await prisma.userProgress.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserProgressCreateManyArgs>(args?: SelectSubset<T, UserProgressCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a UserProgress.
+     * @param {UserProgressDeleteArgs} args - Arguments to delete one UserProgress.
+     * @example
+     * // Delete one UserProgress
+     * const UserProgress = await prisma.userProgress.delete({
+     *   where: {
+     *     // ... filter to delete one UserProgress
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserProgressDeleteArgs>(args: SelectSubset<T, UserProgressDeleteArgs<ExtArgs>>): Prisma__UserProgressClient<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserProgress.
+     * @param {UserProgressUpdateArgs} args - Arguments to update one UserProgress.
+     * @example
+     * // Update one UserProgress
+     * const userProgress = await prisma.userProgress.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserProgressUpdateArgs>(args: SelectSubset<T, UserProgressUpdateArgs<ExtArgs>>): Prisma__UserProgressClient<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserProgresses.
+     * @param {UserProgressDeleteManyArgs} args - Arguments to filter UserProgresses to delete.
+     * @example
+     * // Delete a few UserProgresses
+     * const { count } = await prisma.userProgress.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserProgressDeleteManyArgs>(args?: SelectSubset<T, UserProgressDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserProgresses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProgressUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserProgresses
+     * const userProgress = await prisma.userProgress.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserProgressUpdateManyArgs>(args: SelectSubset<T, UserProgressUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserProgress.
+     * @param {UserProgressUpsertArgs} args - Arguments to update or create a UserProgress.
+     * @example
+     * // Update or create a UserProgress
+     * const userProgress = await prisma.userProgress.upsert({
+     *   create: {
+     *     // ... data to create a UserProgress
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserProgress we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserProgressUpsertArgs>(args: SelectSubset<T, UserProgressUpsertArgs<ExtArgs>>): Prisma__UserProgressClient<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserProgresses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProgressCountArgs} args - Arguments to filter UserProgresses to count.
+     * @example
+     * // Count the number of UserProgresses
+     * const count = await prisma.userProgress.count({
+     *   where: {
+     *     // ... the filter for the UserProgresses we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserProgressCountArgs>(
+      args?: Subset<T, UserProgressCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserProgressCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserProgress.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProgressAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserProgressAggregateArgs>(args: Subset<T, UserProgressAggregateArgs>): Prisma.PrismaPromise<GetUserProgressAggregateType<T>>
+
+    /**
+     * Group by UserProgress.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserProgressGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserProgressGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserProgressGroupByArgs['orderBy'] }
+        : { orderBy?: UserProgressGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserProgressGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserProgressGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserProgress model
+   */
+  readonly fields: UserProgressFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserProgress.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserProgressClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    chapter<T extends ChapterDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ChapterDefaultArgs<ExtArgs>>): Prisma__ChapterClient<$Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserProgress model
+   */
+  interface UserProgressFieldRefs {
+    readonly id: FieldRef<"UserProgress", 'String'>
+    readonly userId: FieldRef<"UserProgress", 'String'>
+    readonly chapterId: FieldRef<"UserProgress", 'String'>
+    readonly isCompleted: FieldRef<"UserProgress", 'Boolean'>
+    readonly createdAt: FieldRef<"UserProgress", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserProgress", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserProgress findUnique
+   */
+  export type UserProgressFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProgress
+     */
+    select?: UserProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProgress
+     */
+    omit?: UserProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserProgress to fetch.
+     */
+    where: UserProgressWhereUniqueInput
+  }
+
+  /**
+   * UserProgress findUniqueOrThrow
+   */
+  export type UserProgressFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProgress
+     */
+    select?: UserProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProgress
+     */
+    omit?: UserProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserProgress to fetch.
+     */
+    where: UserProgressWhereUniqueInput
+  }
+
+  /**
+   * UserProgress findFirst
+   */
+  export type UserProgressFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProgress
+     */
+    select?: UserProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProgress
+     */
+    omit?: UserProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserProgress to fetch.
+     */
+    where?: UserProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserProgresses to fetch.
+     */
+    orderBy?: UserProgressOrderByWithRelationInput | UserProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserProgresses.
+     */
+    cursor?: UserProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserProgresses.
+     */
+    distinct?: UserProgressScalarFieldEnum | UserProgressScalarFieldEnum[]
+  }
+
+  /**
+   * UserProgress findFirstOrThrow
+   */
+  export type UserProgressFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProgress
+     */
+    select?: UserProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProgress
+     */
+    omit?: UserProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserProgress to fetch.
+     */
+    where?: UserProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserProgresses to fetch.
+     */
+    orderBy?: UserProgressOrderByWithRelationInput | UserProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserProgresses.
+     */
+    cursor?: UserProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserProgresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserProgresses.
+     */
+    distinct?: UserProgressScalarFieldEnum | UserProgressScalarFieldEnum[]
+  }
+
+  /**
+   * UserProgress findMany
+   */
+  export type UserProgressFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProgress
+     */
+    select?: UserProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProgress
+     */
+    omit?: UserProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProgressInclude<ExtArgs> | null
+    /**
+     * Filter, which UserProgresses to fetch.
+     */
+    where?: UserProgressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserProgresses to fetch.
+     */
+    orderBy?: UserProgressOrderByWithRelationInput | UserProgressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserProgresses.
+     */
+    cursor?: UserProgressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserProgresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserProgresses.
+     */
+    skip?: number
+    distinct?: UserProgressScalarFieldEnum | UserProgressScalarFieldEnum[]
+  }
+
+  /**
+   * UserProgress create
+   */
+  export type UserProgressCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProgress
+     */
+    select?: UserProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProgress
+     */
+    omit?: UserProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProgressInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserProgress.
+     */
+    data: XOR<UserProgressCreateInput, UserProgressUncheckedCreateInput>
+  }
+
+  /**
+   * UserProgress createMany
+   */
+  export type UserProgressCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserProgresses.
+     */
+    data: UserProgressCreateManyInput | UserProgressCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserProgress update
+   */
+  export type UserProgressUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProgress
+     */
+    select?: UserProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProgress
+     */
+    omit?: UserProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProgressInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserProgress.
+     */
+    data: XOR<UserProgressUpdateInput, UserProgressUncheckedUpdateInput>
+    /**
+     * Choose, which UserProgress to update.
+     */
+    where: UserProgressWhereUniqueInput
+  }
+
+  /**
+   * UserProgress updateMany
+   */
+  export type UserProgressUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserProgresses.
+     */
+    data: XOR<UserProgressUpdateManyMutationInput, UserProgressUncheckedUpdateManyInput>
+    /**
+     * Filter which UserProgresses to update
+     */
+    where?: UserProgressWhereInput
+    /**
+     * Limit how many UserProgresses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserProgress upsert
+   */
+  export type UserProgressUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProgress
+     */
+    select?: UserProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProgress
+     */
+    omit?: UserProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProgressInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserProgress to update in case it exists.
+     */
+    where: UserProgressWhereUniqueInput
+    /**
+     * In case the UserProgress found by the `where` argument doesn't exist, create a new UserProgress with this data.
+     */
+    create: XOR<UserProgressCreateInput, UserProgressUncheckedCreateInput>
+    /**
+     * In case the UserProgress was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserProgressUpdateInput, UserProgressUncheckedUpdateInput>
+  }
+
+  /**
+   * UserProgress delete
+   */
+  export type UserProgressDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProgress
+     */
+    select?: UserProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProgress
+     */
+    omit?: UserProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProgressInclude<ExtArgs> | null
+    /**
+     * Filter which UserProgress to delete.
+     */
+    where: UserProgressWhereUniqueInput
+  }
+
+  /**
+   * UserProgress deleteMany
+   */
+  export type UserProgressDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserProgresses to delete
+     */
+    where?: UserProgressWhereInput
+    /**
+     * Limit how many UserProgresses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserProgress without action
+   */
+  export type UserProgressDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserProgress
+     */
+    select?: UserProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserProgress
+     */
+    omit?: UserProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserProgressInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -12531,6 +13591,18 @@ export namespace Prisma {
   export type StripeCustomerScalarFieldEnum = (typeof StripeCustomerScalarFieldEnum)[keyof typeof StripeCustomerScalarFieldEnum]
 
 
+  export const UserProgressScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    chapterId: 'chapterId',
+    isCompleted: 'isCompleted',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserProgressScalarFieldEnum = (typeof UserProgressScalarFieldEnum)[keyof typeof UserProgressScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -12654,6 +13726,15 @@ export namespace Prisma {
   };
 
   export type StripeCustomerOrderByRelevanceFieldEnum = (typeof StripeCustomerOrderByRelevanceFieldEnum)[keyof typeof StripeCustomerOrderByRelevanceFieldEnum]
+
+
+  export const UserProgressOrderByRelevanceFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    chapterId: 'chapterId'
+  };
+
+  export type UserProgressOrderByRelevanceFieldEnum = (typeof UserProgressOrderByRelevanceFieldEnum)[keyof typeof UserProgressOrderByRelevanceFieldEnum]
 
 
   /**
@@ -13134,6 +14215,7 @@ export namespace Prisma {
     section?: XOR<SectionScalarRelationFilter, SectionWhereInput>
     video?: XOR<VideoNullableScalarRelationFilter, VideoWhereInput> | null
     attachments?: AttachmentListRelationFilter
+    userProgress?: UserProgressListRelationFilter
   }
 
   export type ChapterOrderByWithRelationInput = {
@@ -13150,6 +14232,7 @@ export namespace Prisma {
     section?: SectionOrderByWithRelationInput
     video?: VideoOrderByWithRelationInput
     attachments?: AttachmentOrderByRelationAggregateInput
+    userProgress?: UserProgressOrderByRelationAggregateInput
     _relevance?: ChapterOrderByRelevanceInput
   }
 
@@ -13170,6 +14253,7 @@ export namespace Prisma {
     section?: XOR<SectionScalarRelationFilter, SectionWhereInput>
     video?: XOR<VideoNullableScalarRelationFilter, VideoWhereInput> | null
     attachments?: AttachmentListRelationFilter
+    userProgress?: UserProgressListRelationFilter
   }, "id">
 
   export type ChapterOrderByWithAggregationInput = {
@@ -13431,6 +14515,68 @@ export namespace Prisma {
     stripeCustomerId?: StringWithAggregatesFilter<"StripeCustomer"> | string
     createdAt?: DateTimeWithAggregatesFilter<"StripeCustomer"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"StripeCustomer"> | Date | string
+  }
+
+  export type UserProgressWhereInput = {
+    AND?: UserProgressWhereInput | UserProgressWhereInput[]
+    OR?: UserProgressWhereInput[]
+    NOT?: UserProgressWhereInput | UserProgressWhereInput[]
+    id?: StringFilter<"UserProgress"> | string
+    userId?: StringFilter<"UserProgress"> | string
+    chapterId?: StringFilter<"UserProgress"> | string
+    isCompleted?: BoolFilter<"UserProgress"> | boolean
+    createdAt?: DateTimeFilter<"UserProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"UserProgress"> | Date | string
+    chapter?: XOR<ChapterScalarRelationFilter, ChapterWhereInput>
+  }
+
+  export type UserProgressOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    chapterId?: SortOrder
+    isCompleted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    chapter?: ChapterOrderByWithRelationInput
+    _relevance?: UserProgressOrderByRelevanceInput
+  }
+
+  export type UserProgressWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_chapterId?: UserProgressUserIdChapterIdCompoundUniqueInput
+    AND?: UserProgressWhereInput | UserProgressWhereInput[]
+    OR?: UserProgressWhereInput[]
+    NOT?: UserProgressWhereInput | UserProgressWhereInput[]
+    userId?: StringFilter<"UserProgress"> | string
+    chapterId?: StringFilter<"UserProgress"> | string
+    isCompleted?: BoolFilter<"UserProgress"> | boolean
+    createdAt?: DateTimeFilter<"UserProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"UserProgress"> | Date | string
+    chapter?: XOR<ChapterScalarRelationFilter, ChapterWhereInput>
+  }, "id" | "userId_chapterId">
+
+  export type UserProgressOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    chapterId?: SortOrder
+    isCompleted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserProgressCountOrderByAggregateInput
+    _max?: UserProgressMaxOrderByAggregateInput
+    _min?: UserProgressMinOrderByAggregateInput
+  }
+
+  export type UserProgressScalarWhereWithAggregatesInput = {
+    AND?: UserProgressScalarWhereWithAggregatesInput | UserProgressScalarWhereWithAggregatesInput[]
+    OR?: UserProgressScalarWhereWithAggregatesInput[]
+    NOT?: UserProgressScalarWhereWithAggregatesInput | UserProgressScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserProgress"> | string
+    userId?: StringWithAggregatesFilter<"UserProgress"> | string
+    chapterId?: StringWithAggregatesFilter<"UserProgress"> | string
+    isCompleted?: BoolWithAggregatesFilter<"UserProgress"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"UserProgress"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserProgress"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -13873,6 +15019,7 @@ export namespace Prisma {
     section: SectionCreateNestedOneWithoutChaptersInput
     video?: VideoCreateNestedOneWithoutChapterInput
     attachments?: AttachmentCreateNestedManyWithoutChapterInput
+    userProgress?: UserProgressCreateNestedManyWithoutChapterInput
   }
 
   export type ChapterUncheckedCreateInput = {
@@ -13888,6 +15035,7 @@ export namespace Prisma {
     sectionId: string
     video?: VideoUncheckedCreateNestedOneWithoutChapterInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutChapterInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutChapterInput
   }
 
   export type ChapterUpdateInput = {
@@ -13903,6 +15051,7 @@ export namespace Prisma {
     section?: SectionUpdateOneRequiredWithoutChaptersNestedInput
     video?: VideoUpdateOneWithoutChapterNestedInput
     attachments?: AttachmentUpdateManyWithoutChapterNestedInput
+    userProgress?: UserProgressUpdateManyWithoutChapterNestedInput
   }
 
   export type ChapterUncheckedUpdateInput = {
@@ -13918,6 +15067,7 @@ export namespace Prisma {
     sectionId?: StringFieldUpdateOperationsInput | string
     video?: VideoUncheckedUpdateOneWithoutChapterNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutChapterNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutChapterNestedInput
   }
 
   export type ChapterCreateManyInput = {
@@ -14182,6 +15332,68 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     stripeCustomerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserProgressCreateInput = {
+    id?: string
+    userId: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    chapter: ChapterCreateNestedOneWithoutUserProgressInput
+  }
+
+  export type UserProgressUncheckedCreateInput = {
+    id?: string
+    userId: string
+    chapterId: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserProgressUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    chapter?: ChapterUpdateOneRequiredWithoutUserProgressNestedInput
+  }
+
+  export type UserProgressUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    chapterId?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserProgressCreateManyInput = {
+    id?: string
+    userId: string
+    chapterId: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserProgressUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserProgressUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    chapterId?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14759,7 +15971,17 @@ export namespace Prisma {
     none?: AttachmentWhereInput
   }
 
+  export type UserProgressListRelationFilter = {
+    every?: UserProgressWhereInput
+    some?: UserProgressWhereInput
+    none?: UserProgressWhereInput
+  }
+
   export type AttachmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserProgressOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14945,6 +16167,44 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     stripeCustomerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserProgressOrderByRelevanceInput = {
+    fields: UserProgressOrderByRelevanceFieldEnum | UserProgressOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type UserProgressUserIdChapterIdCompoundUniqueInput = {
+    userId: string
+    chapterId: string
+  }
+
+  export type UserProgressCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    chapterId?: SortOrder
+    isCompleted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserProgressMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    chapterId?: SortOrder
+    isCompleted?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserProgressMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    chapterId?: SortOrder
+    isCompleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15222,6 +16482,13 @@ export namespace Prisma {
     connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
+  export type UserProgressCreateNestedManyWithoutChapterInput = {
+    create?: XOR<UserProgressCreateWithoutChapterInput, UserProgressUncheckedCreateWithoutChapterInput> | UserProgressCreateWithoutChapterInput[] | UserProgressUncheckedCreateWithoutChapterInput[]
+    connectOrCreate?: UserProgressCreateOrConnectWithoutChapterInput | UserProgressCreateOrConnectWithoutChapterInput[]
+    createMany?: UserProgressCreateManyChapterInputEnvelope
+    connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+  }
+
   export type VideoUncheckedCreateNestedOneWithoutChapterInput = {
     create?: XOR<VideoCreateWithoutChapterInput, VideoUncheckedCreateWithoutChapterInput>
     connectOrCreate?: VideoCreateOrConnectWithoutChapterInput
@@ -15233,6 +16500,13 @@ export namespace Prisma {
     connectOrCreate?: AttachmentCreateOrConnectWithoutChapterInput | AttachmentCreateOrConnectWithoutChapterInput[]
     createMany?: AttachmentCreateManyChapterInputEnvelope
     connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+  }
+
+  export type UserProgressUncheckedCreateNestedManyWithoutChapterInput = {
+    create?: XOR<UserProgressCreateWithoutChapterInput, UserProgressUncheckedCreateWithoutChapterInput> | UserProgressCreateWithoutChapterInput[] | UserProgressUncheckedCreateWithoutChapterInput[]
+    connectOrCreate?: UserProgressCreateOrConnectWithoutChapterInput | UserProgressCreateOrConnectWithoutChapterInput[]
+    createMany?: UserProgressCreateManyChapterInputEnvelope
+    connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
   }
 
   export type SectionUpdateOneRequiredWithoutChaptersNestedInput = {
@@ -15267,6 +16541,20 @@ export namespace Prisma {
     deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
   }
 
+  export type UserProgressUpdateManyWithoutChapterNestedInput = {
+    create?: XOR<UserProgressCreateWithoutChapterInput, UserProgressUncheckedCreateWithoutChapterInput> | UserProgressCreateWithoutChapterInput[] | UserProgressUncheckedCreateWithoutChapterInput[]
+    connectOrCreate?: UserProgressCreateOrConnectWithoutChapterInput | UserProgressCreateOrConnectWithoutChapterInput[]
+    upsert?: UserProgressUpsertWithWhereUniqueWithoutChapterInput | UserProgressUpsertWithWhereUniqueWithoutChapterInput[]
+    createMany?: UserProgressCreateManyChapterInputEnvelope
+    set?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    disconnect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    delete?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    update?: UserProgressUpdateWithWhereUniqueWithoutChapterInput | UserProgressUpdateWithWhereUniqueWithoutChapterInput[]
+    updateMany?: UserProgressUpdateManyWithWhereWithoutChapterInput | UserProgressUpdateManyWithWhereWithoutChapterInput[]
+    deleteMany?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
+  }
+
   export type VideoUncheckedUpdateOneWithoutChapterNestedInput = {
     create?: XOR<VideoCreateWithoutChapterInput, VideoUncheckedCreateWithoutChapterInput>
     connectOrCreate?: VideoCreateOrConnectWithoutChapterInput
@@ -15289,6 +16577,20 @@ export namespace Prisma {
     update?: AttachmentUpdateWithWhereUniqueWithoutChapterInput | AttachmentUpdateWithWhereUniqueWithoutChapterInput[]
     updateMany?: AttachmentUpdateManyWithWhereWithoutChapterInput | AttachmentUpdateManyWithWhereWithoutChapterInput[]
     deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
+  export type UserProgressUncheckedUpdateManyWithoutChapterNestedInput = {
+    create?: XOR<UserProgressCreateWithoutChapterInput, UserProgressUncheckedCreateWithoutChapterInput> | UserProgressCreateWithoutChapterInput[] | UserProgressUncheckedCreateWithoutChapterInput[]
+    connectOrCreate?: UserProgressCreateOrConnectWithoutChapterInput | UserProgressCreateOrConnectWithoutChapterInput[]
+    upsert?: UserProgressUpsertWithWhereUniqueWithoutChapterInput | UserProgressUpsertWithWhereUniqueWithoutChapterInput[]
+    createMany?: UserProgressCreateManyChapterInputEnvelope
+    set?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    disconnect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    delete?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    connect?: UserProgressWhereUniqueInput | UserProgressWhereUniqueInput[]
+    update?: UserProgressUpdateWithWhereUniqueWithoutChapterInput | UserProgressUpdateWithWhereUniqueWithoutChapterInput[]
+    updateMany?: UserProgressUpdateManyWithWhereWithoutChapterInput | UserProgressUpdateManyWithWhereWithoutChapterInput[]
+    deleteMany?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
   }
 
   export type ChapterCreateNestedOneWithoutVideoInput = {
@@ -15331,6 +16633,20 @@ export namespace Prisma {
     upsert?: ChapterUpsertWithoutAttachmentsInput
     connect?: ChapterWhereUniqueInput
     update?: XOR<XOR<ChapterUpdateToOneWithWhereWithoutAttachmentsInput, ChapterUpdateWithoutAttachmentsInput>, ChapterUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type ChapterCreateNestedOneWithoutUserProgressInput = {
+    create?: XOR<ChapterCreateWithoutUserProgressInput, ChapterUncheckedCreateWithoutUserProgressInput>
+    connectOrCreate?: ChapterCreateOrConnectWithoutUserProgressInput
+    connect?: ChapterWhereUniqueInput
+  }
+
+  export type ChapterUpdateOneRequiredWithoutUserProgressNestedInput = {
+    create?: XOR<ChapterCreateWithoutUserProgressInput, ChapterUncheckedCreateWithoutUserProgressInput>
+    connectOrCreate?: ChapterCreateOrConnectWithoutUserProgressInput
+    upsert?: ChapterUpsertWithoutUserProgressInput
+    connect?: ChapterWhereUniqueInput
+    update?: XOR<XOR<ChapterUpdateToOneWithWhereWithoutUserProgressInput, ChapterUpdateWithoutUserProgressInput>, ChapterUncheckedUpdateWithoutUserProgressInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -15880,6 +17196,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     video?: VideoCreateNestedOneWithoutChapterInput
     attachments?: AttachmentCreateNestedManyWithoutChapterInput
+    userProgress?: UserProgressCreateNestedManyWithoutChapterInput
   }
 
   export type ChapterUncheckedCreateWithoutSectionInput = {
@@ -15894,6 +17211,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     video?: VideoUncheckedCreateNestedOneWithoutChapterInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutChapterInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutChapterInput
   }
 
   export type ChapterCreateOrConnectWithoutSectionInput = {
@@ -16055,6 +17373,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserProgressCreateWithoutChapterInput = {
+    id?: string
+    userId: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserProgressUncheckedCreateWithoutChapterInput = {
+    id?: string
+    userId: string
+    isCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserProgressCreateOrConnectWithoutChapterInput = {
+    where: UserProgressWhereUniqueInput
+    create: XOR<UserProgressCreateWithoutChapterInput, UserProgressUncheckedCreateWithoutChapterInput>
+  }
+
+  export type UserProgressCreateManyChapterInputEnvelope = {
+    data: UserProgressCreateManyChapterInput | UserProgressCreateManyChapterInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SectionUpsertWithoutChaptersInput = {
     update: XOR<SectionUpdateWithoutChaptersInput, SectionUncheckedUpdateWithoutChaptersInput>
     create: XOR<SectionCreateWithoutChaptersInput, SectionUncheckedCreateWithoutChaptersInput>
@@ -16145,6 +17489,34 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Attachment"> | Date | string
   }
 
+  export type UserProgressUpsertWithWhereUniqueWithoutChapterInput = {
+    where: UserProgressWhereUniqueInput
+    update: XOR<UserProgressUpdateWithoutChapterInput, UserProgressUncheckedUpdateWithoutChapterInput>
+    create: XOR<UserProgressCreateWithoutChapterInput, UserProgressUncheckedCreateWithoutChapterInput>
+  }
+
+  export type UserProgressUpdateWithWhereUniqueWithoutChapterInput = {
+    where: UserProgressWhereUniqueInput
+    data: XOR<UserProgressUpdateWithoutChapterInput, UserProgressUncheckedUpdateWithoutChapterInput>
+  }
+
+  export type UserProgressUpdateManyWithWhereWithoutChapterInput = {
+    where: UserProgressScalarWhereInput
+    data: XOR<UserProgressUpdateManyMutationInput, UserProgressUncheckedUpdateManyWithoutChapterInput>
+  }
+
+  export type UserProgressScalarWhereInput = {
+    AND?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
+    OR?: UserProgressScalarWhereInput[]
+    NOT?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
+    id?: StringFilter<"UserProgress"> | string
+    userId?: StringFilter<"UserProgress"> | string
+    chapterId?: StringFilter<"UserProgress"> | string
+    isCompleted?: BoolFilter<"UserProgress"> | boolean
+    createdAt?: DateTimeFilter<"UserProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"UserProgress"> | Date | string
+  }
+
   export type ChapterCreateWithoutVideoInput = {
     id?: string
     title: string
@@ -16157,6 +17529,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     section: SectionCreateNestedOneWithoutChaptersInput
     attachments?: AttachmentCreateNestedManyWithoutChapterInput
+    userProgress?: UserProgressCreateNestedManyWithoutChapterInput
   }
 
   export type ChapterUncheckedCreateWithoutVideoInput = {
@@ -16171,6 +17544,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sectionId: string
     attachments?: AttachmentUncheckedCreateNestedManyWithoutChapterInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutChapterInput
   }
 
   export type ChapterCreateOrConnectWithoutVideoInput = {
@@ -16201,6 +17575,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     section?: SectionUpdateOneRequiredWithoutChaptersNestedInput
     attachments?: AttachmentUpdateManyWithoutChapterNestedInput
+    userProgress?: UserProgressUpdateManyWithoutChapterNestedInput
   }
 
   export type ChapterUncheckedUpdateWithoutVideoInput = {
@@ -16215,6 +17590,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sectionId?: StringFieldUpdateOperationsInput | string
     attachments?: AttachmentUncheckedUpdateManyWithoutChapterNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutChapterNestedInput
   }
 
   export type CourseCreateWithoutPurchasesInput = {
@@ -16305,6 +17681,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     section: SectionCreateNestedOneWithoutChaptersInput
     video?: VideoCreateNestedOneWithoutChapterInput
+    userProgress?: UserProgressCreateNestedManyWithoutChapterInput
   }
 
   export type ChapterUncheckedCreateWithoutAttachmentsInput = {
@@ -16319,6 +17696,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sectionId: string
     video?: VideoUncheckedCreateNestedOneWithoutChapterInput
+    userProgress?: UserProgressUncheckedCreateNestedManyWithoutChapterInput
   }
 
   export type ChapterCreateOrConnectWithoutAttachmentsInput = {
@@ -16349,6 +17727,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     section?: SectionUpdateOneRequiredWithoutChaptersNestedInput
     video?: VideoUpdateOneWithoutChapterNestedInput
+    userProgress?: UserProgressUpdateManyWithoutChapterNestedInput
   }
 
   export type ChapterUncheckedUpdateWithoutAttachmentsInput = {
@@ -16363,6 +17742,83 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sectionId?: StringFieldUpdateOperationsInput | string
     video?: VideoUncheckedUpdateOneWithoutChapterNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutChapterNestedInput
+  }
+
+  export type ChapterCreateWithoutUserProgressInput = {
+    id?: string
+    title: string
+    description?: string | null
+    position: number
+    isFree?: boolean
+    isPublished?: boolean
+    videoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    section: SectionCreateNestedOneWithoutChaptersInput
+    video?: VideoCreateNestedOneWithoutChapterInput
+    attachments?: AttachmentCreateNestedManyWithoutChapterInput
+  }
+
+  export type ChapterUncheckedCreateWithoutUserProgressInput = {
+    id?: string
+    title: string
+    description?: string | null
+    position: number
+    isFree?: boolean
+    isPublished?: boolean
+    videoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sectionId: string
+    video?: VideoUncheckedCreateNestedOneWithoutChapterInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutChapterInput
+  }
+
+  export type ChapterCreateOrConnectWithoutUserProgressInput = {
+    where: ChapterWhereUniqueInput
+    create: XOR<ChapterCreateWithoutUserProgressInput, ChapterUncheckedCreateWithoutUserProgressInput>
+  }
+
+  export type ChapterUpsertWithoutUserProgressInput = {
+    update: XOR<ChapterUpdateWithoutUserProgressInput, ChapterUncheckedUpdateWithoutUserProgressInput>
+    create: XOR<ChapterCreateWithoutUserProgressInput, ChapterUncheckedCreateWithoutUserProgressInput>
+    where?: ChapterWhereInput
+  }
+
+  export type ChapterUpdateToOneWithWhereWithoutUserProgressInput = {
+    where?: ChapterWhereInput
+    data: XOR<ChapterUpdateWithoutUserProgressInput, ChapterUncheckedUpdateWithoutUserProgressInput>
+  }
+
+  export type ChapterUpdateWithoutUserProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    isFree?: BoolFieldUpdateOperationsInput | boolean
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    section?: SectionUpdateOneRequiredWithoutChaptersNestedInput
+    video?: VideoUpdateOneWithoutChapterNestedInput
+    attachments?: AttachmentUpdateManyWithoutChapterNestedInput
+  }
+
+  export type ChapterUncheckedUpdateWithoutUserProgressInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    isFree?: BoolFieldUpdateOperationsInput | boolean
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sectionId?: StringFieldUpdateOperationsInput | string
+    video?: VideoUncheckedUpdateOneWithoutChapterNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutChapterNestedInput
   }
 
   export type PurchaseCreateManyCourseInput = {
@@ -16523,6 +17979,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     video?: VideoUpdateOneWithoutChapterNestedInput
     attachments?: AttachmentUpdateManyWithoutChapterNestedInput
+    userProgress?: UserProgressUpdateManyWithoutChapterNestedInput
   }
 
   export type ChapterUncheckedUpdateWithoutSectionInput = {
@@ -16537,6 +17994,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     video?: VideoUncheckedUpdateOneWithoutChapterNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutChapterNestedInput
+    userProgress?: UserProgressUncheckedUpdateManyWithoutChapterNestedInput
   }
 
   export type ChapterUncheckedUpdateManyWithoutSectionInput = {
@@ -16555,6 +18013,14 @@ export namespace Prisma {
     id?: string
     name: string
     url: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserProgressCreateManyChapterInput = {
+    id?: string
+    userId: string
+    isCompleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -16579,6 +18045,30 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserProgressUpdateWithoutChapterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserProgressUncheckedUpdateWithoutChapterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserProgressUncheckedUpdateManyWithoutChapterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isCompleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

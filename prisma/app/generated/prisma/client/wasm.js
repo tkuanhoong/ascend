@@ -222,6 +222,15 @@ exports.Prisma.StripeCustomerScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.UserProgressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  chapterId: 'chapterId',
+  isCompleted: 'isCompleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -307,6 +316,12 @@ exports.Prisma.StripeCustomerOrderByRelevanceFieldEnum = {
   userId: 'userId',
   stripeCustomerId: 'stripeCustomerId'
 };
+
+exports.Prisma.UserProgressOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  chapterId: 'chapterId'
+};
 exports.UserRole = exports.$Enums.UserRole = {
   USER: 'USER',
   ADMIN: 'ADMIN'
@@ -338,7 +353,8 @@ exports.Prisma.ModelName = {
   Video: 'Video',
   Purchase: 'Purchase',
   Attachment: 'Attachment',
-  StripeCustomer: 'StripeCustomer'
+  StripeCustomer: 'StripeCustomer',
+  UserProgress: 'UserProgress'
 };
 
 /**
