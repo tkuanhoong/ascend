@@ -22,6 +22,8 @@
     "@hookform/resolvers": "^4.1.0",
     "@mux/mux-node": "^11.0.2",
     "@mux/mux-player-react": "^3.3.4",
+    "@pdfme/common": "^5.3.16",
+    "@pdfme/generator": "^5.3.16",
     "@prisma/client": "^6.6.0",
     "@radix-ui/react-alert-dialog": "^1.1.7",
     "@radix-ui/react-aspect-ratio": "^1.1.2",

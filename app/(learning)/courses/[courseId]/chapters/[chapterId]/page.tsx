@@ -30,7 +30,9 @@ export default async function ChapterPage({
   if (!chapter) {
     redirect("/");
   }
-  const isPurchasedOrFree = !!purchase || chapter.isFree;
+
+  const isPurchased = !!purchase;
+  const isPurchasedOrFree = !!isPurchased || chapter.isFree;
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 bg-slate-50">
@@ -44,7 +46,7 @@ export default async function ChapterPage({
             />
           </AspectRatio>
           <div className="flex flex-col space-y-3">
-            {!!purchase && (
+            {isPurchased && (
               <MarkCompletedButton
                 sectionId={chapter.sectionId}
                 isCompleted={userProgress?.isCompleted ?? false}

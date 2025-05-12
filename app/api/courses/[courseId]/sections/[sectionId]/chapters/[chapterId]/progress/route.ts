@@ -1,9 +1,10 @@
+import { getCourseProgress } from "@/data/course/get-course-progress";
 import { currentUserId } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function PUT(req: Request, { params }: { params: { chapterId: string } }) {
-    const { chapterId } = await params;
+export async function PUT(req: Request, { params }: { params: { courseId: string, chapterId: string } }) {
+    const { courseId, chapterId } = await params;
     try {
         const userId = await currentUserId();
         const { isCompleted } = await req.json();
@@ -26,6 +27,12 @@ export async function PUT(req: Request, { params }: { params: { chapterId: strin
                 isCompleted
             }
         });
+
+        const courseProgress = await getCourseProgress({ userId, courseId });
+
+        if(courseProgress === 100){
+            
+        }
 
         return NextResponse.json(userProgress);
 
