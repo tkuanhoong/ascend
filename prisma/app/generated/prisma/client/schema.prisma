@@ -39,6 +39,8 @@ model User {
   password         String?
   role             UserRole  @default(USER)
 
+  purchases Purchase[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -144,15 +146,17 @@ model Video {
 
 model Purchase {
   id        String   @id @default(cuid())
-  userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([userId, courseId])
-  @@index([courseId])
+  @@index([courseId, userId])
 }
 
 model Attachment {

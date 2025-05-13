@@ -1816,6 +1816,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    purchases: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    purchases?: boolean | UserCountOutputTypeCountPurchasesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPurchasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PurchaseWhereInput
+  }
+
+
+  /**
    * Count Type CourseCountOutputType
    */
 
@@ -2165,6 +2196,8 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    purchases?: boolean | User$purchasesArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
 
@@ -2183,10 +2216,16 @@ export namespace Prisma {
   }
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "identificationNo" | "emailVerified" | "image" | "password" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    purchases?: boolean | User$purchasesArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
+  }
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
-    objects: {}
+    objects: {
+      purchases: Prisma.$PurchasePayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string | null
@@ -2538,6 +2577,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    purchases<T extends User$purchasesArgs<ExtArgs> = {}>(args?: Subset<T, User$purchasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2594,6 +2634,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -2612,6 +2656,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -2629,6 +2677,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which User to fetch.
      */
@@ -2678,6 +2730,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where?: UserWhereInput
@@ -2726,6 +2782,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which Users to fetch.
      */
     where?: UserWhereInput
@@ -2769,6 +2829,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * The data needed to create a User.
      */
     data: XOR<UserCreateInput, UserUncheckedCreateInput>
@@ -2797,6 +2861,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * The data needed to update a User.
      */
@@ -2838,6 +2906,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * The filter to search for the User to update in case it exists.
      */
     where: UserWhereUniqueInput
@@ -2864,6 +2936,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter which User to delete.
      */
     where: UserWhereUniqueInput
@@ -2884,6 +2960,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.purchases
+   */
+  export type User$purchasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Purchase
+     */
+    select?: PurchaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Purchase
+     */
+    omit?: PurchaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PurchaseInclude<ExtArgs> | null
+    where?: PurchaseWhereInput
+    orderBy?: PurchaseOrderByWithRelationInput | PurchaseOrderByWithRelationInput[]
+    cursor?: PurchaseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PurchaseScalarFieldEnum | PurchaseScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2895,6 +2995,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
   }
 
 
@@ -9760,52 +9864,52 @@ export namespace Prisma {
 
   export type PurchaseMinAggregateOutputType = {
     id: string | null
-    userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     courseId: string | null
+    userId: string | null
   }
 
   export type PurchaseMaxAggregateOutputType = {
     id: string | null
-    userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     courseId: string | null
+    userId: string | null
   }
 
   export type PurchaseCountAggregateOutputType = {
     id: number
-    userId: number
     createdAt: number
     updatedAt: number
     courseId: number
+    userId: number
     _all: number
   }
 
 
   export type PurchaseMinAggregateInputType = {
     id?: true
-    userId?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
+    userId?: true
   }
 
   export type PurchaseMaxAggregateInputType = {
     id?: true
-    userId?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
+    userId?: true
   }
 
   export type PurchaseCountAggregateInputType = {
     id?: true
-    userId?: true
     createdAt?: true
     updatedAt?: true
     courseId?: true
+    userId?: true
     _all?: true
   }
 
@@ -9883,10 +9987,10 @@ export namespace Prisma {
 
   export type PurchaseGroupByOutputType = {
     id: string
-    userId: string
     createdAt: Date
     updatedAt: Date
     courseId: string
+    userId: string
     _count: PurchaseCountAggregateOutputType | null
     _min: PurchaseMinAggregateOutputType | null
     _max: PurchaseMaxAggregateOutputType | null
@@ -9908,39 +10012,42 @@ export namespace Prisma {
 
   export type PurchaseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
+    userId?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["purchase"]>
 
 
 
   export type PurchaseSelectScalar = {
     id?: boolean
-    userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     courseId?: boolean
+    userId?: boolean
   }
 
-  export type PurchaseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "createdAt" | "updatedAt" | "courseId", ExtArgs["result"]["purchase"]>
+  export type PurchaseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "courseId" | "userId", ExtArgs["result"]["purchase"]>
   export type PurchaseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $PurchasePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Purchase"
     objects: {
       course: Prisma.$CoursePayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: string
       createdAt: Date
       updatedAt: Date
       courseId: string
+      userId: string
     }, ExtArgs["result"]["purchase"]>
     composites: {}
   }
@@ -10282,6 +10389,7 @@ export namespace Prisma {
   export interface Prisma__PurchaseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10312,10 +10420,10 @@ export namespace Prisma {
    */
   interface PurchaseFieldRefs {
     readonly id: FieldRef<"Purchase", 'String'>
-    readonly userId: FieldRef<"Purchase", 'String'>
     readonly createdAt: FieldRef<"Purchase", 'DateTime'>
     readonly updatedAt: FieldRef<"Purchase", 'DateTime'>
     readonly courseId: FieldRef<"Purchase", 'String'>
+    readonly userId: FieldRef<"Purchase", 'String'>
   }
     
 
@@ -13559,10 +13667,10 @@ export namespace Prisma {
 
   export const PurchaseScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    courseId: 'courseId'
+    courseId: 'courseId',
+    userId: 'userId'
   };
 
   export type PurchaseScalarFieldEnum = (typeof PurchaseScalarFieldEnum)[keyof typeof PurchaseScalarFieldEnum]
@@ -13702,8 +13810,8 @@ export namespace Prisma {
 
   export const PurchaseOrderByRelevanceFieldEnum: {
     id: 'id',
-    userId: 'userId',
-    courseId: 'courseId'
+    courseId: 'courseId',
+    userId: 'userId'
   };
 
   export type PurchaseOrderByRelevanceFieldEnum = (typeof PurchaseOrderByRelevanceFieldEnum)[keyof typeof PurchaseOrderByRelevanceFieldEnum]
@@ -13815,6 +13923,7 @@ export namespace Prisma {
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    purchases?: PurchaseListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13828,6 +13937,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    purchases?: PurchaseOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -13845,6 +13955,7 @@ export namespace Prisma {
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    purchases?: PurchaseListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -14351,20 +14462,22 @@ export namespace Prisma {
     OR?: PurchaseWhereInput[]
     NOT?: PurchaseWhereInput | PurchaseWhereInput[]
     id?: StringFilter<"Purchase"> | string
-    userId?: StringFilter<"Purchase"> | string
     createdAt?: DateTimeFilter<"Purchase"> | Date | string
     updatedAt?: DateTimeFilter<"Purchase"> | Date | string
     courseId?: StringFilter<"Purchase"> | string
+    userId?: StringFilter<"Purchase"> | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type PurchaseOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    userId?: SortOrder
     course?: CourseOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
     _relevance?: PurchaseOrderByRelevanceInput
   }
 
@@ -14374,19 +14487,20 @@ export namespace Prisma {
     AND?: PurchaseWhereInput | PurchaseWhereInput[]
     OR?: PurchaseWhereInput[]
     NOT?: PurchaseWhereInput | PurchaseWhereInput[]
-    userId?: StringFilter<"Purchase"> | string
     createdAt?: DateTimeFilter<"Purchase"> | Date | string
     updatedAt?: DateTimeFilter<"Purchase"> | Date | string
     courseId?: StringFilter<"Purchase"> | string
+    userId?: StringFilter<"Purchase"> | string
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId_courseId">
 
   export type PurchaseOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    userId?: SortOrder
     _count?: PurchaseCountOrderByAggregateInput
     _max?: PurchaseMaxOrderByAggregateInput
     _min?: PurchaseMinOrderByAggregateInput
@@ -14397,10 +14511,10 @@ export namespace Prisma {
     OR?: PurchaseScalarWhereWithAggregatesInput[]
     NOT?: PurchaseScalarWhereWithAggregatesInput | PurchaseScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Purchase"> | string
-    userId?: StringWithAggregatesFilter<"Purchase"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Purchase"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Purchase"> | Date | string
     courseId?: StringWithAggregatesFilter<"Purchase"> | string
+    userId?: StringWithAggregatesFilter<"Purchase"> | string
   }
 
   export type AttachmentWhereInput = {
@@ -14590,6 +14704,7 @@ export namespace Prisma {
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
+    purchases?: PurchaseCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -14603,6 +14718,7 @@ export namespace Prisma {
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
+    purchases?: PurchaseUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -14616,6 +14732,7 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchases?: PurchaseUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -14629,6 +14746,7 @@ export namespace Prisma {
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchases?: PurchaseUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -15165,57 +15283,56 @@ export namespace Prisma {
 
   export type PurchaseCreateInput = {
     id?: string
-    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutPurchasesInput
+    user: UserCreateNestedOneWithoutPurchasesInput
   }
 
   export type PurchaseUncheckedCreateInput = {
     id?: string
-    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
+    userId: string
   }
 
   export type PurchaseUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutPurchasesNestedInput
+    user?: UserUpdateOneRequiredWithoutPurchasesNestedInput
   }
 
   export type PurchaseUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PurchaseCreateManyInput = {
     id?: string
-    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     courseId: string
+    userId: string
   }
 
   export type PurchaseUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PurchaseUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type AttachmentCreateInput = {
@@ -15457,9 +15574,19 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type PurchaseListRelationFilter = {
+    every?: PurchaseWhereInput
+    some?: PurchaseWhereInput
+    none?: PurchaseWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type PurchaseOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserOrderByRelevanceInput = {
@@ -15668,20 +15795,10 @@ export namespace Prisma {
     isNot?: CategoryWhereInput | null
   }
 
-  export type PurchaseListRelationFilter = {
-    every?: PurchaseWhereInput
-    some?: PurchaseWhereInput
-    none?: PurchaseWhereInput
-  }
-
   export type SectionListRelationFilter = {
     every?: SectionWhereInput
     some?: SectionWhereInput
     none?: SectionWhereInput
-  }
-
-  export type PurchaseOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type SectionOrderByRelationAggregateInput = {
@@ -16073,6 +16190,11 @@ export namespace Prisma {
     chapterId?: SortOrder
   }
 
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
   export type PurchaseOrderByRelevanceInput = {
     fields: PurchaseOrderByRelevanceFieldEnum | PurchaseOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -16086,26 +16208,26 @@ export namespace Prisma {
 
   export type PurchaseCountOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    userId?: SortOrder
   }
 
   export type PurchaseMaxOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    userId?: SortOrder
   }
 
   export type PurchaseMinOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courseId?: SortOrder
+    userId?: SortOrder
   }
 
   export type AttachmentOrderByRelevanceInput = {
@@ -16209,6 +16331,20 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type PurchaseCreateNestedManyWithoutUserInput = {
+    create?: XOR<PurchaseCreateWithoutUserInput, PurchaseUncheckedCreateWithoutUserInput> | PurchaseCreateWithoutUserInput[] | PurchaseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PurchaseCreateOrConnectWithoutUserInput | PurchaseCreateOrConnectWithoutUserInput[]
+    createMany?: PurchaseCreateManyUserInputEnvelope
+    connect?: PurchaseWhereUniqueInput | PurchaseWhereUniqueInput[]
+  }
+
+  export type PurchaseUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PurchaseCreateWithoutUserInput, PurchaseUncheckedCreateWithoutUserInput> | PurchaseCreateWithoutUserInput[] | PurchaseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PurchaseCreateOrConnectWithoutUserInput | PurchaseCreateOrConnectWithoutUserInput[]
+    createMany?: PurchaseCreateManyUserInputEnvelope
+    connect?: PurchaseWhereUniqueInput | PurchaseWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -16227,6 +16363,34 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type PurchaseUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PurchaseCreateWithoutUserInput, PurchaseUncheckedCreateWithoutUserInput> | PurchaseCreateWithoutUserInput[] | PurchaseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PurchaseCreateOrConnectWithoutUserInput | PurchaseCreateOrConnectWithoutUserInput[]
+    upsert?: PurchaseUpsertWithWhereUniqueWithoutUserInput | PurchaseUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PurchaseCreateManyUserInputEnvelope
+    set?: PurchaseWhereUniqueInput | PurchaseWhereUniqueInput[]
+    disconnect?: PurchaseWhereUniqueInput | PurchaseWhereUniqueInput[]
+    delete?: PurchaseWhereUniqueInput | PurchaseWhereUniqueInput[]
+    connect?: PurchaseWhereUniqueInput | PurchaseWhereUniqueInput[]
+    update?: PurchaseUpdateWithWhereUniqueWithoutUserInput | PurchaseUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PurchaseUpdateManyWithWhereWithoutUserInput | PurchaseUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PurchaseScalarWhereInput | PurchaseScalarWhereInput[]
+  }
+
+  export type PurchaseUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PurchaseCreateWithoutUserInput, PurchaseUncheckedCreateWithoutUserInput> | PurchaseCreateWithoutUserInput[] | PurchaseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PurchaseCreateOrConnectWithoutUserInput | PurchaseCreateOrConnectWithoutUserInput[]
+    upsert?: PurchaseUpsertWithWhereUniqueWithoutUserInput | PurchaseUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PurchaseCreateManyUserInputEnvelope
+    set?: PurchaseWhereUniqueInput | PurchaseWhereUniqueInput[]
+    disconnect?: PurchaseWhereUniqueInput | PurchaseWhereUniqueInput[]
+    delete?: PurchaseWhereUniqueInput | PurchaseWhereUniqueInput[]
+    connect?: PurchaseWhereUniqueInput | PurchaseWhereUniqueInput[]
+    update?: PurchaseUpdateWithWhereUniqueWithoutUserInput | PurchaseUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PurchaseUpdateManyWithWhereWithoutUserInput | PurchaseUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PurchaseScalarWhereInput | PurchaseScalarWhereInput[]
   }
 
   export type CategoryCreateNestedOneWithoutCoursesInput = {
@@ -16613,12 +16777,26 @@ export namespace Prisma {
     connect?: CourseWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutPurchasesInput = {
+    create?: XOR<UserCreateWithoutPurchasesInput, UserUncheckedCreateWithoutPurchasesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPurchasesInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type CourseUpdateOneRequiredWithoutPurchasesNestedInput = {
     create?: XOR<CourseCreateWithoutPurchasesInput, CourseUncheckedCreateWithoutPurchasesInput>
     connectOrCreate?: CourseCreateOrConnectWithoutPurchasesInput
     upsert?: CourseUpsertWithoutPurchasesInput
     connect?: CourseWhereUniqueInput
     update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutPurchasesInput, CourseUpdateWithoutPurchasesInput>, CourseUncheckedUpdateWithoutPurchasesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPurchasesNestedInput = {
+    create?: XOR<UserCreateWithoutPurchasesInput, UserUncheckedCreateWithoutPurchasesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPurchasesInput
+    upsert?: UserUpsertWithoutPurchasesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPurchasesInput, UserUpdateWithoutPurchasesInput>, UserUncheckedUpdateWithoutPurchasesInput>
   }
 
   export type ChapterCreateNestedOneWithoutAttachmentsInput = {
@@ -16921,6 +17099,57 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type PurchaseCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    course: CourseCreateNestedOneWithoutPurchasesInput
+  }
+
+  export type PurchaseUncheckedCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    courseId: string
+  }
+
+  export type PurchaseCreateOrConnectWithoutUserInput = {
+    where: PurchaseWhereUniqueInput
+    create: XOR<PurchaseCreateWithoutUserInput, PurchaseUncheckedCreateWithoutUserInput>
+  }
+
+  export type PurchaseCreateManyUserInputEnvelope = {
+    data: PurchaseCreateManyUserInput | PurchaseCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PurchaseUpsertWithWhereUniqueWithoutUserInput = {
+    where: PurchaseWhereUniqueInput
+    update: XOR<PurchaseUpdateWithoutUserInput, PurchaseUncheckedUpdateWithoutUserInput>
+    create: XOR<PurchaseCreateWithoutUserInput, PurchaseUncheckedCreateWithoutUserInput>
+  }
+
+  export type PurchaseUpdateWithWhereUniqueWithoutUserInput = {
+    where: PurchaseWhereUniqueInput
+    data: XOR<PurchaseUpdateWithoutUserInput, PurchaseUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PurchaseUpdateManyWithWhereWithoutUserInput = {
+    where: PurchaseScalarWhereInput
+    data: XOR<PurchaseUpdateManyMutationInput, PurchaseUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PurchaseScalarWhereInput = {
+    AND?: PurchaseScalarWhereInput | PurchaseScalarWhereInput[]
+    OR?: PurchaseScalarWhereInput[]
+    NOT?: PurchaseScalarWhereInput | PurchaseScalarWhereInput[]
+    id?: StringFilter<"Purchase"> | string
+    createdAt?: DateTimeFilter<"Purchase"> | Date | string
+    updatedAt?: DateTimeFilter<"Purchase"> | Date | string
+    courseId?: StringFilter<"Purchase"> | string
+    userId?: StringFilter<"Purchase"> | string
+  }
+
   export type CategoryCreateWithoutCoursesInput = {
     id?: string
     name: string
@@ -16938,16 +17167,16 @@ export namespace Prisma {
 
   export type PurchaseCreateWithoutCourseInput = {
     id?: string
-    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPurchasesInput
   }
 
   export type PurchaseUncheckedCreateWithoutCourseInput = {
     id?: string
-    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
   }
 
   export type PurchaseCreateOrConnectWithoutCourseInput = {
@@ -17031,17 +17260,6 @@ export namespace Prisma {
   export type PurchaseUpdateManyWithWhereWithoutCourseInput = {
     where: PurchaseScalarWhereInput
     data: XOR<PurchaseUpdateManyMutationInput, PurchaseUncheckedUpdateManyWithoutCourseInput>
-  }
-
-  export type PurchaseScalarWhereInput = {
-    AND?: PurchaseScalarWhereInput | PurchaseScalarWhereInput[]
-    OR?: PurchaseScalarWhereInput[]
-    NOT?: PurchaseScalarWhereInput | PurchaseScalarWhereInput[]
-    id?: StringFilter<"Purchase"> | string
-    userId?: StringFilter<"Purchase"> | string
-    createdAt?: DateTimeFilter<"Purchase"> | Date | string
-    updatedAt?: DateTimeFilter<"Purchase"> | Date | string
-    courseId?: StringFilter<"Purchase"> | string
   }
 
   export type SectionUpsertWithWhereUniqueWithoutCourseInput = {
@@ -17628,6 +17846,37 @@ export namespace Prisma {
     create: XOR<CourseCreateWithoutPurchasesInput, CourseUncheckedCreateWithoutPurchasesInput>
   }
 
+  export type UserCreateWithoutPurchasesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    identificationNo: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserUncheckedCreateWithoutPurchasesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    identificationNo: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserCreateOrConnectWithoutPurchasesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPurchasesInput, UserUncheckedCreateWithoutPurchasesInput>
+  }
+
   export type CourseUpsertWithoutPurchasesInput = {
     update: XOR<CourseUpdateWithoutPurchasesInput, CourseUncheckedUpdateWithoutPurchasesInput>
     create: XOR<CourseCreateWithoutPurchasesInput, CourseUncheckedCreateWithoutPurchasesInput>
@@ -17667,6 +17916,43 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     sections?: SectionUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
+  export type UserUpsertWithoutPurchasesInput = {
+    update: XOR<UserUpdateWithoutPurchasesInput, UserUncheckedUpdateWithoutPurchasesInput>
+    create: XOR<UserCreateWithoutPurchasesInput, UserUncheckedCreateWithoutPurchasesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPurchasesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPurchasesInput, UserUncheckedUpdateWithoutPurchasesInput>
+  }
+
+  export type UserUpdateWithoutPurchasesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    identificationNo?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUncheckedUpdateWithoutPurchasesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    identificationNo?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChapterCreateWithoutAttachmentsInput = {
@@ -17821,11 +18107,39 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutChapterNestedInput
   }
 
-  export type PurchaseCreateManyCourseInput = {
+  export type PurchaseCreateManyUserInput = {
     id?: string
-    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    courseId: string
+  }
+
+  export type PurchaseUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutPurchasesNestedInput
+  }
+
+  export type PurchaseUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PurchaseUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PurchaseCreateManyCourseInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
   }
 
   export type SectionCreateManyCourseInput = {
@@ -17842,23 +18156,23 @@ export namespace Prisma {
 
   export type PurchaseUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPurchasesNestedInput
   }
 
   export type PurchaseUncheckedUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type PurchaseUncheckedUpdateManyWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SectionUpdateWithoutCourseInput = {

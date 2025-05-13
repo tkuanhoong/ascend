@@ -6,7 +6,7 @@ import {
 import { LearningDashboardSidebar } from "./_components/learning-dashboard-sidebar";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { currentUser, currentUserId } from "@/lib/auth";
+import { currentUserId } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Undo2 } from "lucide-react";
 import Link from "next/link";

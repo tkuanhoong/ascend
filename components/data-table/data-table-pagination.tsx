@@ -22,6 +22,7 @@ interface DataTablePaginationProps<TData> {
 export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
+  if (table.getRowCount() === 0) return null;
   return (
     <div className="flex flex-col items-end justify-between py-4 gap-2 md:flex-row md:items-center">
       <div className="flex items-center space-x-2">

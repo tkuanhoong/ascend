@@ -199,10 +199,10 @@ exports.Prisma.VideoScalarFieldEnum = {
 
 exports.Prisma.PurchaseScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  courseId: 'courseId'
+  courseId: 'courseId',
+  userId: 'userId'
 };
 
 exports.Prisma.AttachmentScalarFieldEnum = {
@@ -300,8 +300,8 @@ exports.Prisma.VideoOrderByRelevanceFieldEnum = {
 
 exports.Prisma.PurchaseOrderByRelevanceFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  courseId: 'courseId'
+  courseId: 'courseId',
+  userId: 'userId'
 };
 
 exports.Prisma.AttachmentOrderByRelevanceFieldEnum = {
