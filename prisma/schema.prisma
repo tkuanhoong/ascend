@@ -40,6 +40,7 @@ model User {
   role             UserRole  @default(USER)
 
   purchases Purchase[]
+  backups   Backup[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -196,4 +197,14 @@ model UserProgress {
 
   @@unique([userId, chapterId])
   @@index([chapterId])
+}
+
+model Backup {
+  id        String   @id @default(cuid())
+  fileName  String
+  fileUrl   String
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }

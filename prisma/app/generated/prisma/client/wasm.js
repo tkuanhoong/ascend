@@ -231,6 +231,14 @@ exports.Prisma.UserProgressScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BackupScalarFieldEnum = {
+  id: 'id',
+  fileName: 'fileName',
+  fileUrl: 'fileUrl',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -322,6 +330,13 @@ exports.Prisma.UserProgressOrderByRelevanceFieldEnum = {
   userId: 'userId',
   chapterId: 'chapterId'
 };
+
+exports.Prisma.BackupOrderByRelevanceFieldEnum = {
+  id: 'id',
+  fileName: 'fileName',
+  fileUrl: 'fileUrl',
+  userId: 'userId'
+};
 exports.UserRole = exports.$Enums.UserRole = {
   USER: 'USER',
   ADMIN: 'ADMIN'
@@ -354,7 +369,8 @@ exports.Prisma.ModelName = {
   Purchase: 'Purchase',
   Attachment: 'Attachment',
   StripeCustomer: 'StripeCustomer',
-  UserProgress: 'UserProgress'
+  UserProgress: 'UserProgress',
+  Backup: 'Backup'
 };
 
 /**
