@@ -31,3 +31,8 @@ export function formatMinutes(minutes: number): string {
 
     return parts.join(' ');
 }
+
+export function formatDateTime(date: Date, options: Intl.DateTimeFormatOptions = { dateStyle: 'short', timeStyle: 'short' }) {
+    const formatter = new Intl.DateTimeFormat('en-MY', options)
+    return formatter.format(date);
+}

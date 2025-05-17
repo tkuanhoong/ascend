@@ -17,3 +17,12 @@ export const deleteUTFiles = async (files: string[] | string) => {
         console.error("UTAPI: Error deleting files", error);
     }
 };
+
+export const uploadFile = async (file: File) => {
+    try {
+        const response = await utapi.uploadFiles(file);
+        return response;
+    } catch (error) {
+        console.error("UTAPI: Error uploading files", error);
+    }
+}

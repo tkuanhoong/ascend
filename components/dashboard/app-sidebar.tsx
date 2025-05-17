@@ -1,7 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { BookOpen, GalleryVerticalEnd, PieChart } from "lucide-react";
+import {
+  BookOpen,
+  DatabaseBackup,
+  GalleryVerticalEnd,
+  PieChart,
+} from "lucide-react";
 
 import { NavMain } from "@/components/dashboard/nav-main";
 import { NavUser } from "@/components/dashboard/nav-user";
@@ -37,6 +42,11 @@ const data = {
       title: "Manage Courses",
       url: "/creator/courses",
       icon: BookOpen,
+    },
+    {
+      title: "Course Backup Files",
+      url: "/creator/backups",
+      icon: DatabaseBackup,
     },
   ],
   // projects: [
