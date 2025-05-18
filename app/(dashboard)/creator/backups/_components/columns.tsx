@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Backup } from "@/prisma/app/generated/prisma/client";
+import { Backup } from "@/generated/prisma";
 import { saveJsonFile } from "@/lib/file-save";
 import { Button } from "@/components/ui/button";
 import { DownloadIcon } from "lucide-react";

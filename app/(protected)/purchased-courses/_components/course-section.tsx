@@ -5,7 +5,7 @@ import {
   Category,
   Course,
   Section,
-} from "@/prisma/app/generated/prisma/client";
+} from "@/generated/prisma";
 import React from "react";
 
 type SectionWithChapters = Section & {

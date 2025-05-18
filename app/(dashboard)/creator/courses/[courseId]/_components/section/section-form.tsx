@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
-import { Course, Section } from "@/prisma/app/generated/prisma/client";
+import { Course, Section } from "@/generated/prisma";
 import { SectionList } from "./section-list";
 import { ModalContextProvider } from "@/components/modal-context-provider";
 

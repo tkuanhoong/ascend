@@ -4,7 +4,7 @@ import {
   Course,
   CourseStatus,
   Section,
-} from "@/prisma/app/generated/prisma/client";
+} from "@/generated/prisma";
 import { getCourseProgress } from "./get-course-progress";
 import { currentUserId } from "@/lib/auth";
 

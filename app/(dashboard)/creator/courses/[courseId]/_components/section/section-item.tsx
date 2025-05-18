@@ -1,6 +1,6 @@
 "use client";
 
-import { Section } from "@/prisma/app/generated/prisma/client";
+import { Section } from "@/generated/prisma";
 import { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 import { SectionItemContent } from "./section-item-content";

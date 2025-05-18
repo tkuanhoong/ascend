@@ -2,7 +2,7 @@ import { getIsCourseOwner } from "@/data/course/course-owner";
 import { getCourseWithSections } from "@/data/course/get-course-with-sections";
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { CourseStatus } from "@/prisma/app/generated/prisma/client";
+import { CourseStatus } from "@/generated/prisma";
 import { NextResponse } from "next/server";
 
 export async function PATCH(req: Request, { params }: { params: { courseId: string } }) {

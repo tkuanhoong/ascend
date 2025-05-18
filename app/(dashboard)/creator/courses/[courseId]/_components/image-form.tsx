@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Course } from "@/prisma/app/generated/prisma/client";
+import { Course } from "@/generated/prisma";
 import Image from "next/image";
 import { FileDropZone } from "@/components/file-drop-zone";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";

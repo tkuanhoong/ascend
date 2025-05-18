@@ -3,7 +3,7 @@ import { z } from "zod";
 import { currentUserId } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { SectionLevel } from "@/prisma/app/generated/prisma/client";
+import { SectionLevel } from "@/generated/prisma";
 
 // Zod schema for validating the imported course structure
 const ChapterImportSchema = z.object({

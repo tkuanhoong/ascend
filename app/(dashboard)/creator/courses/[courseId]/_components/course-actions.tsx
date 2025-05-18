@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { ConfirmModal } from "@/components/form/confirm-modal";
-import { CourseStatus } from "@/prisma/app/generated/prisma/client";
+import { CourseStatus } from "@/generated/prisma";
 import Link from "next/link";
 
 interface CourseActionsProps {

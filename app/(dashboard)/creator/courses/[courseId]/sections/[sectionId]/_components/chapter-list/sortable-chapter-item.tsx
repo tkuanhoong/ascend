@@ -3,7 +3,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { ChapterItem } from "./chapter-item";
-import { Chapter } from "@/prisma/app/generated/prisma/client";
+import { Chapter } from "@/generated/prisma";
 import { SortableItemProps } from "@/components/dnd-kit/types";
 
 export function SortableChapterItem({ data }: SortableItemProps<Chapter>) {

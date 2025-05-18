@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { getCourseProgress } from "./get-course-progress";
-import { Purchase } from "@/prisma/app/generated/prisma/client";
+import { Purchase } from "@/generated/prisma";
 
 export type PurchasesWithUserWithProgress = Purchase & {
     user: { name: string; email: string, },

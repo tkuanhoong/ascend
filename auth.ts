@@ -1,4 +1,4 @@
-import { UserRole } from '@/prisma/app/generated/prisma/client';
+import { UserRole } from "@/generated/prisma"
 import NextAuth from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 
