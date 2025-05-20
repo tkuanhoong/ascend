@@ -2,7 +2,7 @@
 
 import { ConfirmModal } from "@/components/form/confirm-modal";
 import { Button } from "@/components/ui/button";
-import { Chapter } from "@/prisma/app/generated/prisma/client";
+import { Chapter } from "@/generated/prisma";
 import { GripVertical, Pencil, X } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import useIsModalOpen from "@/hooks/use-is-modal-open";

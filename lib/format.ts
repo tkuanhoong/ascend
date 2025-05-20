@@ -11,9 +11,9 @@ export function formatMinutes(minutes: number): string {
     const remainingMinutes = minutes % 60;
 
     if (hours < 24) {
-        const parts = [`${hours} hour${hours !== 1 ? 's' : ''}`];
+        const parts = [`${hours} hr${hours !== 1 ? 's' : ''}`];
         if (remainingMinutes > 0) {
-            parts.push(`${remainingMinutes} minute${remainingMinutes !== 1 ? 's' : ''}`);
+            parts.push(`${remainingMinutes} min${remainingMinutes !== 1 ? 's' : ''}`);
         }
         return parts.join(' ');
     }
@@ -23,11 +23,16 @@ export function formatMinutes(minutes: number): string {
 
     const parts = [`${days} day${days !== 1 ? 's' : ''}`];
     if (remainingHours > 0) {
-        parts.push(`${remainingHours} hour${remainingHours !== 1 ? 's' : ''}`);
+        parts.push(`${remainingHours} hr${remainingHours !== 1 ? 's' : ''}`);
     }
     if (remainingMinutes > 0) {
-        parts.push(`${remainingMinutes} minute${remainingMinutes !== 1 ? 's' : ''}`);
+        parts.push(`${remainingMinutes} min${remainingMinutes !== 1 ? 's' : ''}`);
     }
 
     return parts.join(' ');
+}
+
+export function formatDateTime(date: Date, options: Intl.DateTimeFormatOptions = { dateStyle: 'short', timeStyle: 'short' }) {
+    const formatter = new Intl.DateTimeFormat('en-MY', options)
+    return formatter.format(date);
 }

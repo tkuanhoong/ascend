@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import authConfig from "@/auth.config"
-import { apiAuthPrefix, authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes, uploadThingApi, webhooksPrefix } from "@/routes";
+import { adminRoutePrefix, apiAuthPrefix, authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes, uploadThingApi, webhooksPrefix } from "@/routes";
+import { isCurrentUserAdmin } from '@/lib/auth';
 
 // Wrapped middleware option
 const { auth } = NextAuth(authConfig)
@@ -8,19 +9,33 @@ const { auth } = NextAuth(authConfig)
 export default auth(async function middleware(req) {
     const { nextUrl } = req;
     const isLoggedIn = !!req.auth;
+    const isAdmin = await isCurrentUserAdmin()
 
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isWebhookRoute = nextUrl.pathname.startsWith(webhooksPrefix)
     const isUploadThingApi = nextUrl.pathname.startsWith(uploadThingApi);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+    const isAdminRoute = nextUrl.pathname.startsWith(adminRoutePrefix);
 
     // exclude auth api route & file upload api route
     if (isApiAuthRoute || isWebhookRoute || isUploadThingApi) {
         return;
     }
 
-    // if the route is related to auth pages, and if user is NOT logged in, redirect to default login redirect
+    // Admin route protection (should come before general auth checks)
+    if (isAdminRoute) {
+        if (!isLoggedIn) {
+            return Response.redirect(new URL('/auth/login', nextUrl));
+        }
+        if (!isAdmin) {
+            // Consider creating a specific "access-denied" page for admin routes
+            return Response.redirect(new URL('/', nextUrl));
+        }
+        return; // Allow access if both logged in and admin
+    }
+
+    // if the route is related to auth pages, and if user is logged in, redirect to default login redirect
     if (isAuthRoute) {
         if (isLoggedIn) {
             return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))

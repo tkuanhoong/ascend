@@ -1,7 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { BookOpen, GalleryVerticalEnd, PieChart } from "lucide-react";
+import {
+  BookOpen,
+  DatabaseBackup,
+  Frame,
+  GalleryVerticalEnd,
+  PieChart,
+} from "lucide-react";
 
 import { NavMain } from "@/components/dashboard/nav-main";
 import { NavUser } from "@/components/dashboard/nav-user";
@@ -14,6 +20,9 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { NavAdmin } from "./nav-admin";
+import { redirect } from "next/navigation";
+import { useCurrentRole } from "@/hooks/use-current-role";
 
 // This is sample data.
 const data = {
@@ -38,30 +47,36 @@ const data = {
       url: "/creator/courses",
       icon: BookOpen,
     },
+    {
+      title: "Course Backup Files",
+      url: "/creator/backups",
+      icon: DatabaseBackup,
+    },
   ],
-  // projects: [
-  //   {
-  //     name: "Design Engineering",
-  //     url: "#",
-  //     icon: Frame,
-  //   },
-  //   {
-  //     name: "Sales & Marketing",
-  //     url: "#",
-  //     icon: PieChart,
-  //   },
-  //   {
-  //     name: "Travel",
-  //     url: "#",
-  //     icon: Map,
-  //   },
-  // ],
+  navAdmin: [
+    {
+      title: "Analytics Dashboard (Admin)",
+      url: "/admin/analytics",
+      icon: Frame,
+    },
+    {
+      title: "Sales & Marketing",
+      url: "#",
+      icon: PieChart,
+    },
+    {
+      title: "Travel",
+      url: "#",
+      icon: PieChart,
+    },
+  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const currentUser = useCurrentUser();
+  const { isAdmin } = useCurrentRole();
   if (!currentUser) {
-    return null;
+    redirect("/");
   }
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -70,7 +85,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        {/* <NavProjects projects={data.projects} /> */}
+        {isAdmin && <NavAdmin items={data.navAdmin} />}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={currentUser} />

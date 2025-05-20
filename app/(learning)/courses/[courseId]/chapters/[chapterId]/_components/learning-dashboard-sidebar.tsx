@@ -1,5 +1,4 @@
 "use client";
-import * as React from "react";
 
 import {
   Sidebar,
@@ -19,26 +18,34 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ChevronRight } from "lucide-react";
-import { Chapter, Section } from "@/prisma/app/generated/prisma/client";
+import { Chapter, Section } from "@/generated/prisma";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { formatMinutes } from "@/lib/format";
+
+type ChapterWithUserProgress = Chapter & {
+  userProgress: { isCompleted: boolean }[];
+};
 
 type SectionWithChapters = Section & {
-  chapters: Chapter[];
+  chapters: ChapterWithUserProgress[];
 };
 
 interface LearningDashboardSidebarProps
   extends React.ComponentProps<typeof Sidebar> {
   sections: SectionWithChapters[];
+  isPurchased: boolean;
 }
 
 export function LearningDashboardSidebar({
   sections,
+  isPurchased,
   ...props
 }: LearningDashboardSidebarProps) {
   const { courseId, chapterId } = useParams();
   const { isMobile, toggleSidebar } = useSidebar();
+
   return (
     <Sidebar {...props}>
       <SidebarContent>
@@ -58,8 +65,18 @@ export function LearningDashboardSidebar({
                       asChild
                       className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                     >
-                      <CollapsibleTrigger>
-                        <p className="truncate">{section.title}</p>
+                      <CollapsibleTrigger className="h-full">
+                        <div className="flex flex-col items-start">
+                          <div className="flex items-center space-x-2">
+                            <p className="text-ellipsis line-clamp-1 text-left font-semibold">
+                              {section.title}
+                            </p>
+                            <Badge>{section.level}</Badge>
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {formatMinutes(section.estimatedTime!)}
+                          </div>
+                        </div>
                         <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                       </CollapsibleTrigger>
                     </SidebarGroupLabel>
@@ -76,7 +93,25 @@ export function LearningDashboardSidebar({
                                 <Link
                                   href={`/courses/${courseId}/chapters/${chapter.id}`}
                                 >
-                                  {chapter.title}
+                                  <p className="truncate">{chapter.title}</p>
+                                  {!isPurchased ? (
+                                    <>
+                                      {chapter.isFree ? (
+                                        <Badge>Free</Badge>
+                                      ) : (
+                                        <Badge>Paid</Badge>
+                                      )}
+                                    </>
+                                  ) : (
+                                    <>
+                                      {chapter.userProgress[0] &&
+                                        chapter.userProgress[0].isCompleted && (
+                                          <Badge variant="success">
+                                            Completed
+                                          </Badge>
+                                        )}
+                                    </>
+                                  )}
                                 </Link>
                               </SidebarMenuButton>
                             </SidebarMenuItem>

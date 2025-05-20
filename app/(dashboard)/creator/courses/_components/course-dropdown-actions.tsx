@@ -8,10 +8,16 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import {
+  ChartNoAxesCombined,
+  MoreHorizontal,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import Link from "next/link";
 
 interface CourseRowDropdownActionsProps {
@@ -25,6 +31,7 @@ export const CourseRowDropdownActions = ({
   const course = row.original;
   const { id } = course;
   const editCourseUrl = `/creator/courses/${id}`;
+  const viewLearnerProgressUrl = `/creator/courses/${id}/learner-progress`;
 
   const onDelete = async () => {
     try {
@@ -55,9 +62,13 @@ export const CourseRowDropdownActions = ({
         <DropdownMenuItem className="text-red-600" onClick={onDelete}>
           <Trash2 className="h-4 w-4 mr-2" /> Delete
         </DropdownMenuItem>
-        {/* <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem> */}
+        <DropdownMenuSeparator />
+        <Link href={viewLearnerProgressUrl}>
+          <DropdownMenuItem>
+            <ChartNoAxesCombined className="h-4 w-4 mr-2" />
+            Learner progress
+          </DropdownMenuItem>
+        </Link>
       </DropdownMenuContent>
     </DropdownMenu>
   );

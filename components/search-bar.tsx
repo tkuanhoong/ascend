@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Search, SearchIcon } from "lucide-react";
+import { Search } from "lucide-react";
 import qs from "query-string";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { Button } from "./ui/button";
 
 interface SearchBarProps {
   placeholder?: string;
@@ -23,7 +22,8 @@ export default function SearchBar({
 
   const currentCategoryId = searchParams.get("categoryId");
 
-  const onSubmit = () => {
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
     const url = qs.stringifyUrl(
       {
         url: pathname,
@@ -39,7 +39,7 @@ export default function SearchBar({
 
   return (
     <div className="flex w-full max-w-sm items-center space-x-2">
-      <div className="relative flex-1">
+      <form onSubmit={onSubmit} className="relative flex-1">
         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
         <Input
           type="search"
@@ -48,10 +48,7 @@ export default function SearchBar({
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-      </div>
-      <Button onClick={onSubmit}>
-        <SearchIcon />
-      </Button>
+      </form>
     </div>
   );
 }

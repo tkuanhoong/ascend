@@ -10,7 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import { FileDropZone } from "@/components/file-drop-zone";
 import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
-import { Chapter, Attachment } from "@/prisma/app/generated/prisma/client";
+import { Chapter, Attachment } from "@/generated/prisma";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

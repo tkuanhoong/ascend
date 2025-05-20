@@ -6,6 +6,7 @@ import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import { CreateCourseSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -60,6 +61,11 @@ export const CreateCourseForm = () => {
           </Button>
           <Button type="submit" disabled={isPending}>
             Continue
+          </Button>
+        </div>
+        <div>
+          <Button variant="link" className="p-0" asChild>
+            <Link href="/creator/courses/import">Restore course？</Link>
           </Button>
         </div>
       </form>

@@ -88,3 +88,18 @@ export const CreateChapterSchema = z.object({
         message: "Chapter title is required",
     }),
 });
+export const FileBackupSchema = z.object({
+    selectedSections: z.object({
+        id: z.string(),
+        chapterIds: z.string().array()
+    }).array()
+});
+
+
+export const JSONFileSchema = z.object({
+    file: z
+        .instanceof(File, { message: "File is required" })
+        .refine((file) => ["application/json"].includes(file.type), {
+            message: "Invalid document file type",
+        }),
+});

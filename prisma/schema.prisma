@@ -6,7 +6,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  output   = "app/generated/prisma/client"
+  output   = "../generated/prisma"
 }
 
 enum UserRole {
@@ -38,6 +38,9 @@ model User {
   image            String?
   password         String?
   role             UserRole  @default(USER)
+
+  purchases Purchase[]
+  backups   Backup[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -125,6 +128,8 @@ model Chapter {
   video       Video?
   attachments Attachment[]
 
+  userProgress UserProgress[]
+
   @@index([sectionId])
 }
 
@@ -142,15 +147,18 @@ model Video {
 
 model Purchase {
   id        String   @id @default(cuid())
-  userId    String
+  amount    Float?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([userId, courseId])
-  @@index([courseId])
+  @@index([courseId, userId])
 }
 
 model Attachment {
@@ -174,4 +182,32 @@ model StripeCustomer {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model UserProgress {
+  id     String @id @default(cuid())
+  userId String
+
+  chapterId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  isCompleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, chapterId])
+  @@index([chapterId])
+}
+
+model Backup {
+  id        String   @id @default(cuid())
+  fileName  String
+  fileUrl   String
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }

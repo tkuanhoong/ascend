@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { ConfirmModal } from "@/components/form/confirm-modal";
-import { CourseStatus } from "@/prisma/app/generated/prisma/client";
+import { CourseStatus } from "@/generated/prisma";
+import Link from "next/link";
 
 interface CourseActionsProps {
   disabled: boolean;
@@ -62,6 +63,9 @@ export const CourseActions = ({
   };
   return (
     <div className="flex items-center gap-x-2">
+      <Link href={`/creator/courses/${courseId}/backup-settings`}>
+        <Button>Create Backup</Button>
+      </Link>
       <Button
         onClick={onClick}
         disabled={

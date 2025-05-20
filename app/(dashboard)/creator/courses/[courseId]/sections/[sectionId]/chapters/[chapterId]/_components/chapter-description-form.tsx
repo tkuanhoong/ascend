@@ -20,7 +20,7 @@ import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 // import { Editor } from "@/components/editor";
 // import { Preview } from "@/components/preview";
-import { Chapter } from "@/prisma/app/generated/prisma/client";
+import { Chapter } from "@/generated/prisma";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import { EditorPanel } from "@/components/editor-panel";
 import { EditorPreview } from "@/components/editor-preview";

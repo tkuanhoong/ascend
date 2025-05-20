@@ -11,7 +11,7 @@ import {
 import { Bolt, TableOfContents, Timer } from "lucide-react";
 import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
 import { IconBadge } from "@/components/icon-badge";
-import { SectionLevel } from "@/prisma/app/generated/prisma/client";
+import { SectionLevel } from "@/generated/prisma";
 
 export default async function SectionPage({
   params,

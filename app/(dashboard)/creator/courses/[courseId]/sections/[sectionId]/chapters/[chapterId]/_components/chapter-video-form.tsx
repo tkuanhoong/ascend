@@ -5,11 +5,10 @@ import { Pencil, PlusCircle, TimerIcon, VideoIcon } from "lucide-react";
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { FileDropZone } from "@/components/file-drop-zone";
-import { Chapter, Video } from "@/prisma/app/generated/prisma/client";
+import { Chapter, Video } from "@/generated/prisma";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { z } from "zod";
-import MuxPlayer from "@mux/mux-player-react/lazy";
 
 const formSchema = z.object({
   videoUrl: z.string().min(1),
@@ -77,11 +76,7 @@ export const ChapterVideoForm = ({ initialData }: ChapterVideoFormProps) => {
           </div>
         ) : (
           <div className="relative aspect-video mt-2">
-            <MuxPlayer
-              onError={console.log}
-              loading="viewport"
-              playbackId={initialData?.video?.playbackId || ""}
-            />
+            <video src={initialData.videoUrl} controls/>
           </div>
         ))}
       {isEditing && (

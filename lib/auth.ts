@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { UserRole } from "@/generated/prisma";
 
 export const currentUser = async () => {
     const session = await auth();
@@ -13,4 +14,9 @@ export const currentRole = async () => {
 export const currentUserId = async () => {
     const session = await auth();
     return session?.user.id;
+}
+
+export const isCurrentUserAdmin = async () => {
+    const session = await auth();
+    return session?.user.role === UserRole.ADMIN;
 }

@@ -17,7 +17,7 @@ import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Course } from "@/prisma/app/generated/prisma/client";
+import { Course } from "@/generated/prisma";
 import { Input } from "@/components/ui/input";
 import { formattedToMYR } from "@/lib/currency";
 import apiClient from "@/lib/axios";

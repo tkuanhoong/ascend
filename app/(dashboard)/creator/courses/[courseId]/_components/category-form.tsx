@@ -17,7 +17,7 @@ import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Course } from "@/prisma/app/generated/prisma/client";
+import { Course } from "@/generated/prisma";
 import { Combobox } from "@/components/ui/combobox";
 import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";

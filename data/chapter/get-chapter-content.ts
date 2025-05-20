@@ -1,0 +1,86 @@
+import { db } from "@/lib/db";
+import { Attachment, Chapter, CourseStatus, Purchase, UserProgress } from "@/generated/prisma";
+
+interface GetChapterContentProps {
+    userId: string;
+    courseId: string;
+    chapterId: string;
+}
+
+interface GetChapterContentResponse {
+    course: { price: number | null; } | null;
+    chapter: Chapter | null;
+    attachments: Attachment[];
+    userProgress: UserProgress | null;
+    purchase: Purchase | null;
+
+}
+
+export const getChapterContent = async ({ userId, courseId, chapterId }: GetChapterContentProps): Promise<GetChapterContentResponse> => {
+    try {
+        const purchase = await db.purchase.findUnique({
+            where: {
+                userId_courseId: {
+                    userId,
+                    courseId
+                }
+            }
+        });
+
+        const course = await db.course.findUnique({
+            where: {
+                status: CourseStatus.PUBLISHED,
+                id: courseId
+            }, select: {
+                price: true
+            }
+        });
+
+        const chapter = await db.chapter.findUnique({
+            where: {
+                id: chapterId,
+                isPublished: true
+            },
+        });
+
+        if (!chapter || !course) {
+            throw new Error("Chapter or course not found");
+        }
+
+        let attachments: Attachment[] = [];
+
+        if (purchase) {
+            attachments = await db.attachment.findMany({
+                where: {
+                    chapterId
+                }
+            });
+        }
+
+        const userProgress = await db.userProgress.findUnique({
+            where: {
+                userId_chapterId: {
+                    userId,
+                    chapterId
+                }
+            }
+        });
+
+        return {
+            course,
+            chapter,
+            attachments,
+            userProgress,
+            purchase,
+        }
+    } catch (error) {
+        console.log("[GET_CHAPTER_CONTENT]", error);
+        return {
+            chapter: null,
+            course: null,
+            attachments: [],
+            userProgress: null,
+            purchase: null,
+        }
+    }
+}
