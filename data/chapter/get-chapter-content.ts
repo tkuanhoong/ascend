@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { Attachment, CourseStatus } from "@/generated/prisma";
+import { Attachment, Chapter, CourseStatus, Purchase, UserProgress } from "@/generated/prisma";
 
 interface GetChapterContentProps {
     userId: string;
@@ -7,7 +7,16 @@ interface GetChapterContentProps {
     chapterId: string;
 }
 
-export const getChapterContent = async ({ userId, courseId, chapterId }: GetChapterContentProps) => {
+interface GetChapterContentResponse {
+    course: { price: number | null; } | null;
+    chapter: Chapter | null;
+    attachments: Attachment[];
+    userProgress: UserProgress | null;
+    purchase: Purchase | null;
+
+}
+
+export const getChapterContent = async ({ userId, courseId, chapterId }: GetChapterContentProps): Promise<GetChapterContentResponse> => {
     try {
         const purchase = await db.purchase.findUnique({
             where: {

@@ -1,7 +1,7 @@
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
-import { CourseStatus } from "@/prisma/app/generated/prisma/client";
+import { CourseStatus } from "@/generated/prisma";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -89,7 +89,8 @@ export async function POST(
             cancel_url: `${process.env.APP_URL}/courses/${course.id}/?canceled=1`,
             metadata: {
                 courseId: course.id,
-                userId: user.id
+                userId: user.id,
+                amount: course.price
             }
         });
 

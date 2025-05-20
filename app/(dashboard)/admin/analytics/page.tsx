@@ -1,35 +1,17 @@
-import { db } from "@/lib/db";
-import { CreatorSectionCards } from "./_components/creator-section-cards";
-import { currentUserId } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { ChartAreaInteractive } from "@/components/dashboard/chart-area-interactive";
+import { AdminSectionCards } from "@/app/(dashboard)/admin/analytics/_components/admin-section-cards";
+import { db } from "@/lib/db";
+import { CourseStatus } from "@/generated/prisma";
 
-export default async function DashboardPage() {
-  const userId = await currentUserId();
-  if (!userId) {
-    redirect("/");
-  }
-
-  const purchasePromise = db.purchase.count({
+export default async function AdminAnalyticsPage() {
+  const purchasePromise = db.purchase.count();
+  const totalUsersPromise = db.user.count();
+  const totalCoursesPendingReviewPromise = db.course.count({
     where: {
-      course: {
-        userId,
-      },
-    },
-  });
-  const totalLearnersPromise = db.purchase.count({
-    where: {
-      course: {
-        userId,
-      },
+      status: CourseStatus.PENDING,
     },
   });
   const totalRevenuePromise = db.purchase.aggregate({
-    where: {
-      course: {
-        userId,
-      },
-    },
     _sum: {
       amount: true,
     },
@@ -45,9 +27,6 @@ export default async function DashboardPage() {
         gte: threeMonthsAgo, // Greater than or equal to 3 months ago
         lte: new Date(), // Less than or equal to now (optional)
       },
-      course: {
-        userId,
-      },
     },
     _sum: {
       amount: true, // Sum the 'amount' field
@@ -60,24 +39,31 @@ export default async function DashboardPage() {
     amount: item._sum.amount || 0, // Handle null cases
   }));
 
-  const [totalPurchases, totalLearnerCount, totalRevenueResult] =
-    await Promise.all([
-      purchasePromise,
-      totalLearnersPromise,
-      totalRevenuePromise,
-    ]);
+  const [
+    totalPurchases,
+    totalUserCount,
+    totalCoursesPendingReviewCount,
+    totalRevenueResult,
+  ] = await Promise.all([
+    purchasePromise,
+    totalUsersPromise,
+    totalCoursesPendingReviewPromise,
+    totalRevenuePromise,
+  ]);
 
   const {
     _sum: { amount: totalRevenue },
   } = totalRevenueResult;
+
   return (
     <div className="flex flex-1 flex-col">
       <div className="flex flex-1 flex-col gap-2">
         <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-          <CreatorSectionCards
+          <AdminSectionCards
             totalRevenue={totalRevenue}
             totalPurchases={totalPurchases}
-            totalLearnerCount={totalLearnerCount}
+            totalUserCount={totalUserCount}
+            totalCoursesPendingReviewCount={totalCoursesPendingReviewCount}
           />
           <div className="px-4 lg:px-6">
             <ChartAreaInteractive data={formattedData} />

@@ -27,7 +27,7 @@ export default async function ChapterPage({
       courseId,
     });
 
-  if (!chapter) {
+  if (!course || !chapter) {
     redirect("/");
   }
 

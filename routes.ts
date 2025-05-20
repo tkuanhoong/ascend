@@ -18,4 +18,6 @@ export const uploadThingApi = "/api/uploadthing"
 
 export const webhooksPrefix = '/api/webhook'
 
+export const adminRoutePrefix = '/admin'
+
 export const DEFAULT_LOGIN_REDIRECT = "/";
