@@ -84,7 +84,6 @@ export function SectionTables({ courseId, sections }: CourseDataTableProps) {
           disabled={isConfirm}
         />
       ))}
-      {JSON.stringify(selectedSections)}
       <div className="flex items-center justify-center space-x-2">
         {isConfirm && (
           <>

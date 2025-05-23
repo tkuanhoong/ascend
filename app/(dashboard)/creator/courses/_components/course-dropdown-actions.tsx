@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   ChartNoAxesCombined,
+  DatabaseBackup,
   MoreHorizontal,
   Pencil,
   Trash2,
@@ -67,6 +68,12 @@ export const CourseRowDropdownActions = ({
           <DropdownMenuItem>
             <ChartNoAxesCombined className="h-4 w-4 mr-2" />
             Learner progress
+          </DropdownMenuItem>
+        </Link>
+        <Link href={`/creator/courses/${id}/backup-settings`}>
+          <DropdownMenuItem>
+            <DatabaseBackup className="h-4 w-4 mr-2" />
+            Create Backup
           </DropdownMenuItem>
         </Link>
       </DropdownMenuContent>

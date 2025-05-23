@@ -179,7 +179,6 @@ export function SectionDataTable({
             )}
           </TableBody>
         </Table>
-        {JSON.stringify(selectedSection)}
       </div>
     </div>
   );
