@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { Attachment, Chapter, CourseStatus, Purchase, UserProgress } from "@/generated/prisma";
+import { Attachment, Chapter, Purchase, UserProgress } from "@/generated/prisma";
 
 interface GetChapterContentProps {
     userId: string;
@@ -29,7 +29,6 @@ export const getChapterContent = async ({ userId, courseId, chapterId }: GetChap
 
         const course = await db.course.findUnique({
             where: {
-                status: CourseStatus.PUBLISHED,
                 id: courseId
             }, select: {
                 price: true
@@ -39,7 +38,6 @@ export const getChapterContent = async ({ userId, courseId, chapterId }: GetChap
         const chapter = await db.chapter.findUnique({
             where: {
                 id: chapterId,
-                isPublished: true
             },
         });
 

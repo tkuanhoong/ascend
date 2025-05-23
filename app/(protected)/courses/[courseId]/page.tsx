@@ -5,7 +5,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import PurchaseCourseButton from "./_components/purchase-course-button";
 import { db } from "@/lib/db";
-import { currentUser } from "@/lib/auth";
+import { currentUser, isCurrentUserAdmin } from "@/lib/auth";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
@@ -15,6 +15,7 @@ export default async function CourseDetailsPage({
   params: { courseId: string };
 }) {
   const user = await currentUser();
+  const isAdmin = await isCurrentUserAdmin();
   const { courseId } = await params;
 
   const course = await db.course.findUnique({
@@ -115,10 +116,10 @@ export default async function CourseDetailsPage({
           </p>
 
           <PurchaseCourseButton courseId={course.id} price={course.price} />
-          {hasFreeChapter && (
+          {(hasFreeChapter || isAdmin) && (
             <Button variant="outline" className="font-medium" asChild>
               <Link href={`/courses/${course.id}/chapters/${firstChapter.id}`}>
-                Preview free chapters
+                {isAdmin ? "Preview as admin" : "Preview free chapters"}
               </Link>
             </Button>
           )}

@@ -24,8 +24,6 @@ import { Chapter, Section } from "@/generated/prisma";
 import { CreateChapterSchema } from "@/lib/zod";
 import { ChapterList } from "./chapter-list";
 import { ModalContextProvider } from "@/components/modal-context-provider";
-// import { SectionList } from "./section-list";
-// import { ModalContextProvider } from "@/components/modal-context-provider";
 
 const formSchema = CreateChapterSchema;
 

@@ -4,9 +4,10 @@ import * as React from "react";
 import {
   BookOpen,
   DatabaseBackup,
-  Frame,
+  FileChartPie,
   GalleryVerticalEnd,
   PieChart,
+  TextSearch,
 } from "lucide-react";
 
 import { NavMain } from "@/components/dashboard/nav-main";
@@ -57,17 +58,12 @@ const data = {
     {
       title: "Analytics Dashboard (Admin)",
       url: "/admin/analytics",
-      icon: Frame,
+      icon: FileChartPie,
     },
     {
-      title: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      title: "Travel",
-      url: "#",
-      icon: PieChart,
+      title: "Review Courses",
+      url: "/admin/review-courses",
+      icon: TextSearch,
     },
   ],
 };

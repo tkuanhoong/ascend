@@ -57,17 +57,15 @@ export default async function AdminAnalyticsPage() {
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="flex flex-1 flex-col gap-2">
-        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-          <AdminSectionCards
-            totalRevenue={totalRevenue}
-            totalPurchases={totalPurchases}
-            totalUserCount={totalUserCount}
-            totalCoursesPendingReviewCount={totalCoursesPendingReviewCount}
-          />
-          <div className="px-4 lg:px-6">
-            <ChartAreaInteractive data={formattedData} />
-          </div>
+      <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+        <AdminSectionCards
+          totalRevenue={totalRevenue}
+          totalPurchases={totalPurchases}
+          totalUserCount={totalUserCount}
+          totalCoursesPendingReviewCount={totalCoursesPendingReviewCount}
+        />
+        <div className="px-4 lg:px-6">
+          <ChartAreaInteractive data={formattedData} />
         </div>
       </div>
     </div>

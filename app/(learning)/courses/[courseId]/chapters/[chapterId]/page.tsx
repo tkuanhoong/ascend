@@ -3,7 +3,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { redirect } from "next/navigation";
 import { File, LockKeyhole } from "lucide-react";
 import Link from "next/link";
-import { currentUserId } from "@/lib/auth";
+import { currentUserId, isCurrentUserAdmin } from "@/lib/auth";
 import PurchaseCourseButton from "@/app/(protected)/courses/[courseId]/_components/purchase-course-button";
 import { getChapterContent } from "@/data/chapter/get-chapter-content";
 import { MarkCompletedButton } from "./_components/mark-completed-button";
@@ -19,6 +19,8 @@ export default async function ChapterPage({
   if (!userId) {
     redirect("/");
   }
+
+  const isAdmin = await isCurrentUserAdmin();
 
   const { course, chapter, attachments, userProgress, purchase } =
     await getChapterContent({
@@ -36,7 +38,7 @@ export default async function ChapterPage({
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 bg-slate-50">
-      {isPurchasedOrFree ? (
+      {isPurchasedOrFree || isAdmin ? (
         <>
           <AspectRatio ratio={16 / 9}>
             <video

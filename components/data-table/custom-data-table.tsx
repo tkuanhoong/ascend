@@ -27,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
+import DataTableTabList, { type TabListSettings } from "./data-table-tab-list";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -34,6 +35,7 @@ interface DataTableProps<TData, TValue> {
   filterColumn?: string;
   createButtonHref?: string;
   isShowPagination?: boolean;
+  tabFilter?: TabListSettings;
 }
 
 export function DataTable<TData, TValue>({
@@ -42,6 +44,7 @@ export function DataTable<TData, TValue>({
   filterColumn,
   createButtonHref,
   isShowPagination = true,
+  tabFilter,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -56,7 +59,7 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    onStateChange: (updater)=>{
+    onStateChange: (updater) => {
       console.log("Table state changed:", updater);
     },
     state: {
@@ -90,6 +93,9 @@ export function DataTable<TData, TValue>({
           </Link>
         )}
       </div>
+      {tabFilter && (
+        <DataTableTabList table={table} tabListSettings={tabFilter} />
+      )}
       <div className="rounded-md border">
         <Table>
           <TableHeader>

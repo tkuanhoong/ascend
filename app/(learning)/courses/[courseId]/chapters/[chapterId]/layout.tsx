@@ -94,28 +94,30 @@ export default async function ChapterPageLayout({
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky z-50 top-0 bg-white">
           <h1 className="text-xl font-semibold">{course.title}</h1>
-          {isPurchased && (
-            <div className="flex items-center ml-auto space-x-3">
-              <CourseProgress
-                variant={isCourseCompleted ? "success" : "default"}
-                size="sm"
-                value={progress}
-              />
-              {isCourseCompleted && (
-                <ViewCertificateButton
-                  recipientName={name}
-                  courseName={course.title}
-                  identificationNo={identificationNo}
+          <div className="ml-auto flex items-center space-x-2">
+            {isPurchased && (
+              <div className="flex items-center space-x-3">
+                <CourseProgress
+                  variant={isCourseCompleted ? "success" : "default"}
+                  size="sm"
+                  value={progress}
                 />
-              )}
-            </div>
-          )}
-          <Button variant="outline" asChild>
-            <Link href="/">
-              <Undo2 /> Exit
-            </Link>
-          </Button>
-          <SidebarTrigger className="-mr-1 rotate-180" />
+                {isCourseCompleted && (
+                  <ViewCertificateButton
+                    recipientName={name}
+                    courseName={course.title}
+                    identificationNo={identificationNo}
+                  />
+                )}
+              </div>
+            )}
+            <Button variant="outline" asChild>
+              <Link href="/">
+                <Undo2 /> Exit
+              </Link>
+            </Button>
+            <SidebarTrigger className="-mr-1 rotate-180" />
+          </div>
         </header>
         {children}
       </SidebarInset>

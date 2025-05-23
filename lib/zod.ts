@@ -1,3 +1,4 @@
+import { CourseStatus } from "@/generated/prisma";
 import { z } from "zod";
 
 export const LoginSchema = z.object({
@@ -103,3 +104,8 @@ export const JSONFileSchema = z.object({
             message: "Invalid document file type",
         }),
 });
+
+export const AdminCourseStatusSchema = z.object({
+    status: z.nativeEnum(CourseStatus),
+    reason: z.string().nullable().optional(),
+})

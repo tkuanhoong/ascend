@@ -3,7 +3,6 @@ import { currentUserId } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { columns } from "./_components/columns";
-// import { saveAs } from "file-saver";
 
 export const CourseBackupPage = async () => {
   const userId = await currentUserId();
