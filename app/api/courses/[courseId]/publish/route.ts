@@ -38,7 +38,7 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
                 id: courseId
             },
             data: {
-                status: CourseStatus.PUBLISHED
+                status: CourseStatus.PENDING
             }
         })
 

@@ -26,16 +26,16 @@ export const CourseActions = ({
   const onClick = async () => {
     try {
       setIsLoading(true);
-      switch (courseStatus) {
-        case CourseStatus.DRAFT:
-          await apiClient.patch(`/api/courses/${courseId}/publish`);
-          successToast({ message: "Course published" });
-          break;
-        default:
-          await apiClient.patch(`/api/courses/${courseId}/unpublish`);
-          successToast({ message: "Course unpublished" });
-
-          break;
+      if (
+        courseStatus === CourseStatus.DRAFT ||
+        courseStatus === CourseStatus.REJECTED ||
+        courseStatus === CourseStatus.REVOKED
+      ) {
+        await apiClient.patch(`/api/courses/${courseId}/publish`);
+        successToast({ message: "Course submitted for review" });
+      } else {
+        await apiClient.patch(`/api/courses/${courseId}/unpublish`);
+        successToast({ message: "Course unpublished" });
       }
       router.refresh();
     } catch (error) {

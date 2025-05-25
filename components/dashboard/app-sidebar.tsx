@@ -8,6 +8,7 @@ import {
   GalleryVerticalEnd,
   PieChart,
   TextSearch,
+  UsersRound,
 } from "lucide-react";
 
 import { NavMain } from "@/components/dashboard/nav-main";
@@ -64,6 +65,11 @@ const data = {
       title: "Review Courses",
       url: "/admin/review-courses",
       icon: TextSearch,
+    },
+    {
+      title: "Manage Users",
+      url: "/admin/users",
+      icon: UsersRound,
     },
   ],
 };

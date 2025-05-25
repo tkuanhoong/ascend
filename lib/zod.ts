@@ -1,4 +1,4 @@
-import { CourseStatus } from "@/generated/prisma";
+import { CourseStatus, UserRole } from "@/generated/prisma";
 import { z } from "zod";
 
 export const LoginSchema = z.object({
@@ -109,3 +109,28 @@ export const AdminCourseStatusSchema = z.object({
     status: z.nativeEnum(CourseStatus),
     reason: z.string().nullable().optional(),
 })
+
+export const AdminEditUserFormSchema = z.object({
+    name: z.string().min(1, {
+        message: "Full Name is required",
+    }),
+    email: z.string().min(1, {
+        message: "Email is required",
+    }).email({
+        message: "Invalid email address",
+    }),
+    identificationNo: z
+        .string()
+        .min(1, {
+            message: "Identification Number is required",
+        })
+        .refine((val) => !val.includes("-"), {
+            message: "Do not include '-' for IC Number",
+        }) // Remove dashes for consistent processing
+        .refine((data) => /^\d{6}\d{2}\d{4}$/.test(data), {
+            message: "Invalid IC Number format",
+        }),
+    role: z.nativeEnum(UserRole, {
+        required_error: "Please select a role",
+    }),
+});

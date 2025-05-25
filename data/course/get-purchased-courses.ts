@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { getCourseProgress } from "./get-course-progress";
-import { Category, Course, Section } from "@/generated/prisma";
+import { Category, Course, CourseStatus, Section } from "@/generated/prisma";
 
 type SectionWithChapters = Section & {
     chapters: { id: string }[];
@@ -21,7 +21,10 @@ export const getPurchasedCourses = async (userId: string): Promise<PurchasedCour
     try {
         const purchasedCourses = await db.purchase.findMany({
             where: {
-                userId
+                userId,
+                course: {
+                    status: CourseStatus.PUBLISHED,
+                }
             },
             select: {
                 course: {
