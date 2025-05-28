@@ -93,6 +93,8 @@ model Category {
   id      String   @id @default(cuid())
   name    String   @unique
   courses Course[]
+
+  @@fulltext([name])
 }
 
 model Section {

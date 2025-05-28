@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { CategoryButtons } from "./_components/category-buttons";
 import SearchBar from "@/components/search-bar";
 import { getHomeCourses } from "@/data/course/get-home-courses";
+import { AiChatButton } from "./_components/ai-chat-button";
 
 interface HomePageProps {
   searchParams: {
@@ -17,7 +18,7 @@ export default async function Home({ searchParams }: HomePageProps) {
   const categories = await db.category.findMany();
 
   return (
-    <main className="min-h-screen p-8 sm:pb-20">
+    <main className="relative min-h-screen p-8 sm:pb-20">
       <div className="flex justify-center items-center p-4 md:hidden">
         <SearchBar />
       </div>
@@ -36,6 +37,8 @@ export default async function Home({ searchParams }: HomePageProps) {
           No matching course
         </div>
       )}
+
+      <AiChatButton />
     </main>
   );
 }
