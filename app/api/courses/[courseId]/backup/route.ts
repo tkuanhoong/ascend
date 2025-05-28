@@ -10,7 +10,7 @@ export interface SelectedSection {
     chapterIds: string[];
 }
 
-export async function POST(req: NextRequest, { params }: { params: { courseId: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
     try {
         const { courseId } = await params;
         const userId = await currentUserId();

@@ -11,7 +11,7 @@ import { MarkCompletedButton } from "./_components/mark-completed-button";
 export default async function ChapterPage({
   params,
 }: {
-  params: { courseId: string; chapterId: string };
+  params: Promise<{ courseId: string; chapterId: string }>;
 }) {
   const { courseId, chapterId } = await params;
 

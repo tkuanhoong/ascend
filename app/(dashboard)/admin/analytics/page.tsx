@@ -1,7 +1,7 @@
 import { ChartAreaInteractive } from "@/components/dashboard/chart-area-interactive";
 import { AdminSectionCards } from "@/app/(dashboard)/admin/analytics/_components/admin-section-cards";
 import { db } from "@/lib/db";
-import { CourseStatus } from "@/generated/prisma";
+import { CourseStatus } from ".prisma/client";
 
 export default async function AdminAnalyticsPage() {
   const purchasePromise = db.purchase.count();

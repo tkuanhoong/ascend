@@ -1,7 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { CourseStatus } from "@/generated/prisma";
+import { CourseStatus } from ".prisma/client";
 import { formattedToMYR } from "@/lib/currency";
 import { ColumnDef } from "@tanstack/react-table";
 import { CheckCircle2Icon, LoaderIcon } from "lucide-react";

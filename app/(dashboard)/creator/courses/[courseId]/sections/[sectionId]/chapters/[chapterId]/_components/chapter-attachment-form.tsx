@@ -10,15 +10,18 @@ import { useParams, useRouter } from "next/navigation";
 import { FileDropZone } from "@/components/file-drop-zone";
 import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
-import { Chapter, Attachment } from "@/generated/prisma";
+import { Chapter, Attachment } from ".prisma/client";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchema = z.object({
   url: z.string().min(1),
   name: z.string().optional(),
 });
+
+type AttachmentFormData = z.infer<typeof formSchema>;
 
 interface ChapterAttachmentFormProps {
   initialData: Chapter & { attachments: Attachment[] };
@@ -44,7 +47,7 @@ export const ChapterAttachmentForm = ({
   const toggleEdit = () => setIsEditing((current) => !current);
   const router = useRouter();
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: AttachmentFormData) => {
     try {
       await apiClient.post(apiRoute, values);
       successToast({ message: "Chapter attachment created" });

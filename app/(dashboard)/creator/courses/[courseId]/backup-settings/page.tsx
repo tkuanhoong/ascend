@@ -6,7 +6,7 @@ import { SectionTables } from "./_components/section-data-tables";
 const BackupSettingsPage = async ({
   params,
 }: {
-  params: { courseId: string };
+  params: Promise<{ courseId: string }>;
 }) => {
   const { courseId } = await params;
 

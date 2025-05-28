@@ -1,4 +1,4 @@
-import { UserRole } from "@/generated/prisma"
+import { UserRole } from ".prisma/client"
 import NextAuth from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 
@@ -33,8 +33,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // Add the JWT token to the session
         async jwt({ token, user }) {
             if (user) { // User is available during sign-in
-                token.id = user.id;
-                token.role = user.role;
+                token.id = user.id as string;
+                token.role = user.role as UserRole;
             }
             return token;
         },

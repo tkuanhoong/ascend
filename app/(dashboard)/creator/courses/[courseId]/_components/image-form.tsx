@@ -6,12 +6,13 @@ import { Button } from "@/components/ui/button";
 import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Course } from "@/generated/prisma";
+import { Course } from ".prisma/client";
 import Image from "next/image";
 import { FileDropZone } from "@/components/file-drop-zone";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchema = z.object({
   imageUrl: z.string().min(1, {
     message: "Image is required",

@@ -18,7 +18,7 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import apiClient from "@/lib/axios";
-import { Chapter } from "@/generated/prisma";
+import { Chapter } from ".prisma/client";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import { Checkbox } from "@/components/ui/checkbox";
 

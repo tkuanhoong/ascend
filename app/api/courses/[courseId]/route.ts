@@ -4,7 +4,7 @@ import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request, { params }: { params: { courseId: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ courseId: string }> }) {
     try {
         const { courseId: id } = await params;
         const course = await db.course.findFirst({ where: { id } });
@@ -20,7 +20,7 @@ export async function GET(req: Request, { params }: { params: { courseId: string
     }
 }
 
-export async function PATCH(req: Request, { params }: { params: { courseId: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ courseId: string }> }) {
     try {
         const user = await currentUser();
         const { courseId } = await params;
@@ -70,7 +70,7 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
     }
 }
 
-export async function DELETE(req: Request, { params }: { params: { courseId: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ courseId: string }> }) {
     try {
         const user = await currentUser();
         const { courseId } = await params;

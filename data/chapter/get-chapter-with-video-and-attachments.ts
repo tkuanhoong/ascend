@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { Attachment, Chapter, Video } from "@/generated/prisma";
+import { Attachment, Chapter, Video } from ".prisma/client";
 
 interface ChapterWithVideoAndAttachments extends Chapter {
     video: Video | null;

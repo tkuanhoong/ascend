@@ -5,7 +5,7 @@ import { hashPassword } from "@/lib/hash";
 import { ResetPasswordSchema } from "@/lib/zod";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PATCH(req: NextRequest, { params }: { params: { userId: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ userId: string }> }) {
     try {
         const isAdmin = await isCurrentUserAdmin();
         if (!isAdmin) {

@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Course, CourseStatus } from "@/generated/prisma";
+import { Course, CourseStatus } from ".prisma/client";
 import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import { MoreVerticalIcon, Eye, Check, X } from "lucide-react";

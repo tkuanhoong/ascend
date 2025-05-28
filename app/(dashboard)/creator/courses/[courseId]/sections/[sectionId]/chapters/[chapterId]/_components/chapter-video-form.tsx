@@ -5,11 +5,12 @@ import { Pencil, PlusCircle, TimerIcon, VideoIcon } from "lucide-react";
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { FileDropZone } from "@/components/file-drop-zone";
-import { Chapter, Video } from "@/generated/prisma";
+import { Chapter, Video } from ".prisma/client";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { z } from "zod";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchema = z.object({
   videoUrl: z.string().min(1),
 });
@@ -76,7 +77,7 @@ export const ChapterVideoForm = ({ initialData }: ChapterVideoFormProps) => {
           </div>
         ) : (
           <div className="relative aspect-video mt-2">
-            <video src={initialData.videoUrl} controls/>
+            <video src={initialData.videoUrl} controls />
           </div>
         ))}
       {isEditing && (

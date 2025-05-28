@@ -6,13 +6,15 @@ import { getHomeCourses } from "@/data/course/get-home-courses";
 import { AiChatButton } from "./_components/ai-chat-button";
 
 interface HomePageProps {
-  searchParams: {
-    title: string;
-    categoryId: string;
-  };
+  title: string;
+  categoryId: string;
 }
 
-export default async function Home({ searchParams }: HomePageProps) {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<HomePageProps>;
+}) {
   const searchQuery = await searchParams;
   const courses = await getHomeCourses({ ...searchQuery });
   const categories = await db.category.findMany();

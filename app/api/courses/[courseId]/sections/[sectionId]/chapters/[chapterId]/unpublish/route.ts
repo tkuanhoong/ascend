@@ -4,7 +4,7 @@ import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function PATCH(req: Request, { params }: { params: { courseId: string, sectionId: string, chapterId: string, } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ courseId: string, sectionId: string, chapterId: string, }> }) {
     const { courseId, sectionId, chapterId } = await params;
     try {
         const user = await currentUser();

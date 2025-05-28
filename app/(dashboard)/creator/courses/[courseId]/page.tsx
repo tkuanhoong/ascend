@@ -15,12 +15,12 @@ import { CourseActions } from "./_components/course-actions";
 import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
 import { getCourseWithSections } from "@/data/course/get-course-with-sections";
 import { AlertBanner } from "@/components/course/alert-banner";
-import { CourseStatus } from "@/generated/prisma";
+import { CourseStatus } from ".prisma/client";
 
 export default async function EditCoursePage({
   params,
 }: {
-  params: { courseId: string };
+  params: Promise<{ courseId: string }>;
 }) {
   const user = await currentUser();
   if (!user) {

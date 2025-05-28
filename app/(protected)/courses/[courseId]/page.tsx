@@ -12,7 +12,7 @@ import Link from "next/link";
 export default async function CourseDetailsPage({
   params,
 }: {
-  params: { courseId: string };
+  params: Promise<{ courseId: string }>;
 }) {
   const user = await currentUser();
   const isAdmin = await isCurrentUserAdmin();

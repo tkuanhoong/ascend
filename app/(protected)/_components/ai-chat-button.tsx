@@ -17,7 +17,7 @@ export const AiChatButton = () => {
       ) : (
         <Button onClick={toggleIsOpenChat}>
           <Bot />
-          {!isMobile && "Reccomendation Assistant"}
+          {!isMobile && "Recommendation Assistant"}
         </Button>
       )}
     </div>

@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const { video } = mux;
 
-export async function DELETE(req: NextRequest, { params }: { params: { courseId: string, sectionId: string, chapterId: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ courseId: string, sectionId: string, chapterId: string }> }) {
     try {
         const { courseId, sectionId, chapterId } = await params;
 
@@ -86,7 +86,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { courseId:
     }
 }
 
-export async function PATCH(req: Request, { params }: { params: { courseId: string, sectionId: string, chapterId: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ courseId: string, sectionId: string, chapterId: string }> }) {
     try {
         const user = await currentUser();
         const { courseId, sectionId, chapterId } = await params;

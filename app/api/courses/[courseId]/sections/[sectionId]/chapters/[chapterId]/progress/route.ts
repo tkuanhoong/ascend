@@ -3,7 +3,7 @@ import { currentUserId } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function PUT(req: Request, { params }: { params: { courseId: string, chapterId: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ courseId: string, chapterId: string }> }) {
     const { courseId, chapterId } = await params;
     try {
         const userId = await currentUserId();
@@ -30,8 +30,8 @@ export async function PUT(req: Request, { params }: { params: { courseId: string
 
         const courseProgress = await getCourseProgress({ userId, courseId });
 
-        if(courseProgress === 100){
-            
+        if (courseProgress === 100) {
+
         }
 
         return NextResponse.json(userProgress);

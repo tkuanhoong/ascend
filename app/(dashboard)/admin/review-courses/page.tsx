@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import ReviewCoursesTable from "./_components/review-courses-table";
-import { Course, CourseStatus } from "@/generated/prisma";
+import { Course, CourseStatus } from ".prisma/client";
 
 export type CourseWithUserEmail = Course & { user: { email: string | null } };
 

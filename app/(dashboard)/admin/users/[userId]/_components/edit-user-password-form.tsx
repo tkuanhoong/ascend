@@ -3,7 +3,7 @@
 import { CommonInput } from "@/components/form/common-input";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { User } from "@/generated/prisma";
+import { User } from ".prisma/client";
 import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import { ResetPasswordSchema } from "@/lib/zod";

@@ -2,10 +2,10 @@ import { getIsCourseOwner } from "@/data/course/course-owner";
 import { getCourseById } from "@/data/course/get-course-by-id";
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { CourseStatus } from "@/generated/prisma";
+import { CourseStatus } from ".prisma/client";
 import { NextResponse } from "next/server";
 
-export async function PATCH(req: Request, { params }: { params: { courseId: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ courseId: string }> }) {
     const { courseId } = await params;
     try {
         const user = await currentUser();

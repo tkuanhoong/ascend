@@ -3,7 +3,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { SectionItem } from "./section-item";
-import { Section } from "@/generated/prisma";
+import { Section } from ".prisma/client";
 import { SortableItemProps } from "@/components/dnd-kit/types";
 
 export function SortableSectionItem({ data }: SortableItemProps<Section>) {

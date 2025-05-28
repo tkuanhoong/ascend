@@ -1,4 +1,4 @@
-import { UserRole } from "@/generated/prisma";
+import { UserRole } from ".prisma/client";
 import { useSession } from "next-auth/react";
 
 export const useCurrentRole = () => {

@@ -17,7 +17,7 @@ import { getChapterWithVideoAndAttachments } from "@/data/chapter/get-chapter-wi
 export default async function SectionPage({
   params,
 }: {
-  params: { courseId: string; sectionId: string; chapterId: string };
+  params: Promise<{ courseId: string; sectionId: string; chapterId: string }>;
 }) {
   const { courseId, sectionId, chapterId } = await params;
   const user = await currentUser();

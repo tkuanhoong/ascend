@@ -4,7 +4,7 @@ import { CommonInput } from "@/components/form/common-input";
 import { SelectInput } from "@/components/form/select-input";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { User, UserRole } from "@/generated/prisma";
+import { User, UserRole } from ".prisma/client";
 import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import { AdminEditUserFormSchema } from "@/lib/zod";

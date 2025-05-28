@@ -20,7 +20,7 @@ export default async function ChapterPageLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { courseId: string; chapterId: string };
+  params: Promise<{ courseId: string; chapterId: string }>;
 }) {
   const { courseId } = await params;
   const userId = await currentUserId();

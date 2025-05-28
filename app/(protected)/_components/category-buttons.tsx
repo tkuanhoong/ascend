@@ -1,6 +1,6 @@
 "use client";
 
-import { Category } from "@/generated/prisma";
+import { Category } from ".prisma/client";
 import { CategoryItem } from "./category-item";
 
 export const CategoryButtons = ({ categories }: { categories: Category[] }) => {

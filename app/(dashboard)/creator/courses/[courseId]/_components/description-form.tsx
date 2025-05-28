@@ -19,7 +19,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
-import { Course } from "@/generated/prisma";
+import { Course } from ".prisma/client";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 
 const formSchema = z.object({

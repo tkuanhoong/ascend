@@ -1,13 +1,13 @@
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
-import { CourseStatus } from "@/generated/prisma";
+import { CourseStatus } from ".prisma/client";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
 export async function POST(
     req: Request,
-    { params }: { params: { courseId: string } }
+    { params }: { params: Promise<{ courseId: string }> }
 ) {
     const { courseId } = await params;
     try {

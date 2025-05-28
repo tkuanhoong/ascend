@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { CreateSectionSchema } from "@/lib/zod";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest, { params }: { params: { courseId: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
     try {
         const { courseId } = await params;
         const user = await currentUser();

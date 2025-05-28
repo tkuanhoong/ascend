@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { AdminCourseStatusSchema } from "@/lib/zod";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PATCH(req: NextRequest, { params }: { params: { courseId: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
     try {
         const isAdmin = isCurrentUserAdmin();
 

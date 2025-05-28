@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { User } from "@/generated/prisma";
+import { User } from ".prisma/client";
 import { ConfirmModal } from "@/components/form/confirm-modal";
 
 interface UserTableDropdownActionsProps {

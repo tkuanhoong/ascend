@@ -1,4 +1,4 @@
-import { CourseStatus } from '@/generated/prisma';
+import { CourseStatus } from '.prisma/client';
 import { db } from '@/lib/db';
 import { tool as createTool } from 'ai';
 import { z } from 'zod';

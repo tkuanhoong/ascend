@@ -6,7 +6,7 @@ import EditUserPasswordForm from "./_components/edit-user-password-form";
 export default async function EditUserPage({
   params,
 }: {
-  params: { userId: string };
+  params: Promise<{ userId: string }>;
 }) {
   const { userId } = await params;
 

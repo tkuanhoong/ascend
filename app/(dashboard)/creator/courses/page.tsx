@@ -3,7 +3,7 @@ import { columns } from "./_components/columns";
 import { db } from "@/lib/db";
 import { currentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Category, Course } from "@/generated/prisma";
+import { Category, Course } from ".prisma/client";
 
 export type CourseWithCategory = Course & { category: Category | null };
 

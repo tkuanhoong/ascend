@@ -20,7 +20,7 @@ import { useEffect, useState } from "react";
 import { SectionItem } from "./section-item";
 import { SortableSectionItem } from "./sortable-section-item";
 import useIsModalOpen from "@/hooks/use-is-modal-open";
-import { Section } from "@/generated/prisma";
+import { Section } from ".prisma/client";
 import type { SortableListAreaProps } from "@/components/dnd-kit/types";
 
 export const SectionList = ({

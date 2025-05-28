@@ -1,4 +1,4 @@
-import { CourseStatus, UserRole } from "@/generated/prisma";
+import { CourseStatus, UserRole } from ".prisma/client";
 import { z } from "zod";
 
 export const LoginSchema = z.object({

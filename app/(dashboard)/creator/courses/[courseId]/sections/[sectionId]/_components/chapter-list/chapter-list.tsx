@@ -20,7 +20,7 @@ import { useEffect, useState } from "react";
 import { ChapterItem } from "./chapter-item";
 import { SortableChapterItem } from "./sortable-chapter-item";
 import useIsModalOpen from "@/hooks/use-is-modal-open";
-import { Chapter } from "@/generated/prisma";
+import { Chapter } from ".prisma/client";
 import type { SortableListAreaProps } from "@/components/dnd-kit/types";
 
 export const ChapterList = ({

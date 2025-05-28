@@ -11,12 +11,12 @@ import {
 import { Bolt, TableOfContents, Timer } from "lucide-react";
 import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
 import { IconBadge } from "@/components/icon-badge";
-import { SectionLevel } from "@/generated/prisma";
+import { SectionLevel } from ".prisma/client";
 
 export default async function SectionPage({
   params,
 }: {
-  params: { courseId: string; sectionId: string };
+  params: Promise<{ courseId: string; sectionId: string }>;
 }) {
   const { courseId, sectionId } = await params;
   const user = await currentUser();

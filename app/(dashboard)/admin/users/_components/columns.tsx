@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/generated/prisma";
+import { User } from ".prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { UserTableDropdownActions } from "./user-table-dropdown-actions";
 import { CheckCircle, XCircle } from "lucide-react";

@@ -1,6 +1,6 @@
 "use client";
 import { DataTable } from "@/components/data-table/custom-data-table";
-import { CourseStatus } from "@/generated/prisma";
+import { CourseStatus } from ".prisma/client";
 import { TabListSettings } from "@/components/data-table/data-table-tab-list";
 import { columns } from "./columns";
 import { CourseWithUserEmail } from "../page";

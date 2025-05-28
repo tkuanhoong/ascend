@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 export default async function LearnerProgressPage({
   params,
 }: {
-  params: { courseId: string };
+  params: Promise<{ courseId: string }>;
 }) {
   const { courseId } = await params;
 

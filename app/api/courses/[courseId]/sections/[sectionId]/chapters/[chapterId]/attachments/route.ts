@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { currentUser } from '@/lib/auth';
 
-export async function POST(req: Request, { params }: { params: { courseId: string, chapterId: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ courseId: string, chapterId: string }> }) {
     try {
         const { courseId, chapterId } = await params;
         const user = await currentUser();

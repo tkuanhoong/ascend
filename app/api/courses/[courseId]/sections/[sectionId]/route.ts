@@ -3,7 +3,7 @@ import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(req: NextRequest, { params }: { params: { courseId: string, sectionId: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ courseId: string, sectionId: string }> }) {
     try {
         const { courseId, sectionId } = await params;
 
@@ -48,7 +48,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { courseId:
     }
 }
 
-export async function PATCH(req: Request, { params }: { params: { courseId: string, sectionId: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ courseId: string, sectionId: string }> }) {
     try {
         const user = await currentUser();
         const { courseId, sectionId } = await params;

@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { AdminEditUserFormSchema } from "@/lib/zod";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PATCH(req: NextRequest, { params }: { params: { userId: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ userId: string }> }) {
     try {
         const isAdmin = await isCurrentUserAdmin();
         if (!isAdmin) {
@@ -45,7 +45,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { userId: st
     }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { userId: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ userId: string }> }) {
     try {
         const isAdmin = await isCurrentUserAdmin();
         if (!isAdmin) {

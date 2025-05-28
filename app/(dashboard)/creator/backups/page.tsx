@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { columns } from "./_components/columns";
 
-export const CourseBackupPage = async () => {
+export default async function CourseBackupPage() {
   const userId = await currentUserId();
   if (!userId) {
     redirect("/");
@@ -32,6 +32,4 @@ export const CourseBackupPage = async () => {
       <DataTable columns={columns} data={data} />
     </div>
   );
-};
-
-export default CourseBackupPage;
+}

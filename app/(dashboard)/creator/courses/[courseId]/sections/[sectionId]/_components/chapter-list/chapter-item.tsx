@@ -1,6 +1,6 @@
 "use client";
 
-import { Chapter } from "@/generated/prisma";
+import { Chapter } from ".prisma/client";
 import { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 import { ChapterItemContent } from "./chapter-item-content";

@@ -5,7 +5,7 @@ import { ProfileTabContent } from "./_components/profile-tab-content";
 import { ProfileAccountForm } from "./_components/profile-account-form";
 import { useEffect, useState } from "react";
 import { ChangePasswordForm } from "./_components/change-password-form";
-import { User } from "@/generated/prisma";
+import { User } from ".prisma/client";
 import { ProfileAccountFormSkeleton } from "./_components/profile-form-skeleton";
 import apiClient from "@/lib/axios";
 import { unexpectedErrorToast } from "@/lib/toast";
