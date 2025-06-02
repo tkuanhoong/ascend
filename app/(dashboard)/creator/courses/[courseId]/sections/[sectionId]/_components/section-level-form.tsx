@@ -21,6 +21,7 @@ import { Section } from ".prisma/client";
 import { Combobox } from "@/components/ui/combobox";
 import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
+import useIsEditable from "@/hooks/use-is-editable";
 
 const formSchema = z.object({
   level: z.string().min(1, {
@@ -41,6 +42,7 @@ export const SectionLevelForm = ({
   sectionId,
   options,
 }: SectionLevelFormProps) => {
+  const { isEditable } = useIsEditable();
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -78,16 +80,18 @@ export const SectionLevelForm = ({
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Section Level
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit
-            </>
-          )}
-        </Button>
+        {isEditable && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4 mr-2" />
+                Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing && (
         <p

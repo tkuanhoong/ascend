@@ -19,6 +19,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
+import useIsEditable from "@/hooks/use-is-editable";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -34,6 +35,7 @@ interface TitleFormProps {
 }
 
 export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
+  const { isEditable } = useIsEditable();
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -62,16 +64,18 @@ export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Course Title
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit
-            </>
-          )}
-        </Button>
+        {isEditable && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4 mr-2" />
+                Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing && <p className="text-sm mt-2">{initialData.title}</p>}
       {isEditing && (

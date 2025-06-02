@@ -23,7 +23,8 @@ import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import { Chapter, Section } from ".prisma/client";
 import { CreateChapterSchema } from "@/lib/zod";
 import { ChapterList } from "./chapter-list";
-import { ModalContextProvider } from "@/components/modal-context-provider";
+import { ModalContextProvider } from "@/components/providers/modal-context-provider";
+import useIsEditable from "@/hooks/use-is-editable";
 
 const formSchema = CreateChapterSchema;
 
@@ -38,6 +39,7 @@ export const ChapterForm = ({
   courseId,
   sectionId,
 }: ChapterFormProps) => {
+  const { isEditable } = useIsEditable();
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, startTransition] = useTransition();
   const isChapterEmpty = !initialData.chapters.length;
@@ -95,16 +97,18 @@ export const ChapterForm = ({
       )}
       <div className="font-medium flex items-center justify-between">
         {isCreating ? "Chapter title" : "Section Chapters"}
-        <Button onClick={toggleCreating} variant="ghost">
-          {isCreating ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <PlusCircle className="h-4 w-4 mr-2" />
-              Add chapter
-            </>
-          )}
-        </Button>
+        {isEditable && (
+          <Button onClick={toggleCreating} variant="ghost">
+            {isCreating ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <PlusCircle className="h-4 w-4 mr-2" />
+                Add chapter
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {isCreating && (
         <Form {...form}>

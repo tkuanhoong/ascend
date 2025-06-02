@@ -9,6 +9,7 @@ import { Chapter, Video } from ".prisma/client";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { z } from "zod";
+import useIsEditable from "@/hooks/use-is-editable";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchema = z.object({
@@ -22,6 +23,7 @@ interface ChapterVideoFormProps {
 export const ChapterVideoForm = ({ initialData }: ChapterVideoFormProps) => {
   const { courseId, sectionId, chapterId } = useParams();
 
+  const { isEditable } = useIsEditable();
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -46,21 +48,23 @@ export const ChapterVideoForm = ({ initialData }: ChapterVideoFormProps) => {
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Chapter Video
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing && <>Cancel</>}
-          {!isEditing && !initialData.videoUrl && (
-            <>
-              <PlusCircle className="h-4 w-4 mr-2" />
-              Add a video
-            </>
-          )}
-          {!isEditing && initialData.videoUrl && (
-            <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit video
-            </>
-          )}
-        </Button>
+        {isEditable && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing && <>Cancel</>}
+            {!isEditing && !initialData.videoUrl && (
+              <>
+                <PlusCircle className="h-4 w-4 mr-2" />
+                Add a video
+              </>
+            )}
+            {!isEditing && initialData.videoUrl && (
+              <>
+                <Pencil className="h-4 w-4 mr-2" />
+                Edit video
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing &&
         (!initialData.videoUrl ? (

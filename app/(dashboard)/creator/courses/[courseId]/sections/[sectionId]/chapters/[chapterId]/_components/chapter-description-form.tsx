@@ -18,12 +18,11 @@ import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-// import { Editor } from "@/components/editor";
-// import { Preview } from "@/components/preview";
 import { Chapter } from ".prisma/client";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import { EditorPanel } from "@/components/editor-panel";
 import { EditorPreview } from "@/components/editor-preview";
+import useIsEditable from "@/hooks/use-is-editable";
 
 const formSchema = z.object({
   description: z.string().min(1),
@@ -36,6 +35,7 @@ interface ChapterDescriptionFormProps {
 export const ChapterDescriptionForm = ({
   initialData,
 }: ChapterDescriptionFormProps) => {
+  const { isEditable } = useIsEditable();
   const [isEditing, setIsEditing] = useState(false);
   const { courseId, sectionId, chapterId } = useParams();
 
@@ -68,16 +68,18 @@ export const ChapterDescriptionForm = ({
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Chapter Description
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit description
-            </>
-          )}
-        </Button>
+        {isEditable && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4 mr-2" />
+                Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing && (
         <div

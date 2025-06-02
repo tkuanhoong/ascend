@@ -14,8 +14,6 @@ import {
 import { CourseActions } from "./_components/course-actions";
 import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
 import { getCourseWithSections } from "@/data/course/get-course-with-sections";
-import { AlertBanner } from "@/components/course/alert-banner";
-import { CourseStatus } from ".prisma/client";
 
 export default async function EditCoursePage({
   params,
@@ -57,31 +55,6 @@ export default async function EditCoursePage({
 
   return (
     <>
-      {course.status === CourseStatus.PENDING && (
-        <AlertBanner label="The course is pending review." />
-      )}
-      {course.status === CourseStatus.REJECTED && (
-        <AlertBanner
-          label="The course is rejected by admin."
-          variant="danger"
-          reason={course.reason}
-        />
-      )}
-      {course.status === CourseStatus.REVOKED && (
-        <AlertBanner
-          label="The course publish status is revoked by admin."
-          reason={course.reason}
-        />
-      )}
-      {course.status === CourseStatus.DRAFT && (
-        <AlertBanner label="This course is under draft. It will not be visible to students." />
-      )}
-      {course.status === CourseStatus.PUBLISHED && (
-        <AlertBanner
-          label="This course is made public to students."
-          variant="success"
-        />
-      )}
       <div className="p-6">
         <CustomBreadcrumb currentPageLabel="Course" />
         <div className="flex items-center justify-between">

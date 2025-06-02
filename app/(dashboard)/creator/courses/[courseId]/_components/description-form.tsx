@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Course } from ".prisma/client";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
+import useIsEditable from "@/hooks/use-is-editable";
 
 const formSchema = z.object({
   description: z.string().min(1, {
@@ -37,6 +38,7 @@ export const DescriptionForm = ({
   initialData,
   courseId,
 }: DescriptionFormProps) => {
+  const { isEditable } = useIsEditable();
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -67,16 +69,18 @@ export const DescriptionForm = ({
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Course Description
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit
-            </>
-          )}
-        </Button>
+        {isEditable && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4 mr-2" />
+                Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing && (
         <p

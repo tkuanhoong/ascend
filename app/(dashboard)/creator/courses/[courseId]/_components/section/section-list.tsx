@@ -22,6 +22,7 @@ import { SortableSectionItem } from "./sortable-section-item";
 import useIsModalOpen from "@/hooks/use-is-modal-open";
 import { Section } from ".prisma/client";
 import type { SortableListAreaProps } from "@/components/dnd-kit/types";
+import useIsEditable from "@/hooks/use-is-editable";
 
 export const SectionList = ({
   onReorder,
@@ -31,6 +32,7 @@ export const SectionList = ({
   const [activeId, setActiveId] = useState<string | undefined>(undefined);
   const [sections, setSections] = useState<Section[]>([]);
   const { isModalOpen } = useIsModalOpen();
+  const { isEditable } = useIsEditable();
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -64,7 +66,7 @@ export const SectionList = ({
         <SortableContext
           items={sections}
           strategy={verticalListSortingStrategy}
-          disabled={isModalOpen}
+          disabled={isModalOpen || !isEditable}
         >
           {sections.map((section) => (
             <SortableSectionItem key={section.id} data={section} />

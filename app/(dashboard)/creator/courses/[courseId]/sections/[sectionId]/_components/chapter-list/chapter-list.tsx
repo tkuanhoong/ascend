@@ -22,11 +22,13 @@ import { SortableChapterItem } from "./sortable-chapter-item";
 import useIsModalOpen from "@/hooks/use-is-modal-open";
 import { Chapter } from ".prisma/client";
 import type { SortableListAreaProps } from "@/components/dnd-kit/types";
+import useIsEditable from "@/hooks/use-is-editable";
 
 export const ChapterList = ({
   onReorder,
   items,
 }: SortableListAreaProps<Chapter>) => {
+  const { isEditable } = useIsEditable();
   const [isMounted, setIsMounted] = useState(false);
   const [activeId, setActiveId] = useState<string | undefined>(undefined);
   const [chapters, setChapters] = useState<Chapter[]>([]);
@@ -64,7 +66,7 @@ export const ChapterList = ({
         <SortableContext
           items={chapters}
           strategy={verticalListSortingStrategy}
-          disabled={isModalOpen}
+          disabled={isModalOpen || !isEditable}
         >
           {chapters.map((chapter) => (
             <SortableChapterItem key={chapter.id} data={chapter} />

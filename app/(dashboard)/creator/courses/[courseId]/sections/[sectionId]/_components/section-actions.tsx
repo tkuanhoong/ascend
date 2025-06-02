@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { ConfirmModal } from "@/components/form/confirm-modal";
+import useIsEditable from "@/hooks/use-is-editable";
 
 interface SectionActionsProps {
   disabled: boolean;
@@ -23,6 +24,11 @@ export const SectionActions = ({
 }: SectionActionsProps) => {
   const router = useRouter();
   const [isLoading, startTransition] = useTransition();
+  const { isEditable } = useIsEditable();
+
+  if (!isEditable) {
+    return null;
+  }
 
   const onClick = () => {
     startTransition(async () => {

@@ -3,15 +3,17 @@
 import { ConfirmModal } from "@/components/form/confirm-modal";
 import { Button } from "@/components/ui/button";
 import { Chapter } from ".prisma/client";
-import { GripVertical, Pencil, X } from "lucide-react";
+import { Eye, GripVertical, Pencil, X } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import useIsModalOpen from "@/hooks/use-is-modal-open";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import useIsEditable from "@/hooks/use-is-editable";
 
 export const ChapterItemContent = ({ data }: { data: Chapter | undefined }) => {
+  const { isEditable } = useIsEditable();
   const router = useRouter();
   const { courseId } = useParams();
   const { setIsModalOpen } = useIsModalOpen();
@@ -63,27 +65,33 @@ export const ChapterItemContent = ({ data }: { data: Chapter | undefined }) => {
           </Badge>
         </div>
         <Button variant="ghost" className="lg:p-4 p-2" onClick={onEdit}>
-          <Pencil className="size-4" />
+          {isEditable ? (
+            <Pencil className="size-4" />
+          ) : (
+            <Eye className="size-4" />
+          )}
         </Button>
-        <ConfirmModal
-          onConfirm={onDelete}
-          title="Confirm to delete this chapter?"
-          desc="This action cannot be undone. This will permanently delete the
+        {isEditable && (
+          <ConfirmModal
+            onConfirm={onDelete}
+            title="Confirm to delete this chapter?"
+            desc="This action cannot be undone. This will permanently delete the
             chapter and remove your data from our servers."
-          onOpenChange={(open) => {
-            setIsModalOpen(open);
-          }}
-        >
-          <Button
-            variant="ghost"
-            className="lg:p-4 p-2"
-            onClick={() => {
-              console.log("clicked");
+            onOpenChange={(open) => {
+              setIsModalOpen(open);
             }}
           >
-            <X className="size-4" />
-          </Button>
-        </ConfirmModal>
+            <Button
+              variant="ghost"
+              className="lg:p-4 p-2"
+              onClick={() => {
+                console.log("clicked");
+              }}
+            >
+              <X className="size-4" />
+            </Button>
+          </ConfirmModal>
+        )}
       </div>
     </>
   );

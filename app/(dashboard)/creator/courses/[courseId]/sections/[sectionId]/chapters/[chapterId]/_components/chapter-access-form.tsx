@@ -21,6 +21,7 @@ import apiClient from "@/lib/axios";
 import { Chapter } from ".prisma/client";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import { Checkbox } from "@/components/ui/checkbox";
+import useIsEditable from "@/hooks/use-is-editable";
 
 const formSchema = z.object({
   isFree: z.boolean().default(false),
@@ -31,6 +32,7 @@ interface ChapterAccessFormProps {
 }
 
 export const ChapterAccessForm = ({ initialData }: ChapterAccessFormProps) => {
+  const { isEditable } = useIsEditable();
   const [isEditing, setIsEditing] = useState(false);
 
   const { courseId, sectionId, chapterId } = useParams();
@@ -64,16 +66,18 @@ export const ChapterAccessForm = ({ initialData }: ChapterAccessFormProps) => {
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Chapter access
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit access
-            </>
-          )}
-        </Button>
+        {isEditable && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4 mr-2" />
+                Edit access
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing && (
         <p

@@ -3,17 +3,19 @@
 import { ConfirmModal } from "@/components/form/confirm-modal";
 import { Button } from "@/components/ui/button";
 import { Section } from ".prisma/client";
-import { GripVertical, Pencil, X } from "lucide-react";
+import { Eye, GripVertical, Pencil, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useIsModalOpen from "@/hooks/use-is-modal-open";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import useIsEditable from "@/hooks/use-is-editable";
 
 export const SectionItemContent = ({ data }: { data: Section | undefined }) => {
   const router = useRouter();
   const { setIsModalOpen } = useIsModalOpen();
+  const { isEditable } = useIsEditable();
   if (!data) {
     return null;
   }
@@ -56,21 +58,27 @@ export const SectionItemContent = ({ data }: { data: Section | undefined }) => {
         </div>
 
         <Button variant="ghost" className="lg:p-4 p-2" onClick={onEdit}>
-          <Pencil className="size-4" />
+          {isEditable ? (
+            <Pencil className="size-4" />
+          ) : (
+            <Eye className="size-4" />
+          )}
         </Button>
-        <ConfirmModal
-          onConfirm={onDelete}
-          title="Confirm to delete this section?"
-          desc="This action cannot be undone. This will permanently delete the
+        {isEditable && (
+          <ConfirmModal
+            onConfirm={onDelete}
+            title="Confirm to delete this section?"
+            desc="This action cannot be undone. This will permanently delete the
             section and remove your data from our servers."
-          onOpenChange={(open) => {
-            setIsModalOpen(open);
-          }}
-        >
-          <Button variant="ghost" className="lg:p-4 p-2">
-            <X className="size-4" />
-          </Button>
-        </ConfirmModal>
+            onOpenChange={(open) => {
+              setIsModalOpen(open);
+            }}
+          >
+            <Button variant="ghost" className="lg:p-4 p-2">
+              <X className="size-4" />
+            </Button>
+          </ConfirmModal>
+        )}
       </div>
     </>
   );

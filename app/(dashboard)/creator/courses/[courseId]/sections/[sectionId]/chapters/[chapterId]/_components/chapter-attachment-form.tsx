@@ -14,6 +14,7 @@ import { Chapter, Attachment } from ".prisma/client";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useIsEditable from "@/hooks/use-is-editable";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchema = z.object({
@@ -30,6 +31,7 @@ interface ChapterAttachmentFormProps {
 export const ChapterAttachmentForm = ({
   initialData,
 }: ChapterAttachmentFormProps) => {
+  const { isEditable } = useIsEditable();
   const [isEditing, setIsEditing] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const { courseId, sectionId, chapterId } = useParams();
@@ -76,21 +78,23 @@ export const ChapterAttachmentForm = ({
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Chapter Resources
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing && <>Cancel</>}
-          {!isEditing && (
-            <>
-              <PlusCircle className="h-4 w-4 mr-2" />
-              Add a file
-            </>
-          )}
-        </Button>
+        {isEditable && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing && <>Cancel</>}
+            {!isEditing && (
+              <>
+                <PlusCircle className="h-4 w-4 mr-2" />
+                Add a file
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing && (
         <>
           {initialData.attachments.length === 0 && (
             <p className="text-sm mt-2 text-slate-500 italic">
-              No resources yet
+              No resources
             </p>
           )}
           {initialData.attachments.length > 0 && (

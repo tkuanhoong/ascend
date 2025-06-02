@@ -11,6 +11,7 @@ import Image from "next/image";
 import { FileDropZone } from "@/components/file-drop-zone";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
+import useIsEditable from "@/hooks/use-is-editable";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchema = z.object({
@@ -25,6 +26,7 @@ interface ImageFormProps {
 }
 
 export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
+  const { isEditable } = useIsEditable();
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -46,21 +48,23 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Course Image
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing && <>Cancel</>}
-          {!isEditing && !initialData.imageUrl && (
-            <>
-              <PlusCircle className="h-4 w-4 mr-2" />
-              Add image
-            </>
-          )}
-          {!isEditing && initialData.imageUrl && (
-            <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit
-            </>
-          )}
-        </Button>
+        {isEditable && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing && <>Cancel</>}
+            {!isEditing && !initialData.imageUrl && (
+              <>
+                <PlusCircle className="h-4 w-4 mr-2" />
+                Add image
+              </>
+            )}
+            {!isEditing && initialData.imageUrl && (
+              <>
+                <Pencil className="h-4 w-4 mr-2" />
+                Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing &&
         (!initialData.imageUrl ? (

@@ -8,6 +8,7 @@ import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { ConfirmModal } from "@/components/form/confirm-modal";
 import { CourseStatus } from ".prisma/client";
+import useIsEditable from "@/hooks/use-is-editable";
 
 interface CourseActionsProps {
   disabled: boolean;
@@ -22,6 +23,11 @@ export const CourseActions = ({
 }: CourseActionsProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { isEditable } = useIsEditable();
+  
+  if(!isEditable){
+    return null;
+  }
 
   const onClick = async () => {
     try {
@@ -73,8 +79,8 @@ export const CourseActions = ({
         {courseStatus === CourseStatus.PENDING
           ? "Pending Review"
           : courseStatus === CourseStatus.PUBLISHED
-          ? "Unpublish"
-          : "Publish"}
+            ? "Unpublish"
+            : "Publish"}
       </Button>
       <ConfirmModal
         onConfirm={onDelete}

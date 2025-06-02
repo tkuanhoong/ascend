@@ -22,6 +22,7 @@ import { Input } from "@/components/ui/input";
 import { formattedToMYR } from "@/lib/currency";
 import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
+import useIsEditable from "@/hooks/use-is-editable";
 
 const formSchema = z.object({
   price: z.coerce
@@ -36,6 +37,7 @@ interface PriceFormProps {
 }
 
 export const PriceForm = ({ initialData, courseId }: PriceFormProps) => {
+  const { isEditable } = useIsEditable();
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -66,16 +68,18 @@ export const PriceForm = ({ initialData, courseId }: PriceFormProps) => {
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Course Price
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <>Cancel</>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit
-            </>
-          )}
-        </Button>
+        {isEditable && (
+          <Button onClick={toggleEdit} variant="ghost">
+            {isEditing ? (
+              <>Cancel</>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4 mr-2" />
+                Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
       {!isEditing && (
         <p

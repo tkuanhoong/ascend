@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { ConfirmModal } from "@/components/form/confirm-modal";
+import useIsEditable from "@/hooks/use-is-editable";
 
 interface ChapterActionsProps {
   disabled: boolean;
@@ -20,6 +21,11 @@ export const ChapterActions = ({
   const router = useRouter();
   const [isLoading, startTransition] = useTransition();
   const { courseId, sectionId, chapterId } = useParams();
+  const { isEditable } = useIsEditable();
+
+  if (!isEditable) {
+    return null;
+  }
 
   const apiRoute = `/api/courses/${courseId}/sections/${sectionId}/chapters/${chapterId}`;
 
