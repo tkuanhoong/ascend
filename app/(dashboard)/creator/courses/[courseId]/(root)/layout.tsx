@@ -17,11 +17,12 @@ export default async function CoursePageLayout({
   if (!course) {
     redirect("/creator/courses");
   }
+
   const isEditable = course.status !== CourseStatus.PENDING;
   return (
     <EditableContextProvider defaultValue={isEditable}>
       {course.status === CourseStatus.PENDING && (
-        <AlertBanner label="The course is pending review." />
+        <AlertBanner label="The course is pending review and cannot be modified." />
       )}
       {course.status === CourseStatus.REJECTED && (
         <AlertBanner
@@ -44,6 +45,9 @@ export default async function CoursePageLayout({
           label="This course is made public to students."
           variant="success"
         />
+      )}
+      {course.status === CourseStatus.UNPUBLISHED && (
+        <AlertBanner label="The course is unpublished. This prevents new students from enrolling the course." />
       )}
       {children}
     </EditableContextProvider>

@@ -6,6 +6,7 @@ import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PurchasesWithUserWithProgress } from "@/data/course/get-learner-progress-list";
 import { CourseProgress } from "@/components/course/course-progress,";
+import { formatDateTime } from "@/lib/format";
 
 export const columns: ColumnDef<PurchasesWithUserWithProgress>[] = [
   {
@@ -50,6 +51,18 @@ export const columns: ColumnDef<PurchasesWithUserWithProgress>[] = [
           value={progress}
         />
       );
+    },
+  },
+  {
+    accessorKey: "completedProgressAt",
+    header: () => <div>Completed At</div>,
+    cell: ({ row }) => {
+      const { completedProgressAt } = row.original;
+      if (!completedProgressAt) {
+        return "Not Completed";
+      }
+
+      return formatDateTime(completedProgressAt);
     },
   },
 ];
