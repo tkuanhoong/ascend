@@ -24,6 +24,7 @@ enum CourseStatus {
   DRAFT
   PENDING
   PUBLISHED
+  UNPUBLISHED
   REJECTED
   REVOKED
 }
@@ -151,10 +152,11 @@ model Video {
 }
 
 model Purchase {
-  id        String   @id @default(cuid())
-  amount    Float?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String    @id @default(cuid())
+  amount              Float?
+  completedProgressAt DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
