@@ -7,6 +7,7 @@ import { currentUserId, isCurrentUserAdmin } from "@/lib/auth";
 import PurchaseCourseButton from "@/app/(protected)/courses/[courseId]/_components/purchase-course-button";
 import { getChapterContent } from "@/data/chapter/get-chapter-content";
 import { MarkCompletedButton } from "./_components/mark-completed-button";
+import { getIsCourseOwner } from "@/data/course/course-owner";
 
 export default async function ChapterPage({
   params,
@@ -33,12 +34,15 @@ export default async function ChapterPage({
     redirect("/");
   }
 
+  const isOwner = await getIsCourseOwner({ courseId, userId });
+  const hasPreviewAccess = isOwner || isAdmin;
+
   const isPurchased = !!purchase;
-  const isPurchasedOrFree = !!isPurchased || chapter.isFree;
+  const isPurchasedOrFree = isPurchased || chapter.isFree;
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 bg-slate-50">
-      {isPurchasedOrFree || isAdmin ? (
+      {isPurchasedOrFree || hasPreviewAccess ? (
         <>
           <AspectRatio ratio={16 / 9}>
             <video

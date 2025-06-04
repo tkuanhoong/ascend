@@ -32,7 +32,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ course
                 id: courseId
             },
             data: {
-                status: CourseStatus.DRAFT
+                status: CourseStatus.UNPUBLISHED
             }
         })
 

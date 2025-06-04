@@ -1,8 +1,5 @@
-import { useRouter } from "next/navigation";
 import { CourseWithCategory } from "../page";
 import { Row } from "@tanstack/react-table";
-import apiClient from "@/lib/axios";
-import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,11 +12,12 @@ import { Button } from "@/components/ui/button";
 import {
   ChartNoAxesCombined,
   DatabaseBackup,
+  Eye,
   MoreHorizontal,
   Pencil,
-  Trash2,
 } from "lucide-react";
 import Link from "next/link";
+import { CourseStatus } from "@prisma/client";
 
 interface CourseRowDropdownActionsProps {
   row: Row<CourseWithCategory>;
@@ -28,22 +26,12 @@ interface CourseRowDropdownActionsProps {
 export const CourseRowDropdownActions = ({
   row,
 }: CourseRowDropdownActionsProps) => {
-  const router = useRouter();
   const course = row.original;
-  const { id } = course;
+  const { id, status } = course;
   const editCourseUrl = `/creator/courses/${id}`;
+  const previewCourseUrl =
+    status !== CourseStatus.DRAFT ? `/courses/${id}` : null;
   const viewLearnerProgressUrl = `/creator/courses/${id}/learner-progress`;
-
-  const onDelete = async () => {
-    try {
-      await apiClient.delete(`/api/courses/${id}`);
-      router.refresh();
-      successToast({ message: "Course deleted" });
-    } catch (error) {
-      unexpectedErrorToast();
-      console.log(error);
-    }
-  };
 
   return (
     <DropdownMenu>
@@ -60,9 +48,13 @@ export const CourseRowDropdownActions = ({
             <Pencil className="h-4 w-4 mr-2" /> Edit
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem className="text-red-600" onClick={onDelete}>
-          <Trash2 className="h-4 w-4 mr-2" /> Delete
-        </DropdownMenuItem>
+        {previewCourseUrl && (
+          <Link href={previewCourseUrl} target="_blank">
+            <DropdownMenuItem>
+              <Eye className="h-4 w-4 mr-2" /> View Course
+            </DropdownMenuItem>
+          </Link>
+        )}
         <DropdownMenuSeparator />
         <Link href={viewLearnerProgressUrl}>
           <DropdownMenuItem>

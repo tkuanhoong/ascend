@@ -98,7 +98,7 @@ const ReviewCourseActions = ({ course }: ReviewCourseActionsProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">
         <DropdownMenuItem asChild>
-          <Link href={coursePreviewLink}>
+          <Link href={coursePreviewLink} target="_blank">
             <Eye />
             View Course
           </Link>

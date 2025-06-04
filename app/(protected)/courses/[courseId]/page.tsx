@@ -8,15 +8,19 @@ import { db } from "@/lib/db";
 import { currentUser, isCurrentUserAdmin } from "@/lib/auth";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { getIsCourseOwner } from "@/data/course/course-owner";
+import { CourseStatus } from "@prisma/client";
 
 export default async function CourseDetailsPage({
   params,
 }: {
   params: Promise<{ courseId: string }>;
 }) {
-  const user = await currentUser();
-  const isAdmin = await isCurrentUserAdmin();
   const { courseId } = await params;
+  const user = await currentUser();
+  if (!user) {
+    redirect("/");
+  }
 
   const course = await db.course.findUnique({
     where: {
@@ -49,9 +53,13 @@ export default async function CourseDetailsPage({
     },
   });
 
-  if (!course || !user || !course.price) {
+  if (!course || !course.price) {
     redirect("/");
   }
+  const isAdmin = await isCurrentUserAdmin();
+  const isOwner = await getIsCourseOwner({ courseId, userId: user.id });
+
+  const hasPreviewAccess = isAdmin || isOwner;
 
   const firstSection = course.sections[0];
 
@@ -65,10 +73,19 @@ export default async function CourseDetailsPage({
     where: {
       userId_courseId: {
         userId: user.id,
-        courseId: courseId,
+        courseId,
       },
     },
   });
+
+  const validCourseAccess =
+    hasPreviewAccess ||
+    course.status === CourseStatus.PUBLISHED ||
+    (course.status === CourseStatus.UNPUBLISHED && purchase);
+
+  if (!validCourseAccess) {
+    redirect("/");
+  }
 
   if (purchase) {
     redirect(`/courses/${course.id}/chapters/${firstChapter.id}`);
@@ -114,12 +131,17 @@ export default async function CourseDetailsPage({
           <p className="text-gray-600">
             You will get access to all of the chapters.
           </p>
-
-          <PurchaseCourseButton courseId={course.id} price={course.price} />
-          {(hasFreeChapter || isAdmin) && (
+          {!hasPreviewAccess && (
+            <PurchaseCourseButton courseId={course.id} price={course.price} />
+          )}
+          {(hasFreeChapter || hasPreviewAccess) && (
             <Button variant="outline" className="font-medium" asChild>
               <Link href={`/courses/${course.id}/chapters/${firstChapter.id}`}>
-                {isAdmin ? "Preview as admin" : "Preview free chapters"}
+                {hasPreviewAccess
+                  ? isAdmin
+                    ? "Preview as Admin"
+                    : "Preview as Course Owner"
+                  : "Preview free chapters"}
               </Link>
             </Button>
           )}
