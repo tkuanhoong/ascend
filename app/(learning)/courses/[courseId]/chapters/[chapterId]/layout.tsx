@@ -84,7 +84,7 @@ export default async function ChapterPageLayout({
   });
 
   const progress = await getCourseProgress({ userId, courseId });
-  const isCourseCompleted = progress === 100;
+  const isCourseCompleted = purchase?.completedProgressAt;
 
   if (!course) {
     redirect("/");
@@ -98,7 +98,7 @@ export default async function ChapterPageLayout({
             {isPurchased && (
               <div className="flex items-center space-x-3">
                 <CourseProgress
-                  variant={isCourseCompleted ? "success" : "default"}
+                  variant={progress === 100 ? "success" : "default"}
                   size="sm"
                   value={progress}
                 />

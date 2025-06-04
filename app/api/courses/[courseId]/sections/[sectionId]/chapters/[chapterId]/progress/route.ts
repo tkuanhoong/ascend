@@ -31,7 +31,17 @@ export async function PUT(req: Request, { params }: { params: Promise<{ courseId
         const courseProgress = await getCourseProgress({ userId, courseId });
 
         if (courseProgress === 100) {
-
+            await db.purchase.update({
+                where: {
+                    userId_courseId: {
+                        userId,
+                        courseId
+                    }
+                },
+                data: {
+                    completedProgressAt: new Date(),
+                }
+            })
         }
 
         return NextResponse.json(userProgress);
