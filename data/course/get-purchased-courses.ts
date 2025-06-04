@@ -23,7 +23,9 @@ export const getPurchasedCourses = async (userId: string): Promise<PurchasedCour
             where: {
                 userId,
                 course: {
-                    status: CourseStatus.PUBLISHED,
+                    status: {
+                        not: CourseStatus.REVOKED
+                    }
                 }
             },
             select: {

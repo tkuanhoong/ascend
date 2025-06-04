@@ -1,17 +1,19 @@
 import { db } from "@/lib/db";
-import { Course, Section } from "@prisma/client";
+import { Course, Purchase, Section } from "@prisma/client";
 
-type CourseWithSections = Course & {
+type CourseWithSectionsWithPurchases = Course & {
     sections: Section[];
+    purchases: Purchase[];
 }
 
-export const getCourseWithSections = async (id: string): Promise<CourseWithSections | null> => {
+export const getCourseWithSectionsWithPurchases = async (id: string): Promise<CourseWithSectionsWithPurchases | null> => {
     try {
         const course = await db.course.findUnique({
             where: {
                 id,
             },
             include: {
+                purchases: true,
                 sections: {
                     orderBy: {
                         position: "asc",
