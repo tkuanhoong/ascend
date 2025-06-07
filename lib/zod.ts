@@ -134,3 +134,35 @@ export const AdminEditUserFormSchema = z.object({
         required_error: "Please select a role",
     }),
 });
+
+export const AdminCreateUserSchema = z.object({
+    email: z.string().min(1, {
+        message: "Email is required",
+    }).email({
+        message: "Invalid email address",
+    }),
+    name: z.string().min(1, {
+        message: "Full Name is required",
+    }),
+    role: z.nativeEnum(UserRole, {
+        required_error: "Please select a role",
+    }),
+    identificationNo: z.string().min(1, {
+        message: "IC Number is required",
+    })
+        .refine((val) => !val.includes('-'), {
+            message: "Do not include '-' for IC Number",
+        }) // Remove dashes for consistent processing
+        .refine(data => /^\d{6}\d{2}\d{4}$/.test(data), {
+            message: "Invalid IC Number format",
+        }),
+    password: z.string().min(6, {
+        message: "Minimum 6 characters required",
+    }),
+    confirmPassword: z.string().min(6, {
+        message: "Minimum 6 characters required",
+    }),
+}).refine(data => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"], // This will point the error to the confirmPassword field
+});
