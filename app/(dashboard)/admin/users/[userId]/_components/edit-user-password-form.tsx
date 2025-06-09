@@ -36,6 +36,7 @@ export default function EditUserPasswordForm({
         values
       );
       successToast({ message: "User password updated" });
+      form.reset();
     } catch (error) {
       console.log(error);
       unexpectedErrorToast();

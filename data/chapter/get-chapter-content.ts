@@ -45,15 +45,12 @@ export const getChapterContent = async ({ userId, courseId, chapterId }: GetChap
             throw new Error("Chapter or course not found");
         }
 
-        let attachments: Attachment[] = [];
+        const attachments = await db.attachment.findMany({
+            where: {
+                chapterId
+            }
+        });
 
-        if (purchase) {
-            attachments = await db.attachment.findMany({
-                where: {
-                    chapterId
-                }
-            });
-        }
 
         const userProgress = await db.userProgress.findUnique({
             where: {
