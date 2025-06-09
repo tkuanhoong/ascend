@@ -9,7 +9,7 @@ import {
 import { Course, CourseStatus } from ".prisma/client";
 import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
-import { MoreVerticalIcon, Eye, Check, X } from "lucide-react";
+import { MoreVerticalIcon, Eye, Check, X, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Form } from "@/components/ui/form";
@@ -35,6 +35,7 @@ const ReviewCourseActions = ({ course }: ReviewCourseActionsProps) => {
   const isPublishedCourse = course.status === CourseStatus.PUBLISHED;
   const isRevokedCourse = course.status === CourseStatus.REVOKED;
   const isRejectedCourse = course.status === CourseStatus.REJECTED;
+  const isDraftCourse = course.status === CourseStatus.DRAFT;
   const form = useForm({
     resolver: zodResolver(ReasonRequiredSchema),
     defaultValues: {
@@ -84,6 +85,18 @@ const ReviewCourseActions = ({ course }: ReviewCourseActionsProps) => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      await apiClient.delete(`/api/admin/courses/${course.id}`);
+      successToast({ message: "Course deleted" });
+      router.refresh();
+      form.reset();
+    } catch (error) {
+      unexpectedErrorToast();
+      console.log(error);
+    }
+  };
+
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
@@ -97,14 +110,29 @@ const ReviewCourseActions = ({ course }: ReviewCourseActionsProps) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">
-        <DropdownMenuItem asChild>
-          <Link href={coursePreviewLink} target="_blank">
-            <Eye />
-            View Course
-          </Link>
-        </DropdownMenuItem>
+        {isDraftCourse && (
+          <ConfirmModal
+            onConfirm={handleDelete}
+            title="Confirm to delete this course?"
+            desc="This action cannot be undone."
+          >
+            <DropdownMenuItem
+              className="text-red-600"
+              onSelect={(e) => e.preventDefault()}
+            >
+              <Trash2 />
+              Delete
+            </DropdownMenuItem>
+          </ConfirmModal>
+        )}
         {isPendingCourse && (
           <>
+            <DropdownMenuItem asChild>
+              <Link href={coursePreviewLink} target="_blank">
+                <Eye />
+                View Course
+              </Link>
+            </DropdownMenuItem>
             <ConfirmModal
               title="Confirm Approval"
               desc="This will publish the course to public."
@@ -150,42 +178,58 @@ const ReviewCourseActions = ({ course }: ReviewCourseActionsProps) => {
           </>
         )}
         {isPublishedCourse && (
-          <ModalForm
-            open={isModalOpen}
-            onOpenChange={setIsModalOpen}
-            title="Revoke Course Publish Status"
-            description="Provide a reason"
-            trigger={
-              <DropdownMenuItem
-                className="text-red-600"
-                onSelect={(e) => e.preventDefault()}
-              >
-                Revoke
-              </DropdownMenuItem>
-            }
-          >
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(handleRevoke)}>
-                <TextAreaInput
-                  control={form.control}
-                  name="reason"
-                  label="Reason"
-                />
-                <div className="flex items-center justify-end mt-2">
-                  <Button type="submit">Confirm</Button>
-                </div>
-              </form>
-            </Form>
-          </ModalForm>
+          <>
+            <DropdownMenuItem asChild>
+              <Link href={coursePreviewLink} target="_blank">
+                <Eye />
+                View Course
+              </Link>
+            </DropdownMenuItem>
+            <ModalForm
+              open={isModalOpen}
+              onOpenChange={setIsModalOpen}
+              title="Revoke Course Publish Status"
+              description="Provide a reason"
+              trigger={
+                <DropdownMenuItem
+                  className="text-red-600"
+                  onSelect={(e) => e.preventDefault()}
+                >
+                  Revoke
+                </DropdownMenuItem>
+              }
+            >
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(handleRevoke)}>
+                  <TextAreaInput
+                    control={form.control}
+                    name="reason"
+                    label="Reason"
+                  />
+                  <div className="flex items-center justify-end mt-2">
+                    <Button type="submit">Confirm</Button>
+                  </div>
+                </form>
+              </Form>
+            </ModalForm>
+          </>
         )}
         {(isRevokedCourse || isRejectedCourse) && (
-          <DropdownMenuItem
-            className="text-emerald-600"
-            onClick={handleApprove}
-          >
-            <Check />
-            Publish course
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuItem asChild>
+              <Link href={coursePreviewLink} target="_blank">
+                <Eye />
+                View Course
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="text-emerald-600"
+              onClick={handleApprove}
+            >
+              <Check />
+              Publish course
+            </DropdownMenuItem>
+          </>
         )}
       </DropdownMenuContent>
     </DropdownMenu>
