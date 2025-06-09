@@ -11,7 +11,6 @@ const ChapterImportSchema = z.object({
     title: z.string().min(1),
     description: z.string().nullable(),
     position: z.number(),
-    isPublished: z.boolean(),
     isFree: z.boolean(),
 });
 
@@ -21,8 +20,6 @@ const SectionImportSchema = z.object({
     position: z.number(),
     level: z.nativeEnum(SectionLevel).nullable(),
     estimatedTime: z.number().nullable(),
-    isPublished: z.boolean(),
-    isFree: z.boolean(),
     chapters: z.array(ChapterImportSchema).optional(),
 });
 
@@ -80,15 +77,13 @@ export async function POST(req: NextRequest) {
             });
             if (courseData.sections && courseData.sections.length > 0) {
                 for (const sectionData of courseData.sections) {
-                    const { title, position, level, estimatedTime, isPublished, isFree } = sectionData;
+                    const { title, position, level, estimatedTime } = sectionData;
                     const section = await query.section.create({
                         data: {
                             title,
                             position,
                             level,
                             estimatedTime,
-                            isPublished,
-                            isFree,
                             courseId: course.id,
                         },
                     });
@@ -97,12 +92,11 @@ export async function POST(req: NextRequest) {
                     if (sectionData.chapters && sectionData.chapters.length > 0) {
                         await query.chapter.createMany({
                             data: sectionData.chapters.map(chapter => {
-                                const { title, description, position, isPublished, isFree } = chapter;
+                                const { title, description, position, isFree } = chapter;
                                 return {
                                     title,
                                     description,
                                     position,
-                                    isPublished,
                                     isFree,
                                     sectionId: section.id,
                                 }

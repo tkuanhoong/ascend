@@ -52,7 +52,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ cou
                         level: true,
                         estimatedTime: true,
                         isFree: true,
-                        isPublished: true,
                     }
                 },
             },
