@@ -6,16 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { UserRole } from ".prisma/client";
 import apiClient from "@/lib/axios";
-import { successToast, unexpectedErrorToast } from "@/lib/toast";
+import { successToast } from "@/lib/toast";
 import { AdminCreateUserSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { FormErrorMessage } from "@/components/form/form-error-message";
 
 type CreateUserFormData = z.infer<typeof AdminCreateUserSchema>;
 
 const CreateUserForm = () => {
+  const [error, setError] = useState("");
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(AdminCreateUserSchema),
@@ -31,18 +34,21 @@ const CreateUserForm = () => {
   const { isSubmitting } = form.formState;
 
   const onSubmit = async (values: CreateUserFormData) => {
-    try {
-      await apiClient.post("/api/admin/users", values);
-      successToast({ message: "User created" });
-      router.replace("/admin/users");
-    } catch (error) {
-      console.log(error);
-      unexpectedErrorToast();
-    }
+    await apiClient
+      .post("/api/admin/users", values)
+      .then(() => {
+        successToast({ message: "User created" });
+        router.push("/admin/users");
+        router.refresh();
+      })
+      .catch((error) => {
+        setError(error.response.data.error);
+      });
   };
 
   return (
     <Form {...form}>
+      {error && <FormErrorMessage message={error} />}
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col space-y-4"
