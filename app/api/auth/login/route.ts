@@ -2,8 +2,6 @@ import { signIn } from "@/auth";
 import { db } from "@/lib/db";
 import { sendVerificationEmail } from "@/lib/resend";
 import { generateVerificationToken } from "@/lib/tokens";
-// import { sendVerificationEmail } from "@/lib/resend";
-// import { generateVerificationToken } from "@/lib/tokens";
 import { LoginSchema } from "@/lib/zod";
 import { AuthError } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
