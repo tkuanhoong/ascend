@@ -1,71 +1,29 @@
 import { ChartAreaInteractive } from "@/components/dashboard/chart-area-interactive";
 import { AdminSectionCards } from "@/app/(dashboard)/admin/analytics/_components/admin-section-cards";
-import { db } from "@/lib/db";
-import { CourseStatus } from ".prisma/client";
+import { getAdminAnalyticsData } from "@/data/analytics";
+import { getAllThreeMonthsAgoPurchases } from "@/data/purchase";
 
 export default async function AdminAnalyticsPage() {
-  const purchasePromise = db.purchase.count();
-  const totalUsersPromise = db.user.count();
-  const totalCoursesPendingReviewPromise = db.course.count({
-    where: {
-      status: CourseStatus.PENDING,
-    },
-  });
-  const totalRevenuePromise = db.purchase.aggregate({
-    _sum: {
-      amount: true,
-    },
-  });
-
-  const threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3); // Go back 3 months
-
-  const purchasesInLast3Months = await db.purchase.groupBy({
-    by: ["createdAt"], // Group by day
-    where: {
-      createdAt: {
-        gte: threeMonthsAgo, // Greater than or equal to 3 months ago
-        lte: new Date(), // Less than or equal to now (optional)
-      },
-    },
-    _sum: {
-      amount: true, // Sum the 'amount' field
-    },
-  });
-
-  // Format the result
-  const formattedData = purchasesInLast3Months.map((item) => ({
-    date: item.createdAt.toISOString().split("T")[0], // Extract YYYY-MM-DD
-    amount: item._sum.amount || 0, // Handle null cases
-  }));
-
-  const [
+  const {
+    totalRevenue,
     totalPurchases,
     totalUserCount,
     totalCoursesPendingReviewCount,
-    totalRevenueResult,
-  ] = await Promise.all([
-    purchasePromise,
-    totalUsersPromise,
-    totalCoursesPendingReviewPromise,
-    totalRevenuePromise,
-  ]);
+  } = await getAdminAnalyticsData();
 
-  const {
-    _sum: { amount: totalRevenue },
-  } = totalRevenueResult;
+  const purchasesOverThreeMonths = await getAllThreeMonthsAgoPurchases();
 
   return (
     <div className="flex flex-1 flex-col">
       <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
         <AdminSectionCards
-          totalRevenue={totalRevenue}
-          totalPurchases={totalPurchases}
-          totalUserCount={totalUserCount}
-          totalCoursesPendingReviewCount={totalCoursesPendingReviewCount}
+          totalRevenue={totalRevenue ?? 0}
+          totalPurchases={totalPurchases ?? 0}
+          totalUserCount={totalUserCount ?? 0}
+          totalCoursesPendingReviewCount={totalCoursesPendingReviewCount ?? 0}
         />
         <div className="px-4 lg:px-6">
-          <ChartAreaInteractive data={formattedData} />
+          <ChartAreaInteractive data={purchasesOverThreeMonths ?? []} />
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 import { IconBadge } from "@/components/icon-badge";
 import { currentUser } from "@/lib/auth";
-import { db } from "@/lib/db";
 import { Bolt, DollarSign, TableOfContents } from "lucide-react";
 import { redirect } from "next/navigation";
 import {
@@ -14,6 +13,7 @@ import {
 import { CourseActions } from "./_components/course-actions";
 import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
 import { getCourseWithSectionsWithPurchases } from "@/data/course/get-course-with-sections-with-purchase";
+import { getAllCategories } from "@/data/category";
 
 export default async function EditCoursePage({
   params,
@@ -28,11 +28,7 @@ export default async function EditCoursePage({
   const { courseId } = await params;
   const course = await getCourseWithSectionsWithPurchases(courseId);
 
-  const categories = await db.category.findMany({
-    orderBy: {
-      name: "asc",
-    },
-  });
+  const categories = await getAllCategories();
 
   if (!course) {
     return redirect("/creator/courses");

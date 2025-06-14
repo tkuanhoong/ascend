@@ -1,5 +1,5 @@
 import { signIn } from "@/auth";
-import { db } from "@/lib/db";
+import { getUserByEmail } from "@/data/user";
 import { sendVerificationEmail } from "@/lib/resend";
 import { generateVerificationToken } from "@/lib/tokens";
 import { LoginSchema } from "@/lib/zod";
@@ -19,11 +19,7 @@ export async function POST(req: NextRequest) {
 
         const { email, password } = validatedFields.data;
 
-        const existingUser = await db.user.findUnique({
-            where: {
-                email,
-            }
-        });
+        const existingUser = await getUserByEmail(email);
 
         if (!existingUser || !existingUser.email || !existingUser.password) {
             return NextResponse.json({ error: "Email does not exist!" }, { status: 404 });

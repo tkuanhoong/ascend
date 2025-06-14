@@ -1,5 +1,4 @@
 import { currentUser } from "@/lib/auth";
-import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import {
   SectionActions,
@@ -12,6 +11,7 @@ import { Bolt, TableOfContents, Timer } from "lucide-react";
 import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
 import { IconBadge } from "@/components/icon-badge";
 import { SectionLevel } from ".prisma/client";
+import { getCourseSectionWithChapters } from "@/data/section/get-course-sections";
 
 export default async function SectionPage({
   params,
@@ -20,27 +20,11 @@ export default async function SectionPage({
 }) {
   const { courseId, sectionId } = await params;
   const user = await currentUser();
-  if (!user) {
-    return redirect("/");
-  }
-
-  const section = await db.section.findUnique({
-    where: {
-      id: sectionId,
-      courseId,
-    },
-    include: {
-      chapters: {
-        orderBy: {
-          position: "asc",
-        },
-      },
-    },
-  });
-
-  if (!section) {
+  const section = await getCourseSectionWithChapters({ sectionId, courseId });
+  if (!user || !section) {
     redirect("/");
   }
+
   const requiredFields = [
     section.title,
     section.estimatedTime,

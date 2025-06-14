@@ -33,6 +33,7 @@ const ReviewCourseActions = ({ course }: ReviewCourseActionsProps) => {
   const coursePreviewLink = `/courses/${course.id}`;
   const isPendingCourse = course.status === CourseStatus.PENDING;
   const isPublishedCourse = course.status === CourseStatus.PUBLISHED;
+  const isUnpublishedCourse = course.status === CourseStatus.UNPUBLISHED;
   const isRevokedCourse = course.status === CourseStatus.REVOKED;
   const isRejectedCourse = course.status === CourseStatus.REJECTED;
   const isDraftCourse = course.status === CourseStatus.DRAFT;
@@ -177,7 +178,7 @@ const ReviewCourseActions = ({ course }: ReviewCourseActionsProps) => {
             </ModalForm>
           </>
         )}
-        {isPublishedCourse && (
+        {(isPublishedCourse || isUnpublishedCourse) && (
           <>
             <DropdownMenuItem asChild>
               <Link href={coursePreviewLink} target="_blank">

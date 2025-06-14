@@ -1,9 +1,9 @@
 import { CourseCard } from "@/components/course/course-card";
-import { db } from "@/lib/db";
 import { CategoryButtons } from "./_components/category-buttons";
 import SearchBar from "@/components/search-bar";
 import { getHomeCourses } from "@/data/course/get-home-courses";
 import { AiChatButton } from "./_components/ai-chat-button";
+import { getAllCategories } from "@/data/category";
 
 interface HomePageProps {
   title: string;
@@ -17,7 +17,7 @@ export default async function Home({
 }) {
   const searchQuery = await searchParams;
   const courses = await getHomeCourses({ ...searchQuery });
-  const categories = await db.category.findMany();
+  const categories = await getAllCategories();
 
   return (
     <main className="relative min-h-screen p-8 sm:pb-20">

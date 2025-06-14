@@ -18,23 +18,15 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ChevronRight } from "lucide-react";
-import { Chapter, Section } from ".prisma/client";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { formatMinutes } from "@/lib/format";
-
-type ChapterWithUserProgress = Chapter & {
-  userProgress: { isCompleted: boolean }[];
-};
-
-type SectionWithChapters = Section & {
-  chapters: ChapterWithUserProgress[];
-};
+import { SectionWithChaptersWithProgress } from "@/types/section";
 
 interface LearningDashboardSidebarProps
   extends React.ComponentProps<typeof Sidebar> {
-  sections: SectionWithChapters[];
+  sections: SectionWithChaptersWithProgress[];
   isPurchased: boolean;
 }
 

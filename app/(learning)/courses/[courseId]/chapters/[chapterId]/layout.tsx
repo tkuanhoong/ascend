@@ -5,15 +5,13 @@ import {
 } from "@/components/ui/sidebar";
 import { LearningDashboardSidebar } from "./_components/learning-dashboard-sidebar";
 import { redirect } from "next/navigation";
-import { db } from "@/lib/db";
 import { currentUserId } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Undo2 } from "lucide-react";
 import Link from "next/link";
 import { CourseProgress } from "@/components/course/course-progress,";
-import { getCourseProgress } from "@/data/course/get-course-progress";
 import { ViewCertificateButton } from "./_components/view-certificate-button";
-import { getUserById } from "@/data/user";
+import { getLearningDashboardData } from "@/data/course/get-learning-dashhboard-data";
 
 export default async function ChapterPageLayout({
   children,
@@ -28,67 +26,18 @@ export default async function ChapterPageLayout({
     redirect("/");
   }
 
-  const user = await getUserById(userId);
+  const { user, isPurchased, isCourseCompleted, course, progress } =
+    await getLearningDashboardData({
+      courseId,
+      userId,
+    });
 
-  if (!user || !user.name || !user.identificationNo) {
+  if (!user || !user.name || !user.identificationNo || !course) {
     redirect("/");
   }
 
   const { name, identificationNo } = user;
 
-  const purchase = await db.purchase.findUnique({
-    where: {
-      userId_courseId: {
-        userId,
-        courseId,
-      },
-    },
-  });
-
-  const isPurchased = !!purchase;
-
-  const course = await db.course.findUnique({
-    where: {
-      id: courseId,
-    },
-    include: {
-      sections: {
-        where: {
-          isPublished: true,
-        },
-        orderBy: {
-          position: "asc",
-        },
-        include: {
-          chapters: {
-            where: {
-              isPublished: true,
-            },
-            orderBy: {
-              position: "asc",
-            },
-            include: {
-              userProgress: {
-                where: {
-                  userId,
-                },
-                select: {
-                  isCompleted: true,
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  });
-
-  const progress = await getCourseProgress({ userId, courseId });
-  const isCourseCompleted = purchase?.completedProgressAt;
-
-  if (!course) {
-    redirect("/");
-  }
   return (
     <SidebarProvider>
       <SidebarInset>

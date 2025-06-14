@@ -1,8 +1,8 @@
 import { DataTable } from "@/components/data-table/custom-data-table";
 import { currentUserId } from "@/lib/auth";
-import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { columns } from "./_components/columns";
+import { getBackupByUserId } from "@/data/backup";
 
 export default async function CourseBackupPage() {
   const userId = await currentUserId();
@@ -10,14 +10,7 @@ export default async function CourseBackupPage() {
     redirect("/");
   }
 
-  const data = await db.backup.findMany({
-    where: {
-      userId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+  const data = await getBackupByUserId(userId);
 
   return (
     <div className="p-6">

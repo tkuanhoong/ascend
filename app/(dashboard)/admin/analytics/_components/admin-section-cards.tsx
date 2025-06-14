@@ -3,7 +3,7 @@ import { SectionCard } from "../../../../../components/dashboard/section-card";
 import { formattedToMYR } from "@/lib/currency";
 
 interface SectionCardsProps {
-  totalRevenue: number | null;
+  totalRevenue: number;
   totalPurchases: number;
   totalUserCount: number;
   totalCoursesPendingReviewCount: number;
@@ -19,7 +19,7 @@ export function AdminSectionCards({
     <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 md:grid-cols-2 xl:grid-cols-4">
       <SectionCard
         title="Total Revenue"
-        value={formattedToMYR(totalRevenue ?? 0)}
+        value={formattedToMYR(totalRevenue)}
         Icon={DollarSign}
       />
       <SectionCard

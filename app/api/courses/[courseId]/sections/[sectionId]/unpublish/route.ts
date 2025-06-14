@@ -1,9 +1,9 @@
 import { getIsCourseOwner } from "@/data/course/course-owner";
-import { getSectionWithChapters } from "@/data/section/get-section-with-chapters";
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { CourseStatus } from ".prisma/client";
 import { NextResponse } from "next/server";
+import { getCourseSectionWithChapters } from "@/data/section/get-course-sections";
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ courseId: string, sectionId: string }> }) {
     const { courseId, sectionId } = await params;
@@ -21,7 +21,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ course
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 })
         }
 
-        const section = await getSectionWithChapters(sectionId);
+        const section = await getCourseSectionWithChapters({ sectionId, courseId });
 
         if (!section) {
             return NextResponse.json({ error: "Section Not Found" }, { status: 404 })

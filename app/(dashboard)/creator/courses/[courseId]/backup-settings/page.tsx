@@ -1,7 +1,7 @@
 import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
-import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { SectionTables } from "./_components/section-data-tables";
+import { getCourseBackupSettings } from "@/data/course/get-course-backup-settings";
 
 const BackupSettingsPage = async ({
   params,
@@ -10,27 +10,7 @@ const BackupSettingsPage = async ({
 }) => {
   const { courseId } = await params;
 
-  const course = await db.course.findUnique({
-    where: {
-      id: courseId,
-    },
-    select: {
-      id: true,
-      title: true,
-      sections: {
-        select: {
-          id: true,
-          title: true,
-          chapters: {
-            select: {
-              id: true,
-              title: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const course = await getCourseBackupSettings(courseId);
 
   if (!course) {
     redirect("/creator/courses");
