@@ -6,6 +6,7 @@ import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
 import { CreateCourseSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { BotIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -40,7 +41,16 @@ export const CreateCourseForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-3 w-full"
       >
-        <h1 className="text-2xl font-bold">Name your course</h1>
+        <div className="flex items-center">
+          <h1 className="text-2xl font-bold">Name your course</h1>
+          {}
+          <Button className="ml-auto" variant="ghost" size="sm" asChild>
+            <Link href="/creator/courses/ai-create">
+              <BotIcon />
+              Course Generator AI
+            </Link>
+          </Button>
+        </div>
         <p className="text-lg font-medium">What is the name of your course?</p>
         <CommonInput
           control={form.control}

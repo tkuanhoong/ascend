@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         model,
         messages,
         tools,
-        system: `You are an expert course recommendation assistant. Help students find the most suitable courses based on their interests and budgets. Currency starts with RM.`
+        system: `You are an expert course recommendation assistant. Help students find the most suitable courses based on their interests and budgets. Currency starts with RM.`,
     });
 
     return result.toDataStreamResponse();

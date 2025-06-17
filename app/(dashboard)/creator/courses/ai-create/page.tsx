@@ -1,0 +1,11 @@
+import CourseDescriptionForm from "./_components/course-description-form";
+
+export default async function AiCreateCourseStructurePage() {
+  return (
+    <div className="flex flex-1 gap-4 p-4 pt-0 justify-center items-center">
+      <div className="grid max-w-screen-md l w-full gap-3">
+        <CourseDescriptionForm />
+      </div>
+    </div>
+  );
+}
