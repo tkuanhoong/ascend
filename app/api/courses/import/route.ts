@@ -1,36 +1,7 @@
-
-import { z } from "zod";
 import { currentUserId } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { SectionLevel } from ".prisma/client";
-
-// Zod schema for validating the imported course structure
-const ChapterImportSchema = z.object({
-    id: z.string().min(1),
-    title: z.string().min(1),
-    description: z.string().nullable(),
-    position: z.number(),
-    isFree: z.boolean(),
-});
-
-const SectionImportSchema = z.object({
-    id: z.string().min(1),
-    title: z.string().min(1),
-    position: z.number(),
-    level: z.nativeEnum(SectionLevel).nullable(),
-    estimatedTime: z.number().nullable(),
-    chapters: z.array(ChapterImportSchema).optional(),
-});
-
-const CourseImportSchema = z.object({
-    id: z.string().min(1),
-    title: z.string().min(1),
-    description: z.string().nullable(),
-    price: z.number().nullable(),
-    categoryId: z.string().nullable(),
-    sections: z.array(SectionImportSchema).optional(),
-});
+import { CourseImportSchema } from "@/lib/zod";
 
 export async function POST(req: NextRequest) {
     try {
