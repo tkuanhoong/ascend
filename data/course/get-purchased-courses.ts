@@ -1,16 +1,7 @@
 import { db } from "@/lib/db";
 import { getCourseProgress } from "./get-course-progress";
-import { Category, Course, CourseStatus, Section } from ".prisma/client";
-
-type SectionWithChapters = Section & {
-    chapters: { id: string }[];
-};
-
-type CourseWithProgressWithCategory = Course & {
-    category: Category;
-    sections: SectionWithChapters[];
-    progress: number | null;
-}
+import { CourseWithProgressWithCategory } from "./get-home-courses";
+import { CourseStatus } from "@prisma/client";
 
 type PurchasedCourses = {
     completedCourses: CourseWithProgressWithCategory[];

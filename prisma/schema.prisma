@@ -87,7 +87,7 @@ model Course {
 
   @@index([categoryId])
   @@index([userId])
-  @@fulltext([title])
+  @@fulltext([title, description])
 }
 
 model Category {

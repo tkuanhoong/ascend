@@ -4,6 +4,7 @@ import SearchBar from "@/components/search-bar";
 import { getHomeCourses } from "@/data/course/get-home-courses";
 import { AiChatButton } from "./_components/ai-chat-button";
 import { getAllCategories } from "@/data/category";
+import { currentUser } from "@/lib/auth";
 
 interface HomePageProps {
   title: string;
@@ -18,6 +19,7 @@ export default async function Home({
   const searchQuery = await searchParams;
   const courses = await getHomeCourses({ ...searchQuery });
   const categories = await getAllCategories();
+  const user = await currentUser();
 
   return (
     <main className="relative min-h-screen p-8 sm:pb-20">
@@ -39,8 +41,7 @@ export default async function Home({
           No matching course
         </div>
       )}
-
-      <AiChatButton />
+      {user && <AiChatButton />}
     </main>
   );
 }

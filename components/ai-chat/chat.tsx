@@ -17,16 +17,31 @@ import { Input } from "@/components/ui/input";
 import { useChat } from "@ai-sdk/react";
 import { CourseCard } from "../course/course-card";
 import { CourseWithProgressWithCategory } from "@/data/course/get-home-courses";
+import { useEffect, useRef } from "react";
 
 interface ChatCardProps {
   onOpenChange: () => void;
 }
 
 export function ChatCard({ onOpenChange }: ChatCardProps) {
-  //   const [open, setOpen] = React.useState(false);
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
+  const { messages, input, handleInputChange, handleSubmit, append } = useChat({
     api: `/api/ai/chat`,
   });
+
+  // Ref to keep the chat scrolled to the bottom
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  useEffect(() => {
+    append({
+      role: "system",
+      content:
+        "Hi, I am Ascend AI. I will recommended the courses based on your criteria. Simply state your interests and budget.",
+    });
+  }, [append]);
 
   const inputLength = input.trim().length;
 
@@ -42,9 +57,6 @@ export function ChatCard({ onOpenChange }: ChatCardProps) {
               </Avatar>
               <div>
                 <p className="text-sm font-medium leading-none">Ascend AI</p>
-                <p className="text-sm text-muted-foreground mr-2">
-                  State your interests and budget
-                </p>
               </div>
             </div>
             <Button
@@ -54,44 +66,40 @@ export function ChatCard({ onOpenChange }: ChatCardProps) {
               onClick={onOpenChange}
             >
               <X />
-              <span className="sr-only">Close Ai Chat</span>
+              <span className="sr-only">Close AI Chat</span>
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="max-h-72 overflow-y-auto">
-          <div className="space-y-4">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={cn(
-                  "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm whitespace-pre-wrap",
-                  message.role === "user"
-                    ? "ml-auto bg-primary text-primary-foreground text-end"
-                    : "bg-muted"
-                )}
-              >
-                {/* {message.role === "user" ? "User: " : "AI: "}
-                {message.parts.map((part, i) => {
+        <CardContent className="max-h-96 min-h-[100px] overflow-y-auto p-4 space-y-4 dark:bg-gray-800 rounded-md max-w-sm">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={cn(
+                "flex md:max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm whitespace-pre-wrap",
+                message.role === "user"
+                  ? "ml-auto bg-primary text-primary-foreground text-end"
+                  : "bg-muted"
+              )}
+            >
+              <p className="break-words">{message.content}</p>
+              <div className="grid grid-cols-1 w-full">
+                {message.parts.map((part) => {
                   switch (part.type) {
-                    case "text":
-                      return <div key={`${message.id}-${i}`}>{part.text}</div>;
-                  }
-                })} */}
-                <p className="break-words">{message.content}</p>
-                <div>
-                  {message.parts.map((part) => {
-                    switch (part.type) {
-                      case "tool-invocation":
-                        const { toolName, toolCallId, state } =
-                          part.toolInvocation;
+                    case "tool-invocation":
+                      const { toolName, toolCallId, state } =
+                        part.toolInvocation;
 
-                        if (state === "result") {
-                          if (toolName === "getRecommendCourses") {
-                            const { result } = part.toolInvocation;
-                            return (
-                              <div key={toolCallId}>
-                                Recommended courses:
-                                <div className="grid grid-cols-3 gap-2 overflow-x-auto">
+                      if (state === "result") {
+                        if (toolName === "getRecommendCourses") {
+                          const { result } = part.toolInvocation;
+                          return (
+                            <div key={toolCallId}>
+                              {!result.length
+                                ? "There no available courses match your criteria"
+                                : "Recommended courses:"}
+
+                              {!!result.length && (
+                                <div>
                                   {result.map(
                                     (e: CourseWithProgressWithCategory) => (
                                       <CourseCard
@@ -102,26 +110,27 @@ export function ChatCard({ onOpenChange }: ChatCardProps) {
                                     )
                                   )}
                                 </div>
-                              </div>
-                            );
-                          }
-                        } else {
-                          return (
-                            <div key={toolCallId}>
-                              {toolName === "getRecommendCourses" ? (
-                                <div>Loading recommended courses...</div>
-                              ) : (
-                                <div>Loading...</div>
                               )}
                             </div>
                           );
                         }
-                    }
-                  })}
-                </div>
+                      } else {
+                        return (
+                          <div key={toolCallId}>
+                            {toolName === "getRecommendCourses" ? (
+                              <div>Loading recommended courses...</div>
+                            ) : (
+                              <div>Loading...</div>
+                            )}
+                          </div>
+                        );
+                      }
+                  }
+                })}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+          <div ref={messagesEndRef} /> {/* Scroll target */}
         </CardContent>
         <CardFooter>
           <form

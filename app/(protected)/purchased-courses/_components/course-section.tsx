@@ -1,22 +1,8 @@
 "use client";
 
 import { CourseCard } from "@/components/course/course-card";
-import {
-  Category,
-  Course,
-  Section,
-} from ".prisma/client";
+import { CourseWithProgressWithCategory } from "@/data/course/get-home-courses";
 import React from "react";
-
-type SectionWithChapters = Section & {
-  chapters: { id: string }[];
-};
-
-type CourseWithProgressWithCategory = Course & {
-  category: Category;
-  sections: SectionWithChapters[];
-  progress: number | null;
-};
 
 interface CourseSectionProps {
   courses: CourseWithProgressWithCategory[];
