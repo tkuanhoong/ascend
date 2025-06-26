@@ -35,19 +35,40 @@ export default async function EditCoursePage({
   }
 
   const requiredFields = [
-    course.title,
-    course.description,
-    course.imageUrl,
-    course.price,
-    course.categoryId,
-    course.sections.some((section) => section.isPublished),
+    {
+      isCompleted: !!course.title,
+      message: "Course Title is required",
+    },
+    {
+      isCompleted: !!course.description,
+      message: "Course Description is required",
+    },
+    {
+      isCompleted: !!course.imageUrl,
+      message: "Course Image is required",
+    },
+    {
+      isCompleted: !!course.price,
+      message: "Course Price is required",
+    },
+    {
+      isCompleted: !!course.categoryId,
+      message: "Course Category is required",
+    },
+    {
+      isCompleted: course.sections.some((section) => section.isPublished),
+      message: "At least 1 section is published",
+    },
   ];
+
   const totalFields = requiredFields.length;
-  const completedFields = requiredFields.filter(Boolean).length;
+  const completedFields = requiredFields.filter((e) => e.isCompleted).length;
+
+  const inCompletedFields = requiredFields.filter((e) => !e.isCompleted);
 
   const completionText = `(${completedFields}/${totalFields})`;
 
-  const isComplete = requiredFields.every(Boolean);
+  const isComplete = requiredFields.every((e) => e.isCompleted);
 
   return (
     <div className="p-6">
@@ -55,9 +76,18 @@ export default async function EditCoursePage({
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
           <h1 className="text-2xl font-medium">Course setup</h1>
-          <span className="text-sm text-slate-600">
-            Complete all fields {completionText}
-          </span>
+          {!isComplete && (
+            <div>
+              <span className="text-sm text-slate-600">
+                Please complete the required fields {completionText}
+              </span>
+              {inCompletedFields.map((e, index) => (
+                <li className="text-sm text-slate-600" key={index}>
+                  {e.message}
+                </li>
+              ))}
+            </div>
+          )}
         </div>
         <CourseActions
           disabled={!isComplete}

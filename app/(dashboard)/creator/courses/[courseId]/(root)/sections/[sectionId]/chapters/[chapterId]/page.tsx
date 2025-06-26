@@ -30,14 +30,29 @@ export default async function SectionPage({
   if (!chapter) {
     redirect("/");
   }
-  const requiredFields = [chapter.title, chapter.description, chapter.videoUrl];
+  const requiredFields = [
+    {
+      isCompleted: !!chapter.title,
+      message: "Chapter Title is required",
+    },
+    {
+      isCompleted: !!chapter.description,
+      message: "Chapter Description is required",
+    },
+    {
+      isCompleted: !!chapter.videoUrl,
+      message: "Chapter Video is required",
+    },
+  ];
 
   const totalFields = requiredFields.length;
-  const completedFields = requiredFields.filter(Boolean).length;
+  const completedFields = requiredFields.filter((e) => e.isCompleted).length;
+
+  const inCompletedFields = requiredFields.filter((e) => !e.isCompleted);
 
   const completionText = `(${completedFields}/${totalFields})`;
 
-  const isComplete = requiredFields.every(Boolean);
+  const isComplete = requiredFields.every((e) => e.isCompleted);
 
   const redirectableRoutes = [
     {
@@ -59,9 +74,18 @@ export default async function SectionPage({
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
           <h1 className="text-2xl font-medium">Edit Chapter</h1>
-          <span className="text-sm text-slate-600">
-            Complete all fields {completionText}
-          </span>
+          {!isComplete && (
+            <div>
+              <span className="text-sm text-slate-600">
+                Please complete the required fields {completionText}
+              </span>
+              {inCompletedFields.map((e, index) => (
+                <li className="text-sm text-slate-600" key={index}>
+                  {e.message}
+                </li>
+              ))}
+            </div>
+          )}
         </div>
         <ChapterActions
           disabled={!isComplete}
