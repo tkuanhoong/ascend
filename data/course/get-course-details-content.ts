@@ -10,6 +10,12 @@ export const getCourseDetailsContent = async ({ courseId, userId }: { courseId: 
                 id: courseId,
             },
             include: {
+                user: {
+                    select: {
+                        name: true,
+                        email: true,
+                    }
+                },
                 sections: {
                     where: {
                         isPublished: true,

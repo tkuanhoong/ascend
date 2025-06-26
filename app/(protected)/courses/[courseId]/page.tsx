@@ -77,10 +77,20 @@ export default async function CourseDetailsPage({
                 </h1>
               )}
             </div>
-            <h1 className="text-lg font-bold text-gray-900 mb-2">
-              Course Description
-            </h1>
-            <p>{course.description}</p>
+            <div className="space-y-4">
+              <div>
+                <h1 className="text-lg font-bold text-gray-900">
+                  Course Description
+                </h1>
+                <p>{course.description}</p>
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-gray-900">
+                  Instructor
+                </h1>
+                <p>{course.user.name}</p>
+              </div>
+            </div>
           </div>
         </div>
 
