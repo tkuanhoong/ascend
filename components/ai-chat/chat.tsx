@@ -39,7 +39,7 @@ export function ChatCard({ onOpenChange }: ChatCardProps) {
     append({
       role: "system",
       content:
-        "Hi, I am Ascend AI. I will recommended the courses based on your criteria. Simply state your interests and budget.",
+        "Hi, I am Ascend AI. I will recommend the courses based on your criteria. Simply state your interests and budget.",
     });
   }, [append]);
 
@@ -95,7 +95,7 @@ export function ChatCard({ onOpenChange }: ChatCardProps) {
                           return (
                             <div key={toolCallId}>
                               {!result.length
-                                ? "There no available courses match your criteria"
+                                ? "There are no available courses that match your criteria."
                                 : "Recommended courses:"}
 
                               {!!result.length && (
