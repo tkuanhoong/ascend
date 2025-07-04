@@ -2,6 +2,7 @@ import { getChapterById } from "@/data/chapter/get-chapter-by-id";
 import { getIsCourseOwner } from "@/data/course/course-owner";
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { CourseStatus } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ courseId: string, sectionId: string, chapterId: string, }> }) {
@@ -14,7 +15,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ course
 
         const { id: userId } = user;
 
-        const isCourseOwner = getIsCourseOwner({ courseId, userId });
+        const isCourseOwner = await getIsCourseOwner({ courseId, userId });
 
         if (!isCourseOwner) {
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 })
@@ -24,6 +25,32 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ course
 
         if (!chapter) {
             return NextResponse.json({ error: "Chapter Not Found" }, { status: 404 })
+        }
+
+
+        const publishedSections = await db.section.findMany({
+            where: {
+                courseId,
+                isPublished: true,
+            },
+            select: {
+                chapters: {
+                    where: {
+                        isPublished: true,
+                    },
+                    select: {
+                        id: true,
+                    },
+                }
+            }
+        });
+
+        const publishedChaptersCount = publishedSections.flatMap(s => s.chapters).map(c => c.id).length;
+
+        const { status } = isCourseOwner;
+        const prohibitedAction = status === CourseStatus.PUBLISHED && publishedChaptersCount === 1
+        if (prohibitedAction) {
+            return NextResponse.json({ error: "Prohibited Action Detected" }, { status: 403 });
         }
 
         const unpublishedChapter = await db.chapter.update({

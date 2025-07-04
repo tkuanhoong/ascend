@@ -15,7 +15,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ course
 
         const { id: userId } = user;
 
-        const isCourseOwner = getIsCourseOwner({ courseId, userId });
+        const isCourseOwner = await getIsCourseOwner({ courseId, userId });
 
         if (!isCourseOwner) {
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 })
@@ -27,6 +27,19 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ course
             return NextResponse.json({ error: "Section Not Found" }, { status: 404 })
         }
 
+        const publishedSectionsCount = await db.section.count({
+            where: {
+                courseId,
+                isPublished: true
+            }
+        });
+
+        const { status } = isCourseOwner;
+        const prohibitedAction = status === CourseStatus.PUBLISHED && publishedSectionsCount === 1
+        if (prohibitedAction) {
+            return NextResponse.json({ error: "Prohibited Action Detected" }, { status: 403 });
+        }
+
         const unpublishedSection = await db.section.update({
             where: {
                 id: sectionId
@@ -35,24 +48,6 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ course
                 isPublished: false
             }
         })
-
-        const publishedSectionsInCourse = await db.section.findMany({
-            where: {
-                courseId,
-                isPublished: true
-            }
-        });
-
-        if (!publishedSectionsInCourse.length) {
-            await db.course.update({
-                where: {
-                    id: courseId
-                },
-                data: {
-                    status: CourseStatus.DRAFT
-                }
-            });
-        }
 
         return NextResponse.json({ success: "Section unpublished", unpublishedSection });
     } catch (error) {

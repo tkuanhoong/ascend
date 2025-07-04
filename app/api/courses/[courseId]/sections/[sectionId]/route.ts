@@ -1,6 +1,7 @@
 import { getIsCourseOwner } from "@/data/course/course-owner";
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { CourseStatus } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ courseId: string, sectionId: string }> }) {
@@ -15,7 +16,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ c
 
         const { id: userId } = user;
 
-        const isCourseOwner = getIsCourseOwner({ courseId, userId });
+        const isCourseOwner = await getIsCourseOwner({ courseId, userId });
 
         if (!isCourseOwner) {
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
@@ -30,6 +31,19 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ c
 
         if (!existingSection) {
             return NextResponse.json({ error: "Section Not Found" }, { status: 404 })
+        }
+
+        const publishedSectionsCount = await db.section.count({
+            where: {
+                courseId,
+                isPublished: true
+            }
+        });
+
+        const { status } = isCourseOwner;
+        const prohibitedAction = status === CourseStatus.PUBLISHED && publishedSectionsCount === 1
+        if (prohibitedAction) {
+            return NextResponse.json({ error: "Prohibited Action Detected" }, { status: 403 });
         }
 
         const deletedSection = await db.section.delete({
@@ -61,7 +75,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ course
 
         const { id: userId } = user;
 
-        const isCourseOwner = getIsCourseOwner({ courseId, userId });
+        const isCourseOwner = await getIsCourseOwner({ courseId, userId });
 
         if (!isCourseOwner) {
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 });

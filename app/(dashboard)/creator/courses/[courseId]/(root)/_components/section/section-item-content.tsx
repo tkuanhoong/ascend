@@ -6,11 +6,12 @@ import { Section } from ".prisma/client";
 import { Eye, GripVertical, Pencil, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useIsModalOpen from "@/hooks/use-is-modal-open";
-import { successToast, unexpectedErrorToast } from "@/lib/toast";
+import { errorToast, successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import useIsEditable from "@/hooks/use-is-editable";
+import { AxiosError } from "axios";
 
 export const SectionItemContent = ({ data }: { data: Section | undefined }) => {
   const router = useRouter();
@@ -31,8 +32,13 @@ export const SectionItemContent = ({ data }: { data: Section | undefined }) => {
       successToast({ message: "Section deleted" });
       router.refresh();
     } catch (error) {
-      unexpectedErrorToast();
-      console.log(error);
+      if (error instanceof AxiosError) {
+        errorToast({
+          message: error.response?.data?.error || "An error occurred",
+        });
+      } else {
+        unexpectedErrorToast();
+      }
     }
   };
 
