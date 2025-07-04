@@ -17,7 +17,7 @@ export async function DELETE(
         const { id: userId } = user;
 
 
-        const isCourseOwner = getIsCourseOwner({ courseId, userId });
+        const isCourseOwner = await getIsCourseOwner({ courseId, userId });
 
 
         if (!isCourseOwner) {

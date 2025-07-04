@@ -15,7 +15,7 @@ export async function PUT(
         }
         const { list } = await req.json();
 
-        const isCourseOwner = getIsCourseOwner({ userId: user.id, courseId })
+        const isCourseOwner = await getIsCourseOwner({ userId: user.id, courseId })
 
         if (!isCourseOwner) {
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 });

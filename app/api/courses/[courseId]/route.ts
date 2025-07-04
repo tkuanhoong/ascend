@@ -32,7 +32,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ course
         }
         const userId = user.id;
 
-        const isCourseOwner = getIsCourseOwner({ courseId, userId });
+        const isCourseOwner = await getIsCourseOwner({ courseId, userId });
 
         if (!isCourseOwner) {
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
@@ -80,7 +80,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ cours
         }
         const userId = user.id;
 
-        const isCourseOwner = getIsCourseOwner({ courseId, userId });
+        const isCourseOwner = await getIsCourseOwner({ courseId, userId });
 
         if (!isCourseOwner) {
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 });

@@ -14,7 +14,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ course
 
         const { id: userId } = user;
 
-        const isCourseOwner = getIsCourseOwner({ courseId, userId });
+        const isCourseOwner = await getIsCourseOwner({ courseId, userId });
 
         if (!isCourseOwner) {
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 })
