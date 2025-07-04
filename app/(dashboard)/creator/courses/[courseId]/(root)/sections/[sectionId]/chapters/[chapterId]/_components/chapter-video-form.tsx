@@ -95,7 +95,7 @@ export const ChapterVideoForm = ({ initialData }: ChapterVideoFormProps) => {
             }}
           />
           <div className="text-xs text-muted-foreground mt-4">
-            Upload this chapter&apos;s video
+            Upload this chapter&apos;s video (max file size: 512MB)
           </div>
         </div>
       )}
