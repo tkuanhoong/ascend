@@ -2,7 +2,7 @@ import { CreatorSectionCards } from "./_components/creator-section-cards";
 import { currentUserId } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ChartAreaInteractive } from "@/components/dashboard/chart-area-interactive";
-import { getCreotorAnalyticsData } from "@/data/analytics";
+import { getCreatorAnalyticsData } from "@/data/analytics";
 import { getCreatorPurchasesByUserId } from "@/data/purchase";
 
 export default async function DashboardPage() {
@@ -12,7 +12,7 @@ export default async function DashboardPage() {
   }
 
   const { totalPurchases, totalLearnerCount, totalRevenue } =
-    await getCreotorAnalyticsData(userId);
+    await getCreatorAnalyticsData(userId);
 
   const purchasesOverThreeMonths = await getCreatorPurchasesByUserId(userId);
   return (

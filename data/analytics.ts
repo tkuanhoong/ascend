@@ -48,7 +48,7 @@ export const getAdminAnalyticsData = async (): Promise<AdminAnalyticsData> => {
     }
 }
 
-export const getCreotorAnalyticsData = async (userId: string): Promise<CreatorAnalyticsData> => {
+export const getCreatorAnalyticsData = async (userId: string): Promise<CreatorAnalyticsData> => {
     try {
         const purchasePromise = db.purchase.count({
             where: {
@@ -57,11 +57,15 @@ export const getCreotorAnalyticsData = async (userId: string): Promise<CreatorAn
                 },
             },
         });
-        const totalLearnersPromise = db.purchase.count({
+        const totalLearnersPromise = db.purchase.findMany({
             where: {
                 course: {
                     userId,
                 },
+            },
+            distinct: ['userId'],
+            select: {
+                userId: true,
             },
         });
         const totalRevenuePromise = db.purchase.aggregate({
@@ -77,7 +81,7 @@ export const getCreotorAnalyticsData = async (userId: string): Promise<CreatorAn
 
         const [
             totalPurchases,
-            totalLearnerCount,
+            totalLearners,
             totalRevenueResult,
         ] = await Promise.all([
             purchasePromise,
@@ -89,7 +93,7 @@ export const getCreotorAnalyticsData = async (userId: string): Promise<CreatorAn
 
         return {
             totalPurchases,
-            totalLearnerCount,
+            totalLearnerCount: totalLearners.length,
             totalRevenue,
         };
     } catch {
