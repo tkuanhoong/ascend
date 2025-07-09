@@ -9,10 +9,6 @@ export type CourseWithSectionsWithChaptersWithProgress = Course & {
     sections: SectionWithChaptersWithProgress[]
 };
 
-// export type CourseWithSectionsWithChaptersWithProgress = Course & {
-//     sections: SectionWithChaptersWithProgress[]
-// };
-
 export type CourseBackupSettings = {
     id: string;
     title: string;
@@ -29,14 +25,14 @@ export type CourseBackupSettings = {
 export type CourseLearningDashboardData = {
     user: User | null,
     purchase: Purchase | null,
-    isCourseCompleted: Date | null | undefined,
+    courseCompletedDate: Date | null | undefined,
     isPurchased: boolean,
     course: CourseWithSectionsWithChaptersWithProgress | null,
     progress: number,
 }
 
 export type CourseDetailsContentData = {
-    course: Course ,
+    course: Course,
     isAdmin: null,
     isOwner: null,
     hasPreviewAccess: null,

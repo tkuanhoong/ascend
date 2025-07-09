@@ -26,7 +26,7 @@ export default async function ChapterPageLayout({
     redirect("/");
   }
 
-  const { user, isPurchased, isCourseCompleted, course, progress } =
+  const { user, isPurchased, courseCompletedDate, course, progress } =
     await getLearningDashboardData({
       courseId,
       userId,
@@ -51,11 +51,12 @@ export default async function ChapterPageLayout({
                   size="sm"
                   value={progress}
                 />
-                {isCourseCompleted && (
+                {!!courseCompletedDate && (
                   <ViewCertificateButton
                     recipientName={name}
                     courseName={course.title}
                     identificationNo={identificationNo}
+                    date={courseCompletedDate}
                   />
                 )}
               </div>

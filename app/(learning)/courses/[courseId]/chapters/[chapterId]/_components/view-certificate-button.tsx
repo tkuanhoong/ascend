@@ -14,15 +14,17 @@ interface ViewCertificateButtonProps {
   recipientName: string;
   courseName: string;
   identificationNo: string;
+  date: Date;
 }
 export const ViewCertificateButton = ({
   recipientName,
   courseName,
   identificationNo,
+  date,
 }: ViewCertificateButtonProps) => {
   function onClick() {
     try {
-      generateCertPDF({ recipientName, courseName, identificationNo });
+      generateCertPDF({ recipientName, courseName, identificationNo, date });
     } catch (error) {
       unexpectedErrorToast();
       console.log(error);

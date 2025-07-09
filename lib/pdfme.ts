@@ -5,10 +5,12 @@ export interface CertInputProps {
   recipientName: string,
   courseName: string,
   identificationNo: string;
+  date: Date;
 }
 
-export async function generateCertPDF({ recipientName, courseName, identificationNo }: CertInputProps) {
-  const details = `Has completed the course "${courseName}"`
+export async function generateCertPDF({ recipientName, courseName, identificationNo, date }: CertInputProps) {
+  const formattedDate = date.toLocaleDateString();
+  const details = `Has completed the course "${courseName}" at ${formattedDate}`;
   const inputs = [{ recipientName, details, identificationNo }]
   await generate({ template, inputs }).then((pdf) => {
 

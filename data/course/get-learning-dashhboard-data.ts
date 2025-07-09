@@ -15,13 +15,13 @@ export const getLearningDashboardData = async ({ userId, courseId }: { userId: s
 
         const isPurchased = !!purchase;
 
-        const isCourseCompleted = purchase?.completedProgressAt;
+        const courseCompletedDate = purchase?.completedProgressAt;
 
         return {
             user,
             purchase,
             isPurchased,
-            isCourseCompleted,
+            courseCompletedDate,
             course,
             progress
         }
@@ -30,7 +30,7 @@ export const getLearningDashboardData = async ({ userId, courseId }: { userId: s
         return {
             user: null,
             purchase: null,
-            isCourseCompleted: null,
+            courseCompletedDate: null,
             isPurchased: false,
             course: null,
             progress: 0,
