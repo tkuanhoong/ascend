@@ -20,48 +20,40 @@ export async function POST(req: NextRequest) {
 
         const courseData = validatedResult.data;
 
-        // Create the course, sections and chapters in a transaction
-        const course = await db.$transaction(async (query) => {
-            const course = await query.course.create({
-                data: {
-                    title: courseData.title,
-                    description: courseData.description,
-                    price: courseData.price,
-                    categoryId: courseData.categoryId,
-                    userId,
-                },
-            });
-            if (courseData.sections && courseData.sections.length > 0) {
-                for (const sectionData of courseData.sections) {
-                    const { title, position, level, estimatedTime } = sectionData;
-                    const section = await query.section.create({
-                        data: {
-                            title,
-                            position,
-                            level,
-                            estimatedTime,
-                            courseId: course.id,
-                        },
-                    });
-
-
-                    if (sectionData.chapters && sectionData.chapters.length > 0) {
-                        await query.chapter.createMany({
-                            data: sectionData.chapters.map(chapter => {
-                                const { title, description, position, isFree } = chapter;
-                                return {
-                                    title,
-                                    description,
-                                    position,
-                                    isFree,
-                                    sectionId: section.id,
-                                }
-                            }),
-                        });
+        const course = await db.course.create({
+            data: {
+                title: courseData.title,
+                description: courseData.description,
+                price: courseData.price,
+                categoryId: courseData.categoryId,
+                userId,
+                // Nest the creation of related sections
+                sections: {
+                    create: courseData.sections?.map(sectionData => ({
+                        title: sectionData.title,
+                        position: sectionData.position,
+                        level: sectionData.level,
+                        estimatedTime: sectionData.estimatedTime,
+                        // Nest the creation of related chapters within each section
+                        chapters: {
+                            create: sectionData.chapters?.map(chapterData => ({
+                                title: chapterData.title,
+                                description: chapterData.description,
+                                position: chapterData.position,
+                                isFree: chapterData.isFree,
+                            }))
+                        }
+                    }))
+                }
+            },
+            // Include the created sections and chapters in the response if needed
+            include: {
+                sections: {
+                    include: {
+                        chapters: true
                     }
                 }
             }
-            return course;
         });
 
         return NextResponse.json({
