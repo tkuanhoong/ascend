@@ -29,7 +29,9 @@ export default async function CourseDetailsPage({
 
   const firstSection = course.sections[0];
   const firstChapter = firstSection?.chapters[0];
-  const firstChapterLink = `/courses/${course.id}/chapters/${firstChapter.id}`;
+  const firstChapterLink = firstChapter
+    ? `/courses/${course.id}/chapters/${firstChapter.id}`
+    : null;
 
   const hasFreeChapter = course.sections
     .flatMap((section) => section.chapters)
@@ -46,7 +48,7 @@ export default async function CourseDetailsPage({
     redirect("/");
   }
 
-  if (purchase) {
+  if (purchase && firstChapterLink) {
     redirect(firstChapterLink);
   }
 
@@ -85,10 +87,10 @@ export default async function CourseDetailsPage({
                 <p>{course.description}</p>
               </div>
               <div>
-                <h1 className="text-lg font-bold text-gray-900">
-                  Instructor
-                </h1>
-                <p>{course.user.name}</p>
+                <h1 className="text-lg font-bold text-gray-900">Instructor</h1>
+                <p>
+                  {course.user.name} ({course.user.email})
+                </p>
               </div>
             </div>
           </div>
@@ -103,7 +105,7 @@ export default async function CourseDetailsPage({
           {!hasPreviewAccess && (
             <PurchaseCourseButton courseId={course.id} price={course.price} />
           )}
-          {(hasFreeChapter || hasPreviewAccess) && (
+          {(hasFreeChapter || hasPreviewAccess) && firstChapterLink && (
             <Button variant="outline" className="font-medium" asChild>
               <Link href={firstChapterLink}>
                 {hasPreviewAccess
@@ -113,6 +115,12 @@ export default async function CourseDetailsPage({
                   : "Preview free chapters"}
               </Link>
             </Button>
+          )}
+          {!firstChapterLink && (
+            <p>
+              No chapters available for preview. The course owner is updating
+              the course.
+            </p>
           )}
         </div>
       </div>

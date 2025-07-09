@@ -48,7 +48,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ course
         const publishedChaptersCount = publishedSections.flatMap(s => s.chapters).map(c => c.id).length;
 
         const { status } = isCourseOwner;
-        const prohibitedAction = status === CourseStatus.PUBLISHED && publishedChaptersCount === 1
+        const approvedCourse = status === CourseStatus.PUBLISHED || status === CourseStatus.UNPUBLISHED;
+        const prohibitedAction = approvedCourse && publishedChaptersCount === 1
         if (prohibitedAction) {
             return NextResponse.json({ error: "Prohibited Action Detected" }, { status: 403 });
         }
