@@ -50,7 +50,9 @@ export const coursesTool = createTool({
                                 },
                                 {
                                     category: {
-                                        name: searchTerms,
+                                        name: {
+                                            search: searchTerms
+                                        },
                                     }
                                 }
                             ]
