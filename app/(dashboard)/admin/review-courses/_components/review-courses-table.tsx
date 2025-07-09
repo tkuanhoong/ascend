@@ -10,12 +10,10 @@ interface ReviewCoursesDataTableProps {
 }
 
 const ReviewCoursesDataTable = ({ data }: ReviewCoursesDataTableProps) => {
-  const courseStatuses = Object.values(CourseStatus)
-    .filter((status) => status !== CourseStatus.DRAFT)
-    .map((status) => ({
-      label: status.charAt(0) + status.slice(1).toLowerCase(),
-      value: status,
-    }));
+  const courseStatuses = Object.values(CourseStatus).map((status) => ({
+    label: status.charAt(0) + status.slice(1).toLowerCase(),
+    value: status,
+  }));
   const tabFilter: TabListSettings = {
     tabFilterColumnId: "status",
     options: courseStatuses,

@@ -1,5 +1,4 @@
 import { currentUser } from "@/lib/auth";
-import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import {
   SectionActions,
@@ -12,6 +11,7 @@ import { Bolt, TableOfContents, Timer } from "lucide-react";
 import { CustomBreadcrumb } from "@/components/custom-breadcrumbs";
 import { IconBadge } from "@/components/icon-badge";
 import { SectionLevel } from ".prisma/client";
+import { getCourseSectionWithChapters } from "@/data/section/get-course-sections";
 
 export default async function SectionPage({
   params,
@@ -20,47 +20,38 @@ export default async function SectionPage({
 }) {
   const { courseId, sectionId } = await params;
   const user = await currentUser();
-  if (!user) {
-    return redirect("/");
-  }
-
-  const section = await db.section.findUnique({
-    where: {
-      id: sectionId,
-      courseId,
-    },
-    include: {
-      chapters: {
-        orderBy: {
-          position: "asc",
-        },
-      },
-    },
-  });
-
-  if (!section) {
+  const section = await getCourseSectionWithChapters({ sectionId, courseId });
+  if (!user || !section) {
     redirect("/");
   }
+
   const requiredFields = [
-    section.title,
-    section.estimatedTime,
-    section.level,
-    section.chapters.some((chapter) => chapter.isPublished),
+    {
+      isCompleted: !!section.title,
+      message: "Section Title is required",
+    },
+    {
+      isCompleted: !!section.level,
+      message: "Section Level is required",
+    },
+    {
+      isCompleted: !!section.estimatedTime,
+      message: "Time to Complete (in minutes) is required",
+    },
+    {
+      isCompleted: section.chapters.some((chapter) => chapter.isPublished),
+      message: "At least 1 chapter is published",
+    },
   ];
 
   const totalFields = requiredFields.length;
-  const completedFields = requiredFields.filter(Boolean).length;
+  const completedFields = requiredFields.filter((e) => e.isCompleted).length;
+
+  const inCompletedFields = requiredFields.filter((e) => !e.isCompleted);
 
   const completionText = `(${completedFields}/${totalFields})`;
 
-  const isComplete = requiredFields.every(Boolean);
-
-  const redirectableRoutes = [
-    {
-      label: "Course",
-      href: `/creator/courses/${courseId}`,
-    },
-  ];
+  const isComplete = requiredFields.every((e) => e.isCompleted);
 
   const levels = Object.values(SectionLevel).map((value) => {
     const label = value
@@ -73,6 +64,13 @@ export default async function SectionPage({
     };
   });
 
+  const redirectableRoutes = [
+    {
+      label: "Course",
+      href: `/creator/courses/${courseId}`,
+    },
+  ];
+
   return (
     <div className="p-6">
       <CustomBreadcrumb
@@ -82,9 +80,15 @@ export default async function SectionPage({
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-y-2">
           <h1 className="text-2xl font-medium">Edit Section</h1>
-          <span className="text-sm text-slate-600">
-            Complete all fields {completionText}
-          </span>
+          {
+            !isComplete && 
+              <div>
+                <span className="text-sm text-slate-600">Please complete the required fields {completionText}</span>
+                {inCompletedFields.map((e, index) => (
+                  <li className="text-sm text-slate-600" key={index}>{e.message}</li>
+                ))}
+              </div>
+          }
         </div>
         <SectionActions
           disabled={!isComplete}

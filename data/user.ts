@@ -25,3 +25,12 @@ export async function getUserById(id: string) {
         return null;
     }
 }
+
+export async function getAllUser() {
+    try {
+        const users = await db.user.findMany();
+        return users;
+    } catch {
+        return [];
+    }
+}

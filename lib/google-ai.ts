@@ -6,11 +6,3 @@ const googleAi = createGoogleGenerativeAI({
 });
 
 export const model = googleAi("gemini-2.0-flash");
-
-// export async function getAiResponse() {
-//     const { text } = await generateText({
-//         model,
-//         prompt: "What is love?"
-//     })
-
-// }

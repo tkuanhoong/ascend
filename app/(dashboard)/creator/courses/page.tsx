@@ -1,35 +1,15 @@
 import { DataTable } from "@/components/data-table/custom-data-table";
 import { columns } from "./_components/columns";
-import { db } from "@/lib/db";
-import { currentUser } from "@/lib/auth";
+import { currentUserId } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Category, Course } from ".prisma/client";
-
-export type CourseWithCategory = Course & { category: Category | null };
-
-async function getData(): Promise<CourseWithCategory[]> {
-  const user = await currentUser();
-  if (!user) {
-    redirect("/");
-  }
-  const { id: userId } = user;
-  // Fetch data from API here.
-  const courses = db.course.findMany({
-    where: {
-      userId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      category: true,
-    },
-  });
-  return courses;
-}
+import { getCreatorCourses } from "@/data/course/get-creator-courses";
 
 export default async function CoursesPage() {
-  const data = await getData();
+  const userId = await currentUserId();
+  if (!userId) {
+    redirect("/");
+  }
+  const data = await getCreatorCourses(userId);
 
   const options = {
     filterColumn: "title",

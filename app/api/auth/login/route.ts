@@ -1,10 +1,9 @@
 import { signIn } from "@/auth";
-import { db } from "@/lib/db";
+import { getUserByEmail } from "@/data/user";
 import { sendVerificationEmail } from "@/lib/resend";
 import { generateVerificationToken } from "@/lib/tokens";
-// import { sendVerificationEmail } from "@/lib/resend";
-// import { generateVerificationToken } from "@/lib/tokens";
 import { LoginSchema } from "@/lib/zod";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -20,11 +19,7 @@ export async function POST(req: NextRequest) {
 
         const { email, password } = validatedFields.data;
 
-        const existingUser = await db.user.findUnique({
-            where: {
-                email,
-            }
-        });
+        const existingUser = await getUserByEmail(email);
 
         if (!existingUser || !existingUser.email || !existingUser.password) {
             return NextResponse.json({ error: "Email does not exist!" }, { status: 404 });
@@ -39,13 +34,13 @@ export async function POST(req: NextRequest) {
 
 
         try {
-            const redirectUrl = await signIn("credentials", {
+            await signIn("credentials", {
                 email,
                 password,
                 redirect: false,
             });
 
-            return NextResponse.json({ success: "Logged in successfully", redirectUrl }, { status: 200 });
+            return NextResponse.json({ success: "Logged in successfully", redirectUrl: DEFAULT_LOGIN_REDIRECT }, { status: 200 });
         } catch (error) {
             if (error instanceof AuthError) {
                 switch (error.type) {

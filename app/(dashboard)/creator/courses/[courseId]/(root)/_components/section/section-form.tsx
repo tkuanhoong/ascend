@@ -20,17 +20,18 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import apiClient from "@/lib/axios";
 import { successToast, unexpectedErrorToast } from "@/lib/toast";
-import { Course, Section } from ".prisma/client";
+import { Course } from ".prisma/client";
 import { SectionList } from "./section-list";
 import { ModalContextProvider } from "@/components/providers/modal-context-provider";
 import useIsEditable from "@/hooks/use-is-editable";
+import { SectionWithChapterCount } from "@/types/section";
 
 const formSchema = z.object({
   title: z.string().min(1, { message: "Section title is required" }),
 });
 
 interface SectionFormProps {
-  initialData: Course & { sections: Section[] };
+  initialData: Course & { sections: SectionWithChapterCount[] };
   courseId: string;
 }
 

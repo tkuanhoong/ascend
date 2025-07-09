@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Menu } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -15,27 +15,30 @@ import {
 } from "@/components/ui/sheet";
 import SearchBar from "./search-bar";
 import UserMenu from "./user-menu";
-// import apiClient from "@/lib/axios";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCurrentRole } from "@/hooks/use-current-role";
+
+type NavigationLink = {
+  label: string;
+  href: string;
+  onClick?: () => void;
+};
 
 const NavBar = () => {
-  const session = useSession();
-  const user = session.data?.user;
+  const user = useCurrentUser();
+  const { isAdmin } = useCurrentRole();
   const pathname = usePathname();
+  const dashboardNavigationLink = isAdmin
+    ? {
+        label: "Admin Dashboard",
+        href: "/admin/analytics",
+      }
+    : {
+        label: "Dashboard",
+        href: "/creator/analytics",
+      };
 
-  // const signOut = async () => {
-  //   try {
-  //     const res = await apiClient.get("/api/auth/csrf");
-  //     const { csrfToken } = res.data;
-  //     await apiClient.post("/api/auth/signout?callbackUrl=/api/auth/session", {
-  //       csrfToken,
-  //     });
-  //     window.location.reload();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  const profileMenuItems = [
+  const profileMenuItems: NavigationLink[] = [
     {
       label: "Purchased courses",
       href: "/purchased-courses",
@@ -51,19 +54,16 @@ const NavBar = () => {
     },
   ];
 
-  const mobileMenuItems = [
+  const mobileMenuItems: NavigationLink[] = [
     {
       label: "Home",
       href: "/",
     },
-    {
-      label: "Dashboard",
-      href: "/creator/analytics",
-    },
+    dashboardNavigationLink,
     ...profileMenuItems,
   ];
 
-  const guestNavigationItems = [
+  const guestNavigationItems: NavigationLink[] = [
     {
       label: "Login",
       href: "/auth/login",
@@ -94,7 +94,9 @@ const NavBar = () => {
           {user ? (
             <>
               <Button asChild>
-                <Link href="/creator/analytics">Dashboard</Link>
+                <Link href={dashboardNavigationLink.href}>
+                  {dashboardNavigationLink.label}
+                </Link>
               </Button>
               <UserMenu menuItems={profileMenuItems} />
             </>
@@ -130,11 +132,7 @@ const NavBar = () => {
                     mobileMenuItems.map((item) => (
                       <SheetClose asChild key={item.href}>
                         <Link
-                          onClick={
-                            "onClick" in item && item.onClick
-                              ? () => item.onClick()
-                              : undefined
-                          }
+                          onClick={item.onClick}
                           href={item.href}
                           className={cn(
                             "flex items-center py-2 text-base font-medium transition-colors hover:text-primary",

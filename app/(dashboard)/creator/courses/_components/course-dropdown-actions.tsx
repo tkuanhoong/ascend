@@ -1,4 +1,3 @@
-import { CourseWithCategory } from "../page";
 import { Row } from "@tanstack/react-table";
 import {
   DropdownMenu,
@@ -18,6 +17,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { CourseStatus } from "@prisma/client";
+import { CourseWithCategory } from "@/types/course";
 
 interface CourseRowDropdownActionsProps {
   row: Row<CourseWithCategory>;

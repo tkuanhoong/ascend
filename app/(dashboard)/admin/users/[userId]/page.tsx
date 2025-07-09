@@ -1,7 +1,7 @@
-import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import EditUserForm from "./_components/edit-user-form";
 import EditUserPasswordForm from "./_components/edit-user-password-form";
+import { getUserById } from "@/data/user";
 
 export default async function EditUserPage({
   params,
@@ -10,11 +10,7 @@ export default async function EditUserPage({
 }) {
   const { userId } = await params;
 
-  const user = await db.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
+  const user = await getUserById(userId);
 
   if (!user) {
     redirect("/admin/users");

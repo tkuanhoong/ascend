@@ -1,27 +1,11 @@
-import { db } from "@/lib/db";
 import ReviewCoursesTable from "./_components/review-courses-table";
-import { Course, CourseStatus } from ".prisma/client";
+import { Course } from ".prisma/client";
+import { getCoursesToReview } from "@/data/course/get-courses-to-review";
 
 export type CourseWithUserEmail = Course & { user: { email: string | null } };
 
 export default async function ReviewCoursesPage() {
-  const data = (await db.course.findMany({
-    where: {
-      NOT: {
-        status: CourseStatus.DRAFT,
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      user: {
-        select: {
-          email: true,
-        },
-      },
-    },
-  })) as CourseWithUserEmail[];
+  const data = await getCoursesToReview();
 
   return (
     <div className="p-6">

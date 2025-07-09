@@ -1,39 +1,7 @@
-
-import { z } from "zod";
 import { currentUserId } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { SectionLevel } from ".prisma/client";
-
-// Zod schema for validating the imported course structure
-const ChapterImportSchema = z.object({
-    id: z.string().min(1),
-    title: z.string().min(1),
-    description: z.string().nullable(),
-    position: z.number(),
-    isPublished: z.boolean(),
-    isFree: z.boolean(),
-});
-
-const SectionImportSchema = z.object({
-    id: z.string().min(1),
-    title: z.string().min(1),
-    position: z.number(),
-    level: z.nativeEnum(SectionLevel).nullable(),
-    estimatedTime: z.number().nullable(),
-    isPublished: z.boolean(),
-    isFree: z.boolean(),
-    chapters: z.array(ChapterImportSchema).optional(),
-});
-
-const CourseImportSchema = z.object({
-    id: z.string().min(1),
-    title: z.string().min(1),
-    description: z.string().nullable(),
-    price: z.number().nullable(),
-    categoryId: z.string().nullable(),
-    sections: z.array(SectionImportSchema).optional(),
-});
+import { CourseImportSchema } from "@/lib/zod";
 
 export async function POST(req: NextRequest) {
     try {
@@ -80,15 +48,13 @@ export async function POST(req: NextRequest) {
             });
             if (courseData.sections && courseData.sections.length > 0) {
                 for (const sectionData of courseData.sections) {
-                    const { title, position, level, estimatedTime, isPublished, isFree } = sectionData;
+                    const { title, position, level, estimatedTime } = sectionData;
                     const section = await query.section.create({
                         data: {
                             title,
                             position,
                             level,
                             estimatedTime,
-                            isPublished,
-                            isFree,
                             courseId: course.id,
                         },
                     });
@@ -97,12 +63,11 @@ export async function POST(req: NextRequest) {
                     if (sectionData.chapters && sectionData.chapters.length > 0) {
                         await query.chapter.createMany({
                             data: sectionData.chapters.map(chapter => {
-                                const { title, description, position, isPublished, isFree } = chapter;
+                                const { title, description, position, isFree } = chapter;
                                 return {
                                     title,
                                     description,
                                     position,
-                                    isPublished,
                                     isFree,
                                     sectionId: section.id,
                                 }

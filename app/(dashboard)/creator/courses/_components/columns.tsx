@@ -5,8 +5,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { CourseWithCategory } from "../page";
 import { CourseRowDropdownActions } from "./course-dropdown-actions";
+import { CourseWithCategory } from "@/types/course";
 
 export const columns: ColumnDef<CourseWithCategory>[] = [
   {

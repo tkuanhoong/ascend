@@ -45,7 +45,7 @@ export function LoginForm({
         .post("/api/auth/login", values)
         .then((res) => {
           if (res.data.redirectUrl) {
-            window.location.replace("/");
+            window.location.replace(res.data.redirectUrl);
             return;
           }
           const successMessage = res.data.success;

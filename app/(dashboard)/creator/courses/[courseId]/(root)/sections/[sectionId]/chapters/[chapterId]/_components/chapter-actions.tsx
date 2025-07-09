@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { useTransition } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { successToast, unexpectedErrorToast } from "@/lib/toast";
+import { errorToast, successToast, unexpectedErrorToast } from "@/lib/toast";
 import apiClient from "@/lib/axios";
 import { ConfirmModal } from "@/components/form/confirm-modal";
 import useIsEditable from "@/hooks/use-is-editable";
+import { AxiosError } from "axios";
 
 interface ChapterActionsProps {
   disabled: boolean;
@@ -41,8 +42,13 @@ export const ChapterActions = ({
         }
         router.refresh();
       } catch (error) {
-        unexpectedErrorToast();
-        console.log(error);
+        if (error instanceof AxiosError) {
+          errorToast({
+            message: error.response?.data?.error || "An error occurred",
+          });
+        } else {
+          unexpectedErrorToast();
+        }
       }
     });
   };
@@ -55,8 +61,13 @@ export const ChapterActions = ({
         router.refresh();
         router.push(`/creator/courses/${courseId}/sections/${sectionId}`);
       } catch (error) {
-        unexpectedErrorToast();
-        console.log(error);
+        if (error instanceof AxiosError) {
+          errorToast({
+            message: error.response?.data?.error || "An error occurred",
+          });
+        } else {
+          unexpectedErrorToast();
+        }
       }
     });
   };

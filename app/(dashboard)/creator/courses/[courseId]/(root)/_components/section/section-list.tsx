@@ -20,17 +20,17 @@ import { useEffect, useState } from "react";
 import { SectionItem } from "./section-item";
 import { SortableSectionItem } from "./sortable-section-item";
 import useIsModalOpen from "@/hooks/use-is-modal-open";
-import { Section } from ".prisma/client";
 import type { SortableListAreaProps } from "@/components/dnd-kit/types";
 import useIsEditable from "@/hooks/use-is-editable";
+import { SectionWithChapterCount } from "@/types/section";
 
 export const SectionList = ({
   onReorder,
   items,
-}: SortableListAreaProps<Section>) => {
+}: SortableListAreaProps<SectionWithChapterCount>) => {
   const [isMounted, setIsMounted] = useState(false);
   const [activeId, setActiveId] = useState<string | undefined>(undefined);
-  const [sections, setSections] = useState<Section[]>([]);
+  const [sections, setSections] = useState<SectionWithChapterCount[]>([]);
   const { isModalOpen } = useIsModalOpen();
   const { isEditable } = useIsEditable();
   const sensors = useSensors(

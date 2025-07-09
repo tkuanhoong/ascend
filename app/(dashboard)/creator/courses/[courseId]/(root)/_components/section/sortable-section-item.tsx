@@ -3,10 +3,12 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { SectionItem } from "./section-item";
-import { Section } from ".prisma/client";
 import { SortableItemProps } from "@/components/dnd-kit/types";
+import { SectionWithChapterCount } from "@/types/section";
 
-export function SortableSectionItem({ data }: SortableItemProps<Section>) {
+export function SortableSectionItem({
+  data,
+}: SortableItemProps<SectionWithChapterCount>) {
   const {
     attributes,
     listeners,

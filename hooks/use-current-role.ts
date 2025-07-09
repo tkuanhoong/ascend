@@ -6,7 +6,7 @@ export const useCurrentRole = () => {
 
     const role = session.data?.user.role;
 
-    const isAdmin = session.data?.user.role === UserRole.ADMIN;
+    const isAdmin = role === UserRole.ADMIN;
 
     return { role, isAdmin };
 }

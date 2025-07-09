@@ -1,5 +1,5 @@
 import { getIsCourseOwner } from "@/data/course/course-owner";
-import { getSectionWithChapters } from "@/data/section/get-section-with-chapters";
+import { getCourseSectionWithChapters } from "@/data/section/get-course-sections";
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
@@ -14,13 +14,13 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ course
 
         const { id: userId } = user;
 
-        const isCourseOwner = getIsCourseOwner({ courseId, userId });
+        const isCourseOwner = await getIsCourseOwner({ courseId, userId });
 
         if (!isCourseOwner) {
             return NextResponse.json({ error: "Unauthorised" }, { status: 401 })
         }
 
-        const section = await getSectionWithChapters(sectionId);
+        const section = await getCourseSectionWithChapters({ sectionId, courseId });
 
         if (!section) {
             return NextResponse.json({ error: "Section Not Found" }, { status: 404 })
