@@ -2,8 +2,14 @@ import { CourseStatus, SectionLevel, UserRole } from ".prisma/client";
 import { z } from "zod";
 
 export const LoginSchema = z.object({
-    email: z.string().trim().email().min(1),
-    password: z.string().trim().min(6)
+    email: z.string().trim().min(1, {
+        message: "Email is required",
+    }).email({
+        message: "Invalid email address",
+    }),
+    password: z.string().trim().min(6, {
+        message: "Minimum 6 characters required",
+    }),
 });
 
 export const RegisterSchema = z.object({
@@ -36,7 +42,11 @@ export const RegisterSchema = z.object({
 });
 
 export const ForgotPasswordSchema = z.object({
-    email: z.string().trim().email(),
+    email: z.string().trim().min(1, {
+        message: "Email is required",
+    }).email({
+        message: "Invalid email address",
+    }),
 });
 
 export const ResetPasswordSchema = z.object({
