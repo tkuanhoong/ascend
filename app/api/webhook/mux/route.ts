@@ -16,7 +16,6 @@ export async function POST(req: Request) {
 
     const event = mux.webhooks.unwrap(body, header, process.env.MUX_WEBHOOK_SECRET);
 
-    console.log(event.type);
 
     if (event.type === "video.asset.created") {
         const { data } = event;

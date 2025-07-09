@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState, useTransition } from "react";
+import { useCallback, useState, useTransition } from "react";
 import { SectionDataTable } from "./section-data-table";
 import { Button } from "@/components/ui/button";
 import apiClient from "@/lib/axios";
@@ -52,10 +52,6 @@ export function SectionTables({ courseId, sections }: CourseDataTableProps) {
       return filtered;
     });
   }, []);
-
-  useEffect(() => {
-    console.log(selectedSections);
-  }, [selectedSections]);
 
   const onSubmit = () => {
     startTransition(async () => {

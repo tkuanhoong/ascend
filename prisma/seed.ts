@@ -53,7 +53,7 @@ async function main() {
             ]
         });
     } catch (error) {
-        console.log("Error seeding database categories", error);
+        console.log("Error seeding database", error);
     } finally {
         await prisma.$disconnect();
     }

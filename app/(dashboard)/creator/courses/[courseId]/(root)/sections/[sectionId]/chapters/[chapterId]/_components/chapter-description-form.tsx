@@ -27,11 +27,9 @@ import useIsEditable from "@/hooks/use-is-editable";
 const stripHtml = (input: string) => input.replace(/<[^>]*>?/gm, "");
 
 const formSchema = z.object({
-  description: z
-    .string()
-    .refine((data) => stripHtml(data).length, {
-      message: "Chapter Description is required",
-    }),
+  description: z.string().refine((data) => stripHtml(data).length, {
+    message: "Chapter Description is required",
+  }),
 });
 
 interface ChapterDescriptionFormProps {
@@ -60,7 +58,6 @@ export const ChapterDescriptionForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      console.log(!values.description.length);
       await axios.patch(apiRoute, values);
       successToast({ message: "Chapter updated" });
       toggleEdit();

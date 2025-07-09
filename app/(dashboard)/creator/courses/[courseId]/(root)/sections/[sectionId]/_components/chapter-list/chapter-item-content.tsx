@@ -81,13 +81,7 @@ export const ChapterItemContent = ({ data }: { data: Chapter | undefined }) => {
               setIsModalOpen(open);
             }}
           >
-            <Button
-              variant="ghost"
-              className="lg:p-4 p-2"
-              onClick={() => {
-                console.log("clicked");
-              }}
-            >
+            <Button variant="ghost" className="lg:p-4 p-2">
               <X className="size-4" />
             </Button>
           </ConfirmModal>
