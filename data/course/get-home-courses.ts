@@ -3,18 +3,14 @@ import {
   Category,
   Course,
   CourseStatus,
-  Section,
 } from ".prisma/client";
 import { getCourseProgress } from "./get-course-progress";
 import { currentUserId } from "@/lib/auth";
-
-export type SectionWithChapters = Section & {
-  chapters: { id: string }[];
-};
+import { SectionWithChapterIds } from "@/types/section";
 
 export type CourseWithProgressWithCategory = Course & {
   category: Category | null;
-  sections: SectionWithChapters[];
+  sections: SectionWithChapterIds[];
   progress: number | null;
 };
 

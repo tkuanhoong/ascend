@@ -1,8 +1,9 @@
 import { db } from "@/lib/db";
-import { Course, Purchase, Section } from "@prisma/client";
+import { SectionWithChapterCount } from "@/types/section";
+import { Course, Purchase } from "@prisma/client";
 
 type CourseWithSectionsWithPurchases = Course & {
-    sections: Section[];
+    sections: SectionWithChapterCount[];
     purchases: Purchase[];
 }
 
@@ -18,6 +19,11 @@ export const getCourseWithSectionsWithPurchases = async (id: string): Promise<Co
                     orderBy: {
                         position: "asc",
                     },
+                    include: {
+                        _count: {
+                            select: { chapters: true }
+                        }
+                    }
                 },
             },
         });
