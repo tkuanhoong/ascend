@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
                     }))
                 }
             },
-            // Include the created sections and chapters in the response if needed
+            // Include the created sections and chapters
             include: {
                 sections: {
                     include: {

@@ -49,7 +49,6 @@ const ReviewCourseActions = ({ course }: ReviewCourseActionsProps) => {
         status: CourseStatus.REJECTED,
         ...values,
       });
-      console.log(values);
       router.refresh();
       successToast({ message: "Course Updated" });
     } catch (error) {

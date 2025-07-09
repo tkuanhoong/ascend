@@ -59,20 +59,22 @@ export const SectionItemContent = ({
               {title}
             </p>
           </div>
-          <div className="flex text-xs items-center flex-wrap gap-1">
-            {estimatedTime && (
-              <div className="flex items-center gap-1 text-muted-foreground">
-                <Clock className="size-4" />
-                {formatMinutes(estimatedTime)}
-              </div>
-            )}
-            {!!_count.chapters && (
-              <div className="flex items-center gap-1 text-muted-foreground">
-                <FileText className="size-4" />
-                {_count.chapters} chapter(s)
-              </div>
-            )}
-          </div>
+          {(estimatedTime || !!_count.chapters) && (
+            <div className="flex text-xs items-center flex-wrap gap-1">
+              {estimatedTime && (
+                <div className="flex items-center gap-1 text-muted-foreground">
+                  <Clock className="size-4" />
+                  {formatMinutes(estimatedTime)}
+                </div>
+              )}
+              {!!_count.chapters && (
+                <div className="flex items-center gap-1 text-muted-foreground">
+                  <FileText className="size-4" />
+                  {_count.chapters} chapter(s)
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <div className="flex ml-auto">
