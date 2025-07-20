@@ -40,9 +40,11 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ c
             }
         });
 
+        const isLastSection = existingSection.isPublished && publishedSectionsCount === 1;
+
         const { status } = isCourseOwner;
         const approvedCourse = status === CourseStatus.PUBLISHED || status === CourseStatus.UNPUBLISHED;
-        const prohibitedAction = approvedCourse && publishedSectionsCount === 1
+        const prohibitedAction = approvedCourse && isLastSection;
         if (prohibitedAction) {
             return NextResponse.json({ error: "Prohibited Action Detected" }, { status: 403 });
         }

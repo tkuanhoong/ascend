@@ -19,7 +19,13 @@ export const getCourseBackupSettings = async (id: string): Promise<CourseBackupS
                                 id: true,
                                 title: true,
                             },
+                            orderBy: {
+                                position: "asc",
+                            },
                         },
+                    },
+                    orderBy: {
+                        position: "asc"
                     },
                 },
             },

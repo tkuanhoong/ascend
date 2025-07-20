@@ -9,7 +9,7 @@ export interface CertInputProps {
 }
 
 export async function generateCertPDF({ recipientName, courseName, identificationNo, date }: CertInputProps) {
-  const formattedDate = date.toLocaleDateString();
+  const formattedDate = date.toLocaleDateString("en-MY");
   const details = `Has completed the course "${courseName}" at ${formattedDate}`;
   const inputs = [{ recipientName, details, identificationNo }]
   await generate({ template, inputs }).then((pdf) => {

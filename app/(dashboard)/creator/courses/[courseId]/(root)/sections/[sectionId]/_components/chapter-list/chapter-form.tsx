@@ -62,6 +62,7 @@ export const ChapterForm = ({
         values
       );
       successToast({ message: "Chapter created" });
+      form.reset();
       router.refresh();
       toggleCreating();
     } catch (error) {

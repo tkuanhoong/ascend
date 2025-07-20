@@ -54,9 +54,11 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ c
         });
         const publishedChaptersCount = publishedSections.flatMap(s => s.chapters).map(c => c.id).length;
 
+        const isLastChapter = existingChapter.isPublished && publishedChaptersCount === 1;
+
         const { status } = isCourseOwner;
         const approvedCourse = status === CourseStatus.PUBLISHED || status === CourseStatus.UNPUBLISHED;
-        const prohibitedAction = approvedCourse && publishedChaptersCount === 1
+        const prohibitedAction = approvedCourse && isLastChapter
         if (prohibitedAction) {
             return NextResponse.json({ error: "Prohibited Action Detected" }, { status: 403 });
         }

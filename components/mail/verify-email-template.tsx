@@ -7,5 +7,6 @@ export const VerifyEmailTemplate: React.FC<
 > = ({ confirmLink }) => (
   <div>
     <a href={confirmLink}>Click here to verify your email</a>
+    <p>The link will expire after 15 minutes</p>
   </div>
 );
