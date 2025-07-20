@@ -10,7 +10,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
         from: `noreply@${DOMAIN}`,
         to: email,
         subject: "Verify your email",
-        html: `<a href="${confirmLink}">Click here to verify your email</a>`,
+        html: `<a href="${confirmLink}">Click here to verify your email</a><p>The link will expire after 15 minutes</p>`,
     });
 }
 
@@ -20,6 +20,6 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
         from: `noreply@${DOMAIN}`,
         to: email,
         subject: "Reset your password",
-        html: `<a href="${passwordResetLink}">Click here to reset your password</a>`,
+        html: `<a href="${passwordResetLink}">Click here to reset your password</a><p>The link will expire after 15 minutes</p>`,
     });
 }

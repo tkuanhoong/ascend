@@ -53,6 +53,7 @@ export const ChapterTitleForm = ({ initialData }: ChapterTitleFormProps) => {
     try {
       await apiClient.patch(apiRoute, values);
       successToast({ message: "Chapter updated" });
+      form.reset();
       toggleEdit();
       router.refresh();
     } catch (error) {

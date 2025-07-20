@@ -56,6 +56,7 @@ export const SectionForm = ({ initialData, courseId }: SectionFormProps) => {
     try {
       await apiClient.post(`/api/courses/${courseId}/sections`, values);
       successToast({ message: "Section created" });
+      form.reset();
       router.refresh();
       toggleCreating();
     } catch (error) {

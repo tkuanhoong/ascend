@@ -60,6 +60,7 @@ export const SectionTitleForm = ({
         values
       );
       successToast({ message: "Section updated" });
+      form.reset();
       toggleEdit();
       router.refresh();
     } catch (error) {
